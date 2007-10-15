@@ -68,11 +68,15 @@ public class DUAUmfeldDatenMessStelle {
 	 * Initialisiert alle Messstellen, die mit den uebergebenen Objekten
 	 * assoziiert sind
 	 * 
-	 * @param dav Datenverteiler-Verbindung
+	 * @param dav die Datenverteiler-Verbindung
 	 * @param messStellenObjekte Menge der zu initialisierenden Objekte
+	 * (muss <code>!= null</code> sein)
 	 */
 	public static final void initialisiere(final ClientDavInterface dav, 
 										   final SystemObject[] messStellenObjekte){
+		if(messStellenObjekte == null){
+			throw new NullPointerException("Menge der Umfelddaten-Messstellen ist <<null>>"); //$NON-NLS-1$
+		}
 		if(INSTANZEN != null){
 			throw new RuntimeException("UFD-Modell darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
@@ -122,13 +126,18 @@ public class DUAUmfeldDatenMessStelle {
 
 	
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor<br>
 	 * 
 	 * @param dav Datenverteiler-Verbindung
 	 * @param objekt das Systemobjekt der Messstelle
 	 */
 	private DUAUmfeldDatenMessStelle(final ClientDavInterface dav, 
 									 final SystemObject objekt){
+		if(objekt == null){
+			throw new NullPointerException("Systemobjekt der Umfelddaten-Messstelle ist <<null>>"); //$NON-NLS-1$
+		}
+		this.objekt = objekt;
+		
 		Map<UmfeldDatenArt, Set<DUAUmfeldDatenSensor>> datenArtAufSensoren = 
 						new HashMap<UmfeldDatenArt, Set<DUAUmfeldDatenSensor>>();
 		for(UmfeldDatenArt datenArt:UmfeldDatenArt.getInstanzen()){
@@ -235,7 +244,23 @@ public class DUAUmfeldDatenMessStelle {
 	 */
 	@Override
 	public String toString() {
-		return this.objekt.toString();
+		String s = this.objekt.toString() + "\n"; //$NON-NLS-1$
+		
+		for(UmfeldDatenArt datenArt:UmfeldDatenArt.getInstanzen()){
+			if(!this.sensoren.get(datenArt).isEmpty()){
+				s += "Datenart: " + datenArt + "\nHS: " +  //$NON-NLS-1$ //$NON-NLS-2$
+				(this.sensoren.get(datenArt).getHauptSensor() == null?"keiner":this.sensoren.get(datenArt).getHauptSensor()); //$NON-NLS-1$
+				if(this.sensoren.get(datenArt).getNebenSensoren().size() != 0){
+					for(DUAUmfeldDatenSensor nebenSensor:this.sensoren.get(datenArt).getNebenSensoren()){
+						s += "\nNS: " + nebenSensor; //$NON-NLS-1$
+					}
+				}else{
+					s += "\nNS: keine"; //$NON-NLS-1$
+				}
+			}
+		}
+		
+		return s;
 	}
 
 	
@@ -298,5 +323,16 @@ public class DUAUmfeldDatenMessStelle {
 			return this.nebenSensoren;
 		}
 		
+		
+		/**
+		 * Erfragt, ob die Menge der in diesem Objekt referenzierten Umfelddatensensoren
+		 * leer ist  
+		 * 
+		 * @return ob die Menge der in diesem Objekt referenzierten Umfelddatensensoren
+		 * leer ist
+		 */
+		protected final boolean isEmpty(){
+			return this.hauptSensor == null && this.nebenSensoren.isEmpty();
+		}
 	}
 }

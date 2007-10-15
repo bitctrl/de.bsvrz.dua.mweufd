@@ -26,11 +26,10 @@
 
 package de.bsvrz.dua.mweufd.vew;
 
-import java.util.Collection;
-
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
+import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
+import de.bsvrz.dua.mweufd.na.MweNaSensor;
 import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
@@ -73,12 +72,34 @@ public class VerwaltungMesswertErsetzungUFD extends
 				this.verbindung,
 				this.getKonfigurationsBereiche()).toArray(new SystemObject[0]);
 		
-		/**
-		 * Initialisiere Wasserfilmdicke-Objekte
-		 */
-		for(SystemObject messStelle:getSystemObjekte()){
-			
-		}		
+		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung, this.getSystemObjekte());
+
+		for(DUAUmfeldDatenMessStelle messStelle:DUAUmfeldDatenMessStelle.getInstanzen()){
+			if(messStelle.getHauptSensor(UmfeldDatenArt.NI) != null){
+				new MweNaSensor(this, messStelle, messStelle.getHauptSensor(UmfeldDatenArt.NI));
+			}
+//			if(messStelle.getHauptSensor(UmfeldDatenArt.NS) != null){
+//				new MweNsSensor(this.verbindung, messStelle);
+//			}
+//			if(messStelle.getHauptSensor(UmfeldDatenArt.FBZ) != null){
+//				new MweFbzSensor(this.verbindung, messStelle);
+//			}
+//			if(messStelle.getHauptSensor(UmfeldDatenArt.WFD) != null){
+//				new MweWfdSensor(this.verbindung, messStelle);
+//			}
+//			if(messStelle.getHauptSensor(UmfeldDatenArt.SW) != null){
+//				new MweSwSensor(this.verbindung, messStelle);
+//			}
+//			if(messStelle.getHauptSensor(UmfeldDatenArt.TPT) != null){
+//				new MweTptSensor(this.verbindung, messStelle);
+//			}
+//			if(messStelle.getHauptSensor(UmfeldDatenArt.LT) != null){
+//				new MweLtSensor(this.verbindung, messStelle);
+//			}
+//			if(messStelle.getHauptSensor(UmfeldDatenArt.FBT) != null){
+//				new MweFbtSensor(this, messStelle);
+//			}
+		}
 	}
 
 	
