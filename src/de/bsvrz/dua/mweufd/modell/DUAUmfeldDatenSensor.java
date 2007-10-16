@@ -107,8 +107,8 @@ implements ClientReceiverInterface{
 	 * @return die statische Instanz dieser Klasse, die mit dem uebergebenen
 	 * Systemobjekt assoziiert ist
 	 */
-	protected static final DUAUmfeldDatenSensor getInstanz(final ClientDavInterface dav,
-														   final SystemObject objekt){
+	static final DUAUmfeldDatenSensor getInstanz(final ClientDavInterface dav,
+												 final SystemObject objekt){
 		if(objekt == null){
 			throw new NullPointerException("Umfelddatensensor mit Systemobjekt <<null>> existiert nicht"); //$NON-NLS-1$
 		}

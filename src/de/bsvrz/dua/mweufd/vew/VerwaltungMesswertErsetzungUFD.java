@@ -29,7 +29,7 @@ package de.bsvrz.dua.mweufd.vew;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
-import de.bsvrz.dua.mweufd.na.MweNaSensor;
+import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
@@ -75,9 +75,18 @@ public class VerwaltungMesswertErsetzungUFD extends
 		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung, this.getSystemObjekte());
 
 		for(DUAUmfeldDatenMessStelle messStelle:DUAUmfeldDatenMessStelle.getInstanzen()){
-			if(messStelle.getHauptSensor(UmfeldDatenArt.NI) != null){
-				new MweNaSensor(this, messStelle, messStelle.getHauptSensor(UmfeldDatenArt.NI));
-			}
+			DUAUmfeldDatenSensor hauptSensorNI = messStelle.getHauptSensor(UmfeldDatenArt.NI);
+			DUAUmfeldDatenSensor hauptSensorNS = messStelle.getHauptSensor(UmfeldDatenArt.NS);
+			DUAUmfeldDatenSensor hauptSensorFBZ = messStelle.getHauptSensor(UmfeldDatenArt.FBZ);
+			DUAUmfeldDatenSensor hauptSensorWFD = messStelle.getHauptSensor(UmfeldDatenArt.WFD);
+			DUAUmfeldDatenSensor hauptSensorSW = messStelle.getHauptSensor(UmfeldDatenArt.SW);
+			DUAUmfeldDatenSensor hauptSensorTPT = messStelle.getHauptSensor(UmfeldDatenArt.TPT);
+			DUAUmfeldDatenSensor hauptSensorLT = messStelle.getHauptSensor(UmfeldDatenArt.LT);
+			DUAUmfeldDatenSensor hauptSensorFBT = messStelle.getHauptSensor(UmfeldDatenArt.FBT);
+			
+//			if(hauptSensorNI != null){
+//				new MweNaSensor(this, messStelle, hauptSensorNI);
+//			}
 //			if(messStelle.getHauptSensor(UmfeldDatenArt.NS) != null){
 //				new MweNsSensor(this.verbindung, messStelle);
 //			}

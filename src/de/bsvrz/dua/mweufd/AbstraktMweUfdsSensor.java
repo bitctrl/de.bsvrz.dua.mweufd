@@ -34,6 +34,9 @@ import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.dua.guete.GWert;
+import de.bsvrz.dua.guete.GueteException;
+import de.bsvrz.dua.guete.GueteVerfahren;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.dua.mweufd.vew.MweUfdStandardAspekteVersorger;
@@ -103,9 +106,16 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 	protected MweUfdSensor ersatz = null;
 	
 	/**
-	 * letztes fuer diesen Umfelddatensensor emfangenes Datum
+	 * letztes fuer diesen (den messwertzuersetzenden) Umfelddatensensor emfangenes 
+	 * implausibles Datum
 	 */
-	protected ResultData letztesEmpangenesDatum = null;
+	protected ResultData letztesEmpangenesImplausiblesDatum = null;
+
+	/**
+	 * letztes fuer diesen (den messwertzuersetzenden) Umfelddatensensor emfangenes 
+	 * plausibles Datum
+	 */
+	protected ResultData letztesEmpangenesPlausiblesDatum = null;
 	
 	/**
 	 * letztes fuer diesen Umfelddatensensor veröffentlichtes
@@ -117,11 +127,16 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 	 * Zeitpunkt, seit dem ununterbrochen Messwertersetzung stattfindet
 	 */
 	protected long messWertErsetzungStart = -1;
+
+	/**
+	 * Zeitpunkt, seit dem ununterbrochen Messwerte fortgeschrieben werden
+	 */
+	protected long messWertFortschreibungStart = -1;
 	
 	/**
 	 * Hier untersuchter Umfelddatensensor mit aktuellen Parametern
 	 */
-	private DUAUmfeldDatenSensor sensorMitParametern = null;
+	protected DUAUmfeldDatenSensor sensorMitParametern = null;
 	
 
 	/**
@@ -139,6 +154,9 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 								 DUAUmfeldDatenMessStelle messStelle,
 								 DUAUmfeldDatenSensor sensor)
 	throws DUAInitialisierungsException{
+		if(messStelle == null || sensor == null){
+			throw new NullPointerException("Messstelle/Sensor ist <<null>>"); //$NON-NLS-1$
+		}
 		this.sensorMitParametern = sensor;
 		
 		/**
@@ -182,39 +200,47 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 	
 	
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc}.<br>
+	 * 
+	 * Hier kommen die Daten an, die von dem Sensor kommen, der messwertersetzt 
+	 * werden soll
 	 */
 	public void aktualisiere(ResultData resultat) {
 		if(resultat.getData() != null){
+
 			UmfeldDatenSensorDatum datum = new UmfeldDatenSensorDatum(resultat);
 			if(datum.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.JA){
-				/**
-				 * messwertersetze die Daten
-				 */
 				if(this.messWertErsetzungStart == -1){
 					this.messWertErsetzungStart = resultat.getDataTime();
-				}else{
-					if(resultat.getDataTime() - this.messWertErsetzungStart > 
-							this.sensorMitParametern.getMaxZeitMessWertErsetzung()){
-						/**
-						 * Für implausible Messwerte wird nur für einen je Umfeldmessstelle und
-						 * Sensortyp parametrierbaren Zeitbereich ein Ersatzwert berechnet. Nach
-						 * Ablauf dieses Zeitbereichs ist eine Berechnung nicht mehr sinnvoll, der
-						 * entsprechende Sensorwert ist dann als nicht ermittelbar zu kennzeichnen.
-						 */
-						//this.publiziere(resultat, ...);
-					}
 				}
+				
+				if(resultat.getDataTime() - this.messWertErsetzungStart > 
+					this.sensorMitParametern.getMaxZeitMessWertErsetzung()){
+					/**
+					 * Für implausible Messwerte wird nur für einen je Umfeldmessstelle und
+					 * Sensortyp parametrierbaren Zeitbereich ein Ersatzwert berechnet. Nach
+					 * Ablauf dieses Zeitbereichs ist eine Berechnung nicht mehr sinnvoll, der
+					 * entsprechende Sensorwert ist dann als nicht ermittelbar zu kennzeichnen.
+					 */
+					datum.getWert().setNichtErmittelbarAn();
+					this.publiziere(resultat, datum.getDatum());
+				}else{
+					/**
+					 * messwertersetze die Daten
+					 */
+					this.letztesEmpangenesImplausiblesDatum = resultat;
+					this.trigger();
+				}
+
 			}else{
 				this.messWertErsetzungStart = -1;
+				this.messWertFortschreibungStart = -1;
+				this.letztesEmpangenesPlausiblesDatum = resultat;
 				this.publiziere(resultat, resultat.getData().createModifiableCopy());	
 			}
 		}else{
-			this.messWertErsetzungStart = -1;
 			this.publiziere(resultat, null);
 		}
-//		AbstraktMweUfdsSensor.this.letztesEmpangenesDatum = resultat;
-//		trigger();
 	}
 	
 
@@ -227,6 +253,8 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 
 	/**
 	 * Publiziert ein Datum nach den Vorgaben der Datenflusssteuerung
+	 * (Es werden hier keine zwei Datensaetze nacheinander mit der Kennzeichnung
+	 * "keine Daten" versendet)
 	 * 
 	 * @param resultat ein Originaldatum, so wie es empfangen wurde
 	 * @param nutzDatum die ggf. messwertersetzen Nutzdaten
@@ -237,10 +265,10 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 		
 		if(nutzDatum == null){
 			/**
-			 * keine Daten wird nur publiziert, wenn das Objekt vorher
+			 * "keine Daten" wird nur publiziert, wenn das Objekt vorher
 			 * nicht auch schon auf keine Daten stand
 			 */
-			if(this.letztesPubDatum != null){
+			if(this.letztesPubDatum != null && this.letztesPubDatum.getData() != null){
 				publiziereDatensatz = true;
 			}
 		}else{
@@ -252,12 +280,42 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 				iDfsMod.getPublikationsDatum(original,
 						nutzDatum, standardAspekte.getStandardAspekt(original));
 			if(publikationsDatum != null){
-				this.publikationsAnmeldungen.sende(publikationsDatum);							
+				this.publikationsAnmeldungen.sende(publikationsDatum);		
+				this.letztesPubDatum = publikationsDatum;
 			}else{
 				LOGGER.error("Datenflusssteuerung konnte kein Publikationsdatum ermitteln fuer:\n" //$NON-NLS-1$
 						+ original);
 			}
 		}
+	}
+	
+
+	/**
+	 * Erfragt eine Kopie der Nutzdaten des uebergebenen Result-Datensatzes
+	 * mit angepasster Guete und Flag <code>interpoliert</code>
+	 * 
+	 * @param resultat ein Result-Datensatz mit Nutzdaten, der kopiert werden soll
+	 * @return eine Kopie der Nutzdaten des uebergebenen Result-Datensatzes
+	 * mit angepasster Guete und Flag <code>interpoliert</code>
+	 */
+	protected final Data getNutzdatenKopieVon(ResultData resultat){
+		UmfeldDatenSensorDatum kopie = new UmfeldDatenSensorDatum(resultat);
+		
+		kopie.setStatusMessWertErsetzungInterpoliert(DUAKonstanten.JA);
+		GWert guete = new GWert(kopie.getGueteIndex(), 
+				GueteVerfahren.getZustand(kopie.getGueteVerfahren()), false);
+		GWert neueGuete = GWert.getNichtErmittelbareGuete(
+				GueteVerfahren.getZustand(kopie.getGueteVerfahren()));
+		try {
+			neueGuete = GueteVerfahren.gewichte(guete, VERWALTUNG.getGueteFaktor());
+		} catch (GueteException e) {
+			LOGGER.error("Guete von kopiertem Wert kann nicht angepasst werden: " +  //$NON-NLS-1$
+					kopie);
+			e.printStackTrace();
+		}
+		kopie.setGueteIndex(neueGuete.getIndexUnskaliert());
+		
+		return kopie.getDatum();
 	}
 	
 	
@@ -294,6 +352,14 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 	}
 
 	
+	/**
+	 * {@inheritDoc}
+	 */	
+	public void aktualisiereDaten(ResultData[] resultate) {
+		// Dieser Aktualisierungsmechanismus wird hier nicht benutzt
+	}
+
+
 	/**
 	 * {@inheritDoc}
 	 */
