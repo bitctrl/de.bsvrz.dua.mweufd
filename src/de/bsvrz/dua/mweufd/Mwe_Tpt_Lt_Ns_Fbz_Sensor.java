@@ -27,8 +27,6 @@
 package de.bsvrz.dua.mweufd;
 
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dua.mweufd.AbstraktMweUfdsSensor;
-import de.bsvrz.dua.mweufd.IMweUfdSensorListener;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
@@ -97,13 +95,12 @@ extends AbstraktMweUfdsSensor {
 	@Override
 	protected synchronized void trigger() {
 		if(this.letztesEmpangenesImplausiblesDatum != null){
-			if(this.messWertFortschreibungStart == -1){
-				this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum.getDataTime();
-			}
-			
-			if(this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart >
-				this.sensorMitParametern.getMaxZeitMessWertFortschreibung()){
-				UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(this.letztesEmpangenesImplausiblesDatum);
+			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(this.letztesEmpangenesImplausiblesDatum);
+						
+			if(this.letztesEmpangenesPlausiblesDatum == null || 
+				(this.messWertFortschreibungStart != -1 &&
+				this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart >
+				this.sensorMitParametern.getMaxZeitMessWertFortschreibung())){
 				
 				/**
 				 * naechster Punkt
@@ -143,11 +140,13 @@ extends AbstraktMweUfdsSensor {
 				 * für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte plausible
 				 * Messwert massgebend
 				 */
+				if(this.messWertFortschreibungStart == -1){
+					this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum.getDataTime();
+				}
 				this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-						this.getNutzdatenKopieVon(this.letztesEmpangenesPlausiblesDatum));
-				this.letztesEmpangenesImplausiblesDatum = null;			
+						this.getNutzdatenKopieVon(this.letztesEmpangenesPlausiblesDatum));						
+				this.letztesEmpangenesImplausiblesDatum = null;
 			}
 		}
 	}
-
 }

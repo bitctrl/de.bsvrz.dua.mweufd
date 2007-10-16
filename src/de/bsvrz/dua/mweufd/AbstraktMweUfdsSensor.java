@@ -206,6 +206,23 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 	 * werden soll
 	 */
 	public void aktualisiere(ResultData resultat) {
+		if(this.letztesEmpangenesImplausiblesDatum != null){
+			LOGGER.error("Nicht freigegebenes implausibles Datum:\n" +  //$NON-NLS-1$
+					this.letztesEmpangenesImplausiblesDatum + "\nNachfolger:\n" + resultat); //$NON-NLS-1$
+			
+			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(this.letztesEmpangenesImplausiblesDatum);
+			datumImpl.getWert().setNichtErmittelbarAn();
+			this.publiziere(this.letztesEmpangenesImplausiblesDatum, datumImpl.getDatum());
+			
+			this.letztesEmpangenesImplausiblesDatum = null;
+			
+			/**
+			 * TODO: raus
+			 */
+			throw new RuntimeException("Nicht freigegebenes implausibles Datum:\n" +  //$NON-NLS-1$
+					this.letztesEmpangenesImplausiblesDatum + "\nNachfolger:\n" + resultat);  //$NON-NLS-1$
+		}
+		
 		if(resultat.getData() != null){
 
 			UmfeldDatenSensorDatum datum = new UmfeldDatenSensorDatum(resultat);

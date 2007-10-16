@@ -4,6 +4,6 @@ Bundle-Name: Messwertersetzung UFD
 Bundle-SymbolicName: de.bsvrz.dua.mweufd
 Bundle-Version: 1.0.0
 Bundle-Vendor: BitCtrl Systems GmbH
-Require-Bundle: de.bsvrz.dua.guete,
- de.bsvrz.sys.funclib.bitctrl
+Require-Bundle: de.bsvrz.sys.funclib.bitctrl,
+ de.bsvrz.dua.guete
 Export-Package: de.bsvrz.dua.mweufd.vew

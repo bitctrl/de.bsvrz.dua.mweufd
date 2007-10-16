@@ -76,7 +76,7 @@ implements ClientReceiverInterface{
 	 * 
 	 * @param dav Datenverteiler-Verbindung
 	 * @param objekt ein Systemobjekt eines Umfelddatensensors (<code>!= null</code>)
-	 * @return eine statische Instanz dieser Klasse oder <code>null</code>
+	 * @return eine statische Instanz dieser Klasse
 	 */
 	public static final MweUfdSensor getInstanz(final ClientDavInterface dav, 
 												final SystemObject objekt){

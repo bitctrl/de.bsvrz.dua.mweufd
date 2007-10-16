@@ -28,8 +28,13 @@ package de.bsvrz.dua.mweufd.vew;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.dua.mweufd.Mwe_Tpt_Lt_Ns_Fbz_Sensor;
+import de.bsvrz.dua.mweufd.fbt.MweFbtSensor;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
+import de.bsvrz.dua.mweufd.ni.MweNiSensor;
+import de.bsvrz.dua.mweufd.sw.MweSwSensor;
+import de.bsvrz.dua.mweufd.wfd.MweWfdSensor;
 import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
@@ -84,30 +89,30 @@ public class VerwaltungMesswertErsetzungUFD extends
 			DUAUmfeldDatenSensor hauptSensorLT = messStelle.getHauptSensor(UmfeldDatenArt.LT);
 			DUAUmfeldDatenSensor hauptSensorFBT = messStelle.getHauptSensor(UmfeldDatenArt.FBT);
 			
-//			if(hauptSensorNI != null){
-//				new MweNaSensor(this, messStelle, hauptSensorNI);
-//			}
-//			if(messStelle.getHauptSensor(UmfeldDatenArt.NS) != null){
-//				new MweNsSensor(this.verbindung, messStelle);
-//			}
-//			if(messStelle.getHauptSensor(UmfeldDatenArt.FBZ) != null){
-//				new MweFbzSensor(this.verbindung, messStelle);
-//			}
-//			if(messStelle.getHauptSensor(UmfeldDatenArt.WFD) != null){
-//				new MweWfdSensor(this.verbindung, messStelle);
-//			}
-//			if(messStelle.getHauptSensor(UmfeldDatenArt.SW) != null){
-//				new MweSwSensor(this.verbindung, messStelle);
-//			}
-//			if(messStelle.getHauptSensor(UmfeldDatenArt.TPT) != null){
-//				new MweTptSensor(this.verbindung, messStelle);
-//			}
-//			if(messStelle.getHauptSensor(UmfeldDatenArt.LT) != null){
-//				new MweLtSensor(this.verbindung, messStelle);
-//			}
-//			if(messStelle.getHauptSensor(UmfeldDatenArt.FBT) != null){
-//				new MweFbtSensor(this, messStelle);
-//			}
+			if(hauptSensorNI != null){
+				new MweNiSensor(this, messStelle, hauptSensorNI);
+			}
+			if(hauptSensorNS != null){
+				new Mwe_Tpt_Lt_Ns_Fbz_Sensor(this, messStelle, hauptSensorNS);
+			}
+			if(hauptSensorFBZ != null){
+				new Mwe_Tpt_Lt_Ns_Fbz_Sensor(this, messStelle, hauptSensorFBZ);
+			}
+			if(hauptSensorLT != null){
+				new Mwe_Tpt_Lt_Ns_Fbz_Sensor(this, messStelle, hauptSensorLT);
+			}
+			if(hauptSensorTPT != null){
+				new Mwe_Tpt_Lt_Ns_Fbz_Sensor(this, messStelle, hauptSensorTPT);
+			}
+			if(hauptSensorWFD != null){
+				new MweWfdSensor(this, messStelle, hauptSensorWFD);
+			}
+			if(hauptSensorSW != null){
+				new MweSwSensor(this, messStelle, hauptSensorSW);
+			}			
+			if(hauptSensorFBT != null){
+				new MweFbtSensor(this, messStelle, hauptSensorFBT);
+			}
 		}
 	}
 
