@@ -27,17 +27,19 @@
 package de.bsvrz.dua.mweufd.wfd;
 
 import java.util.HashMap;
-import java.util.Set;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.AbstraktMweUfdsSensor;
 import de.bsvrz.dua.mweufd.IMweUfdSensorListener;
+import de.bsvrz.dua.mweufd.MweMethodenErgebnis;
 import de.bsvrz.dua.mweufd.MweUfdSensor;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
+import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 
 /**
@@ -69,12 +71,7 @@ extends AbstraktMweUfdsSensor {
 	 * Der Nebensensor mit aktuellen Daten
 	 */
 	protected HashMap<SystemObject, ResultData> nebenSensorenMitDaten = null;
-	
-	/**
-	 * letzter empfangener Datensatz des Ersatzsensors
-	 */
-	private ResultData letzterErsatzDatensatz = null;
-	
+		
 	/**
 	 * letzter empfangener Datensatz des Nachfolgersensors
 	 */
@@ -111,17 +108,6 @@ extends AbstraktMweUfdsSensor {
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
-		
-		if(this.ersatz != null){
-			this.ersatz.addListener(new IMweUfdSensorListener(){
-
-				public void aktualisiere(ResultData resultat) {
-					MweWfdSensor.this.letzterErsatzDatensatz = resultat;
-					MweWfdSensor.this.trigger();
-				}
-				
-			}, true);
-		}
 		
 		if(this.nachfolger != null){
 			this.nachfolger.addListener(new IMweUfdSensorListener(){
@@ -189,8 +175,152 @@ extends AbstraktMweUfdsSensor {
 	 */
 	@Override
 	protected synchronized void trigger() {
-		// TODO Auto-generated method stub
+		if(this.letztesEmpangenesImplausiblesDatum != null){
+			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(this.letztesEmpangenesImplausiblesDatum);
+			
+			MweMethodenErgebnis ergebnisNebenSensorErsetzung = this.versucheErsetzungDurchNebenSensoren(datumImpl);
+			if(ergebnisNebenSensorErsetzung == MweMethodenErgebnis.JA){
+				this.letztesEmpangenesImplausiblesDatum = null;
+				return;
+			}else
+			if(ergebnisNebenSensorErsetzung == MweMethodenErgebnis.WARTE){
+				return;
+			}
+			
+			if(this.messWertFortschreibungStart == -1 ||
+					this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart <=
+				this.sensorMitParametern.getMaxZeitMessWertFortschreibung()){
+				if(this.letztesEmpangenesPlausiblesDatum != null){
+					if(this.messWertFortschreibungStart == -1){
+						this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum.getDataTime();
+					}
+					this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
+							this.getNutzdatenKopieVon(letztesEmpangenesPlausiblesDatum));
+					this.letztesEmpangenesImplausiblesDatum = null;
+					return;
+				}
+			}
+				
+			if(this.vorgaenger != null && 
+				this.letzterVorgaengerDatensatz != null &&
+				this.letzterVorgaengerDatensatz.getData() != null &&
+				this.nachfolger != null &&
+				this.letzterNachfolgerDatensatz != null &&
+				this.letzterNachfolgerDatensatz.getData() != null){
+				UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(this.letzterNachfolgerDatensatz);
+				UmfeldDatenSensorDatum datumVor = new UmfeldDatenSensorDatum(this.letzterVorgaengerDatensatz);
+						
+				if(datumVor.getT() == datumImpl.getT() &&
+						datumNach.getT() == datumImpl.getT()){
+					if(datumVor.getDatenZeit() == datumImpl.getDatenZeit() &&
+							datumNach.getDatenZeit() == datumImpl.getDatenZeit()){
+						if(this.isMittelWertErrechenbar(datumImpl, datumVor, datumNach)){
+							this.letztesEmpangenesImplausiblesDatum = null;
+							return;
+						}
+					}else if(datumVor.getDatenZeit() < datumImpl.getDatenZeit() ||
+							datumNach.getDatenZeit() < datumImpl.getDatenZeit()){
+						return;
+					}
+				}
+				
+			}
+			
+			if(this.niDatenSensor != null &&
+				this.letzterNiDatensatz != null &&
+				this.letzterNiDatensatz.getData() != null){
+				UmfeldDatenSensorDatum datumNi = new UmfeldDatenSensorDatum(this.letzterNiDatensatz);
+				if(datumNi.getT() == datumImpl.getT()){
+					if(datumNi.getDatenZeit() == datumImpl.getDatenZeit()){
+						if(datumNi.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN){
+							datumImpl.getWert().setNichtErmittelbarAn();
+							this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
+										datumImpl.getDatum());
+							this.letztesEmpangenesImplausiblesDatum = null;
+							return;
+						}
+					}else{
+						return;
+					}
+				}
+			}
+			
+			MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this.versucheErsatzWertErsetzung(datumImpl);
+			if(ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA){
+				this.letztesEmpangenesImplausiblesDatum = null;
+				return;
+			}else
+			if(ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.WARTE){
+				return;
+			}
+						
+			datumImpl.getWert().setNichtErmittelbarAn();
+			this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
+						datumImpl.getDatum());
+			this.letztesEmpangenesImplausiblesDatum = null;	
+		}
+	}
+	
+	
+	/**
+	 * Implementiert die erste Ersetzungsmethode aus Afo-4.0 (6.6.2.5.5.4, S.113):<br>
+	 * Wenn am gleichen Umfeldmessstellen ein weiterer Bodensensor (Nebensensor) plausible
+	 * Werte liefert, so sind diese zu übernehmen.<br>
+	 * 
+	 * @param datumImpl das implausible Datum, das ersetzt werden soll
+	 * @return das Ergebnis des Ersetzungsversuchs<br>
+	 * - <code><b>JA</b></code>: es existiert ein Nebensensor mit aktuellen, plausiblen Daten. Der implausible
+	 * Messwert wurde ersetzt und publiziert<br>
+	 * - <code><b>NEIN</b></code>: entweder gibt es keine Nebensensoren, oder alle Nebensensoren, die Daten
+	 * liefern haben keine Nutzdaten oder senden im falschen Intervall oder senden im richtigen Intervall
+	 * und haben nur implausible aktuelle Nutzdaten<br>
+	 * - <code><b>WARTE</b></code>: es gibt Nebensensoren mit Nutzdaten, die im richtigen Intervall senden,
+	 * von denen aber noch keine aktuellen Daten vorliegen
+	 */
+	private final MweMethodenErgebnis versucheErsetzungDurchNebenSensoren(UmfeldDatenSensorDatum datumImpl){
+		MweMethodenErgebnis ergebnis = MweMethodenErgebnis.NEIN; 
 		
+		/**
+		 * Nutzbare Nebensensoren sind Sensoren, die Nutzdaten im gleichen Intervall wie
+		 * der zu ersetztende Sensor liefern
+		 */
+		int nutzbareNebenSensorenGesamt = 0;
+		/**
+		 * Aktuelle nutzbare Sensoren, sind nutzbare Sensoren, die ein Nutzdatum fuer
+		 * das Intervall bereitstellen, fuer das die Messwertersetzung stattfinden soll
+		 */
+		int nutzbareNebenSensorenAktuellGesamt = 0;
+		for(ResultData nebenSensorResultat:this.nebenSensorenMitDaten.values()){
+			if(nebenSensorResultat != null && nebenSensorResultat.getData() != null){
+				UmfeldDatenSensorDatum datumNebenSensor = new UmfeldDatenSensorDatum(nebenSensorResultat);
+				
+				if(datumNebenSensor.getT() == datumImpl.getT()){
+					nutzbareNebenSensorenGesamt++;
+					if(datumNebenSensor.getDatenZeit() == datumImpl.getDatenZeit()){
+						nutzbareNebenSensorenAktuellGesamt++;
+						
+						if(datumNebenSensor.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN){
+							this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
+									this.getNutzdatenKopieVon(datumNebenSensor.getOriginalDatum()));						
+							this.letztesEmpangenesImplausiblesDatum = null;
+							ergebnis = MweMethodenErgebnis.JA;
+							break;							
+						}
+					}else
+					if(datumNebenSensor.getDatenZeit() > datumImpl.getDatenZeit()){
+						nutzbareNebenSensorenGesamt--;
+					}
+				}				
+			}
+		}
+		
+		if(nutzbareNebenSensorenGesamt > 0){
+			if(nutzbareNebenSensorenGesamt > nutzbareNebenSensorenAktuellGesamt){
+				ergebnis = MweMethodenErgebnis.WARTE;
+			}
+		}
+		
+		return ergebnis;
 	}
 
 }

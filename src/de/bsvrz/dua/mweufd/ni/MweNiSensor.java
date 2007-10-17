@@ -27,17 +27,14 @@
 package de.bsvrz.dua.mweufd.ni;
 
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dua.guete.GWert;
-import de.bsvrz.dua.guete.GueteException;
-import de.bsvrz.dua.guete.GueteVerfahren;
 import de.bsvrz.dua.mweufd.AbstraktMweUfdsSensor;
 import de.bsvrz.dua.mweufd.IMweUfdSensorListener;
+import de.bsvrz.dua.mweufd.MweMethodenErgebnis;
 import de.bsvrz.dua.mweufd.MweUfdSensor;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
-import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
@@ -74,12 +71,7 @@ extends AbstraktMweUfdsSensor{
 	 * letzter empfangener WFD-Datensatz
 	 */
 	private ResultData letzterWfdDatensatz = null;
-	
-	/**
-	 * letzter empfangener Datensatz des Ersatzsensors
-	 */
-	private ResultData letzterErsatzDatensatz = null;
-	
+		
 	/**
 	 * letzter empfangener Datensatz des Nachfolgersensors
 	 */
@@ -106,18 +98,7 @@ extends AbstraktMweUfdsSensor{
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
-		
-		if(this.ersatz != null){
-			this.ersatz.addListener(new IMweUfdSensorListener(){
-
-				public void aktualisiere(ResultData resultat) {
-					MweNiSensor.this.letzterErsatzDatensatz = resultat;
-					MweNiSensor.this.trigger();
-				}
 				
-			}, true);
-		}
-		
 		if(this.nachfolger != null){
 			this.nachfolger.addListener(new IMweUfdSensorListener(){
 
@@ -183,7 +164,8 @@ extends AbstraktMweUfdsSensor{
 				 * als Ersatzwert den Mittelwert aus beiden benachbarten MQ-Werten
 				 */
 				if(this.vorgaenger != null && this.nachfolger != null &&
-					this.letzterVorgaengerDatensatz != null && this.letzterNachfolgerDatensatz != null){
+					this.letzterVorgaengerDatensatz != null && this.letzterNachfolgerDatensatz != null &&
+					this.letzterVorgaengerDatensatz.getData() != null && this.letzterNachfolgerDatensatz.getData() != null){
 					
 					UmfeldDatenSensorDatum datumVor = new UmfeldDatenSensorDatum(this.letzterVorgaengerDatensatz);
 					UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(this.letzterNachfolgerDatensatz);
@@ -192,45 +174,12 @@ extends AbstraktMweUfdsSensor{
 							datumNach.getT() == datumImpl.getT()){
 						if(datumVor.getDatenZeit() == datumImpl.getDatenZeit() &&
 								datumNach.getDatenZeit() == datumImpl.getDatenZeit()){
-							if(datumVor.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN &&
-								datumNach.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN &&
-								datumVor.getWert().getWert() >= 0 &&
-								datumNach.getWert().getWert() >= 0){
-								
-								long durchschnitt = Math.round(((double)datumVor.getWert().getWert() + 
-														(double)datumNach.getWert().getWert()) / 2.0);
-								
-								if(DUAUtensilien.isWertInWerteBereich(
-										datumImpl.getOriginalDatum().getData().getItem(
-												UmfeldDatenArt.getUmfeldDatenArtVon(this.sensorSelbst.getObjekt()).getName()).
-												getItem("Wert"), durchschnitt)){ //$NON-NLS-1$
-									GWert gueteWert1 = new GWert(datumVor.getGueteIndex(), 
-											GueteVerfahren.getZustand(datumVor.getGueteVerfahren()), false);
-									GWert gueteWert2 = new GWert(datumNach.getGueteIndex(), 
-											GueteVerfahren.getZustand(datumNach.getGueteVerfahren()), false);
-									GWert gueteGesamt = GWert.getNichtErmittelbareGuete(
-											GueteVerfahren.getZustand(datumImpl.getGueteVerfahren()));
-									
-									try {
-										gueteGesamt = GueteVerfahren.summe(gueteWert1, gueteWert2);
-									} catch (GueteException e) {
-										LOGGER.error("Guete kann nicht angepasst werden\n" +  //$NON-NLS-1$
-												"Wert1: " + this.letzterVorgaengerDatensatz + //$NON-NLS-1$
-												"\nWert2: " + this.letzterNachfolgerDatensatz); //$NON-NLS-1$
-										e.printStackTrace();
-									}
-									
-									datumImpl.setGueteIndex(gueteGesamt.getIndexUnskaliert());
-									datumImpl.setStatusMessWertErsetzungInterpoliert(DUAKonstanten.JA);
-									datumImpl.getWert().setWert(durchschnitt);
-									
-									this.publiziere(this.letztesEmpangenesImplausiblesDatum, datumImpl.getDatum());															
-									
-									this.letztesEmpangenesImplausiblesDatum = null;
-									return;
-								}								
-							}							
-						}else{
+							if(this.isMittelWertErrechenbar(datumImpl, datumVor, datumNach)){
+								this.letztesEmpangenesImplausiblesDatum = null;
+								return;
+							}
+						}else if(datumVor.getDatenZeit() < datumImpl.getDatenZeit() ||
+								datumNach.getDatenZeit() < datumImpl.getDatenZeit()){
 							return;
 						}
 					}
@@ -263,23 +212,14 @@ extends AbstraktMweUfdsSensor{
 				 * naechster Punkt:
 				 * sonst werden die plausiblen Messwerte des Ersatzquerschnittes übernommen
 				 */
-				if(this.ersatz != null && this.letzterErsatzDatensatz != null){
-					UmfeldDatenSensorDatum datumErsatz = new UmfeldDatenSensorDatum(this.letzterErsatzDatensatz);
-					
-					if(datumErsatz.getT() == datumImpl.getT()) {
-						if(datumErsatz.getDatenZeit() == datumImpl.getDatenZeit()){
-							if(datumErsatz.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN){
-								this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-										this.getNutzdatenKopieVon(this.letzterErsatzDatensatz));						
-								this.letztesEmpangenesImplausiblesDatum = null;
-								return;								
-							}
-						}else{
-							return;
-						}
-					}					
-				}
-				
+				MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this.versucheErsatzWertErsetzung(datumImpl);
+				if(ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA){
+					this.letztesEmpangenesImplausiblesDatum = null;
+					return;
+				}else
+				if(ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.WARTE){
+					return;
+				}				
 				
 				datumImpl.getWert().setNichtErmittelbarAn();
 				this.publiziere(this.letztesEmpangenesImplausiblesDatum, 

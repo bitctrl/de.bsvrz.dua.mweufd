@@ -76,12 +76,7 @@ extends AbstraktMweUfdsSensor {
 	 * letzter empfangener NI-Datensatz
 	 */
 	private ResultData letzterNiDatensatz = null;
-	
-	/**
-	 * letzter empfangener Datensatz des Ersatzsensors
-	 */
-	private ResultData letzterErsatzDatensatz = null;
-	
+		
 	
 	/**
 	 * Standardkonstruktor
@@ -98,18 +93,7 @@ extends AbstraktMweUfdsSensor {
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
-		
-		if(this.ersatz != null){
-			this.ersatz.addListener(new IMweUfdSensorListener(){
-
-				public void aktualisiere(ResultData resultat) {
-					MweFbtSensor.this.letzterErsatzDatensatz = resultat;
-					MweFbtSensor.this.trigger();
-				}
 				
-			}, true);
-		}
-		
 		DUAUmfeldDatenSensor wfdSensor = messStelle.getHauptSensor(UmfeldDatenArt.WFD);
 		if(wfdSensor == null){
 			if(messStelle.getNebenSensoren(UmfeldDatenArt.WFD).size() > 0){

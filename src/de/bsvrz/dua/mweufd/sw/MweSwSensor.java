@@ -108,7 +108,6 @@ extends AbstraktMweUfdsSensor {
 							this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
 									this.getNutzdatenKopieVon(this.letzterNachfolgerDatensatz));
 							this.letztesEmpangenesImplausiblesDatum = null;
-							this.messWertFortschreibungStart = -1;
 							return;
 						}
 					}else{

@@ -26,11 +26,9 @@
 
 package de.bsvrz.dua.mweufd;
 
-import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
-import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
 
@@ -52,13 +50,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
  *
  */
 public class Mwe_Tpt_Lt_Ns_Fbz_Sensor
-extends AbstraktMweUfdsSensor {
-	
-	/**
-	 * letzter empfangener Datensatz des Ersatzsensors
-	 */
-	private ResultData letzterErsatzDatensatz = null;
-	
+extends AbstraktMweUfdsSensor {	
 
 	/**
 	 * Standardkonstruktor
@@ -75,17 +67,6 @@ extends AbstraktMweUfdsSensor {
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
-		
-		if(this.ersatz != null){
-			this.ersatz.addListener(new IMweUfdSensorListener(){
-
-				public void aktualisiere(ResultData resultat) {
-					Mwe_Tpt_Lt_Ns_Fbz_Sensor.this.letzterErsatzDatensatz = resultat;
-					Mwe_Tpt_Lt_Ns_Fbz_Sensor.this.trigger();
-				}
-				
-			}, true);
-		}
 	}
 
 	
@@ -102,39 +83,19 @@ extends AbstraktMweUfdsSensor {
 				this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart >
 				this.sensorMitParametern.getMaxZeitMessWertFortschreibung())){
 				
-				/**
-				 * naechster Punkt
-				 */
-				boolean setzteNichtErmittelbar = false;
-				if(this.ersatz != null && this.letzterErsatzDatensatz != null){
-					if(this.letzterErsatzDatensatz.getData() == null){
-						setzteNichtErmittelbar = true;
-					}else{
-						UmfeldDatenSensorDatum datumErsatz = new UmfeldDatenSensorDatum(this.letzterErsatzDatensatz);
-						if(datumErsatz.getT() == datumImpl.getT()){
-							if(datumErsatz.getDatenZeit() == datumImpl.getDatenZeit()){
-								if(datumErsatz.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.JA){
-									setzteNichtErmittelbar = true;
-								}else{
-									this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-											this.getNutzdatenKopieVon(this.letzterErsatzDatensatz));
-									this.letztesEmpangenesImplausiblesDatum = null;									
-								}								
-							}
-						}else{
-							setzteNichtErmittelbar = true;
-						}
-					}
-				}else{
-					setzteNichtErmittelbar = true;
+				MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this.versucheErsatzWertErsetzung(datumImpl);
+				if(ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA){
+					this.letztesEmpangenesImplausiblesDatum = null;
+					return;
+				}else
+				if(ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.WARTE){
+					return;
 				}
 				
-				if(setzteNichtErmittelbar){
-					datumImpl.getWert().setNichtErmittelbarAn();
-					this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-							datumImpl.getDatum());
-					this.letztesEmpangenesImplausiblesDatum = null;					
-				}
+				datumImpl.getWert().setNichtErmittelbarAn();
+				this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
+						datumImpl.getDatum());
+				this.letztesEmpangenesImplausiblesDatum = null;					
 			}else{
 				/**
 				 * für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte plausible
