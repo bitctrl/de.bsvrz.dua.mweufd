@@ -55,9 +55,14 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  * @author BitCtrl Systems GmbH, Thierfelder
  *
  */
-public class VerwaltungMesswertErsetzungUFD extends
-		AbstraktVerwaltungsAdapterMitGuete {
+public class VerwaltungMesswertErsetzungUFD
+extends	AbstraktVerwaltungsAdapterMitGuete {
 
+	/**
+	 * Datenflusssteuerung
+	 */
+	public static MweDatenFlussSteuerung DFS = null;
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -67,6 +72,8 @@ public class VerwaltungMesswertErsetzungUFD extends
 	throws DUAInitialisierungsException {
 		super.initialisiere();
 		
+		DFS = new MweDatenFlussSteuerung(this, 
+				new MweUfdStandardAspekteVersorger(this).getStandardPubInfos());
 		UmfeldDatenArt.initialisiere(this.verbindung);
 		
 		/**

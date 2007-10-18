@@ -34,7 +34,6 @@ import de.bsvrz.dua.mweufd.MweUfdSensor;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
-import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;

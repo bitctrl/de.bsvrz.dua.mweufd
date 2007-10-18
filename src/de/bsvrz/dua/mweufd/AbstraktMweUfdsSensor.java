@@ -26,9 +26,6 @@
 
 package de.bsvrz.dua.mweufd;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import de.bsvrz.dav.daf.main.ClientSenderInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
@@ -39,15 +36,10 @@ import de.bsvrz.dua.guete.GueteException;
 import de.bsvrz.dua.guete.GueteVerfahren;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
-import de.bsvrz.dua.mweufd.vew.MweUfdStandardAspekteVersorger;
+import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
-import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktBearbeitungsKnotenAdapter;
-import de.bsvrz.sys.funclib.bitctrl.dua.av.DAVObjektAnmeldung;
-import de.bsvrz.sys.funclib.bitctrl.dua.dfs.DFSKonstanten;
-import de.bsvrz.sys.funclib.bitctrl.dua.dfs.schnittstellen.IDatenFlussSteuerung;
-import de.bsvrz.sys.funclib.bitctrl.dua.dfs.schnittstellen.IDatenFlussSteuerungFuerModul;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.ModulTyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
@@ -61,20 +53,13 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @author BitCtrl Systems GmbH, Thierfelder
  *
  */
-public abstract class AbstraktMweUfdsSensor 
-extends AbstraktBearbeitungsKnotenAdapter
+public abstract class AbstraktMweUfdsSensor
 implements ClientSenderInterface, IMweUfdSensorListener{
-	
+		
 	/**
 	 * Debug-Logger
 	 */
 	protected static final Debug LOGGER = Debug.getLogger();
-
-	/**
-	 * Parameter zur Datenflusssteuerung für diese
-	 * SWE und dieses Modul
-	 */
-	private IDatenFlussSteuerungFuerModul iDfsMod = DFSKonstanten.STANDARD;
 	
 	/**
 	 * statische Datenverteiler-Verbindung
@@ -164,17 +149,9 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 		if(messStelle == null || sensor == null){
 			throw new NullPointerException("Messstelle/Sensor ist <<null>>"); //$NON-NLS-1$
 		}
+		VerwaltungMesswertErsetzungUFD.DFS.addObjekt(sensor.getObjekt());
 		this.sensorMitParametern = sensor;
-		
-		/**
-		 * implizite Initialisierung der Datenflusssteuerung
-		 */
-		this.initialisiere(verwaltung);
-		this.standardAspekte = new MweUfdStandardAspekteVersorger(verwaltung).getStandardPubInfos();
-		this.publikationsAnmeldungen.modifiziereObjektAnmeldung(this.standardAspekte.
-				getStandardAnmeldungen(this.verwaltung.getSystemObjekte()));
-		
-		
+	
 		this.messStelle = messStelle;
 		this.sensorSelbst = MweUfdSensor.getInstanz(verwaltung.getVerbindung(),
 													sensor.getObjekt());
@@ -308,13 +285,8 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 		}
 		
 		if(publiziereDatensatz){
-			ResultData publikationsDatum = 
-				iDfsMod.getPublikationsDatum(original,
-						nutzDatum, standardAspekte.getStandardAspekt(original));
-			if(publikationsDatum != null){
-				this.publikationsAnmeldungen.sende(publikationsDatum);		
-				this.letztesPubDatum = publikationsDatum;
-			}else{
+			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.DFS.publiziere(original, nutzDatum);
+			if(this.letztesPubDatum == null){
 				LOGGER.error("Datenflusssteuerung konnte kein Publikationsdatum ermitteln fuer:\n" //$NON-NLS-1$
 						+ original);
 			}
@@ -448,31 +420,6 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 		
 		return ergebnis;
 	}
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public void aktualisierePublikation(IDatenFlussSteuerung iDfs) {
-		this.iDfsMod = iDfs.getDFSFuerModul(this.verwaltung.getSWETyp(),
-				this.getModulTyp());
-		
-		Collection<DAVObjektAnmeldung> anmeldungenStd =
-			new ArrayList<DAVObjektAnmeldung>();
-
-		if(this.standardAspekte != null){
-			anmeldungenStd = this.standardAspekte.
-			getStandardAnmeldungen(this.verwaltung.getSystemObjekte());
-		}
-
-		Collection<DAVObjektAnmeldung> anmeldungen = 
-			this.iDfsMod.getDatenAnmeldungen(this.verwaltung.getSystemObjekte(), 
-					anmeldungenStd);
-
-		synchronized(this){
-			this.publikationsAnmeldungen.modifiziereObjektAnmeldung(anmeldungen);
-		}
-	}
 
 
 	/**
@@ -507,4 +454,5 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 			DataDescription dataDescription) {
 		return false;
 	}
+	
 }

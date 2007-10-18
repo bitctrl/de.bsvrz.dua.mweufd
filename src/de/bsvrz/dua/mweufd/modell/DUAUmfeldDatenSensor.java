@@ -32,11 +32,10 @@ import java.util.Map;
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientReceiverInterface;
 import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ResultData;
+import de.bsvrz.dav.daf.main.config.ConfigurationObject;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 
 /**
  * Korrespondiert mit einem Objekt vom Typ <code>typ.umfeldDatenSensor</code>
@@ -142,25 +141,22 @@ implements ClientReceiverInterface{
 					" konnte nicht identifiziert werden"); //$NON-NLS-1$
 		}
 		
-		ResultData konfigDaten = dav.getData(objekt,
-				new DataDescription(
-						dav.getDataModel().getAttributeGroup("atg.umfeldDatenSensor"), //$NON-NLS-1$
-						dav.getDataModel().getAspect("asp.eigenschaften"), //$NON-NLS-1$
-						(short)0),
-				10 * Konstante.SEKUNDE_IN_MS);
+		ConfigurationObject konfigObjekt = (ConfigurationObject)objekt;
+		Data konfigDaten = konfigObjekt.getConfigurationData(
+					dav.getDataModel().getAttributeGroup("atg.umfeldDatenSensor")); //$NON-NLS-1$
 	
-		if(konfigDaten != null && konfigDaten.getData() != null){
-			if(konfigDaten.getData().getReferenceValue("Vorgänger") != null){ //$NON-NLS-1$
-				this.ersatzSensor = konfigDaten.getData().getReferenceValue("Vorgänger").getSystemObject(); //$NON-NLS-1$	
+		if(konfigDaten != null){
+			if(konfigDaten.getReferenceValue("Vorgänger") != null){ //$NON-NLS-1$
+				this.ersatzSensor = konfigDaten.getReferenceValue("Vorgänger").getSystemObject(); //$NON-NLS-1$	
 			}			
-			if(konfigDaten.getData().getReferenceValue("Nachfolger") != null){ //$NON-NLS-1$
-				this.ersatzSensor = konfigDaten.getData().getReferenceValue("Nachfolger").getSystemObject(); //$NON-NLS-1$	
+			if(konfigDaten.getReferenceValue("Nachfolger") != null){ //$NON-NLS-1$
+				this.ersatzSensor = konfigDaten.getReferenceValue("Nachfolger").getSystemObject(); //$NON-NLS-1$	
 			}			
 			
-			if(konfigDaten.getData().getReferenceValue("ErsatzSensor") != null){ //$NON-NLS-1$
-				this.ersatzSensor = konfigDaten.getData().getReferenceValue("ErsatzSensor").getSystemObject(); //$NON-NLS-1$	
+			if(konfigDaten.getReferenceValue("ErsatzSensor") != null){ //$NON-NLS-1$
+				this.ersatzSensor = konfigDaten.getReferenceValue("ErsatzSensor").getSystemObject(); //$NON-NLS-1$	
 			}			
-			this.hauptSensor = konfigDaten.getData().getUnscaledValue("Typ").intValue() == 0; //$NON-NLS-1$
+			this.hauptSensor = konfigDaten.getUnscaledValue("Typ").intValue() == 0; //$NON-NLS-1$
 		}
 	}
 	

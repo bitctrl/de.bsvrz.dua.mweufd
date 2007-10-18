@@ -27,6 +27,7 @@
 package de.bsvrz.dua.mweufd.wfd;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
@@ -70,7 +71,7 @@ extends AbstraktMweUfdsSensor {
 	/**
 	 * Der Nebensensor mit aktuellen Daten
 	 */
-	protected HashMap<SystemObject, ResultData> nebenSensorenMitDaten = null;
+	protected Map<SystemObject, ResultData> nebenSensorenMitDaten = new HashMap<SystemObject, ResultData>();
 		
 	/**
 	 * letzter empfangener Datensatz des Nachfolgersensors
