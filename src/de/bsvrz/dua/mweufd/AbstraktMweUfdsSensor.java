@@ -40,7 +40,6 @@ import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
-import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.ModulTyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
@@ -419,22 +418,6 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 		}
 		
 		return ergebnis;
-	}
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public ModulTyp getModulTyp() {
-		return ModulTyp.MESSWERTERSETZUNG_UFD;
-	}
-
-	
-	/**
-	 * {@inheritDoc}
-	 */	
-	public void aktualisiereDaten(ResultData[] resultate) {
-		// Dieser Aktualisierungsmechanismus wird hier nicht benutzt
 	}
 
 

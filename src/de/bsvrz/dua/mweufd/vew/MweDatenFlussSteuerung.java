@@ -90,7 +90,7 @@ implements IDatenFlussSteuerungsListener{
 	/**
 	 * Standardkonstruktor
 	 * 
-	 * @param dav Verbindung zum Verwaltungsmodul
+	 * @param verwaltung Verbindung zum Verwaltungsmodul
 	 * @param standardAspekte Schnittstelle zu den Informationen über die
 	 * Standardpublikationsaspekte
 	 * @throws DUAInitialisierungsException wenn die Initialisierung der Datenflusssteuerung

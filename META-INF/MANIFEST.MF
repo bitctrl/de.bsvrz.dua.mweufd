@@ -6,4 +6,10 @@ Bundle-Version: 1.0.0
 Bundle-Vendor: BitCtrl Systems GmbH
 Require-Bundle: de.bsvrz.sys.funclib.bitctrl,
  de.bsvrz.dua.guete
-Export-Package: de.bsvrz.dua.mweufd.vew
+Export-Package: de.bsvrz.dua.mweufd,
+ de.bsvrz.dua.mweufd.fbt,
+ de.bsvrz.dua.mweufd.modell,
+ de.bsvrz.dua.mweufd.ni,
+ de.bsvrz.dua.mweufd.sw,
+ de.bsvrz.dua.mweufd.vew,
+ de.bsvrz.dua.mweufd.wfd
