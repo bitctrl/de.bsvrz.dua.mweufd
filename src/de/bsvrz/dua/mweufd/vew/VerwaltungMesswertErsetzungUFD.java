@@ -30,8 +30,6 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.Mwe_Tpt_Lt_Ns_Fbz_Sensor;
 import de.bsvrz.dua.mweufd.fbt.MweFbtSensor;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.dua.mweufd.ni.MweNiSensor;
 import de.bsvrz.dua.mweufd.sw.MweSwSensor;
 import de.bsvrz.dua.mweufd.wfd.MweWfdSensor;
@@ -41,6 +39,8 @@ import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktVerwaltungsAdapterMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 
 /**

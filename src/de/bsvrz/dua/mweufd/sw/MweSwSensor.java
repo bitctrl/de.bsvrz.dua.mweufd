@@ -28,13 +28,13 @@ package de.bsvrz.dua.mweufd.sw;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dua.mweufd.AbstraktMweUfdsSensor;
-import de.bsvrz.dua.mweufd.IMweUfdSensorListener;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
 
 /**
  * Implementierung der Messwertersetzung nach folgendem Verfahren:<br><br>
@@ -77,9 +77,9 @@ extends AbstraktMweUfdsSensor {
 		super(verwaltung, messStelle, sensor);
 
 		if(this.nachfolger != null){
-			this.nachfolger.addListener(new IMweUfdSensorListener(){
+			this.nachfolger.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
-				public void aktualisiere(ResultData resultat) {
+				public void aktualisiereDaten(ResultData resultat) {
 					MweSwSensor.this.letzterNachfolgerDatensatz = resultat;
 					MweSwSensor.this.trigger();
 				}

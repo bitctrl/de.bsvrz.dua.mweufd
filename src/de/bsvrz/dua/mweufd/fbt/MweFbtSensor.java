@@ -28,14 +28,14 @@ package de.bsvrz.dua.mweufd.fbt;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dua.mweufd.AbstraktMweUfdsSensor;
-import de.bsvrz.dua.mweufd.IMweUfdSensorListener;
 import de.bsvrz.dua.mweufd.MweUfdSensor;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 
 /**
@@ -105,9 +105,9 @@ extends AbstraktMweUfdsSensor {
 		
 		if(wfdSensor != null){
 			this.wfdDatenSensor = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), wfdSensor.getObjekt());
-			this.wfdDatenSensor.addListener(new IMweUfdSensorListener(){
+			this.wfdDatenSensor.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
-				public void aktualisiere(ResultData resultat) {
+				public void aktualisiereDaten(ResultData resultat) {
 					MweFbtSensor.this.letzterWfdDatensatz = resultat;
 					MweFbtSensor.this.trigger();
 				}
@@ -127,9 +127,9 @@ extends AbstraktMweUfdsSensor {
 		
 		if(niSensor != null){
 			this.niDatenSensor = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), niSensor.getObjekt());
-			this.niDatenSensor.addListener(new IMweUfdSensorListener(){
+			this.niDatenSensor.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
-				public void aktualisiere(ResultData resultat) {
+				public void aktualisiereDaten(ResultData resultat) {
 					MweFbtSensor.this.letzterNiDatensatz = resultat;
 					MweFbtSensor.this.trigger();
 				}

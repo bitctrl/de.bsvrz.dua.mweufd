@@ -8,7 +8,6 @@ Require-Bundle: de.bsvrz.sys.funclib.bitctrl,
  de.bsvrz.dua.guete
 Export-Package: de.bsvrz.dua.mweufd,
  de.bsvrz.dua.mweufd.fbt,
- de.bsvrz.dua.mweufd.modell,
  de.bsvrz.dua.mweufd.ni,
  de.bsvrz.dua.mweufd.sw,
  de.bsvrz.dua.mweufd.vew,

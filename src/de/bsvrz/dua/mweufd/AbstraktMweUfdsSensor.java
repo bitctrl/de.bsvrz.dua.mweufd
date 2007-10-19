@@ -34,14 +34,15 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.guete.GWert;
 import de.bsvrz.dua.guete.GueteException;
 import de.bsvrz.dua.guete.GueteVerfahren;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 import de.bsvrz.sys.funclib.debug.Debug;
 
@@ -53,7 +54,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  *
  */
 public abstract class AbstraktMweUfdsSensor
-implements ClientSenderInterface, IMweUfdSensorListener{
+implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 		
 	/**
 	 * Debug-Logger
@@ -148,6 +149,7 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 		if(messStelle == null || sensor == null){
 			throw new NullPointerException("Messstelle/Sensor ist <<null>>"); //$NON-NLS-1$
 		}
+		VERWALTUNG = verwaltung;
 		VerwaltungMesswertErsetzungUFD.DFS.addObjekt(sensor.getObjekt());
 		this.sensorMitParametern = sensor;
 	
@@ -167,20 +169,20 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 		}
 
 		if(sensor.getNachfolger() != null){
-			DUAUmfeldDatenMessStelle nachfolgerMSt = DUAUmfeldDatenMessStelle.getInstanz(sensor.getVorgaenger());
+			DUAUmfeldDatenMessStelle nachfolgerMSt = DUAUmfeldDatenMessStelle.getInstanz(sensor.getNachfolger());
 			if(nachfolgerMSt != null){
 				DUAUmfeldDatenSensor nachfolgerSensor = nachfolgerMSt.getHauptSensor(sensor.getDatenArt());
 				if(nachfolgerSensor != null){
 					this.nachfolger = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), nachfolgerSensor.getObjekt());
 				}
 			}
-		}
+		}		
 		
 		if(sensor.getErsatzSensor() != null){
 			this.ersatz = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), sensor.getErsatzSensor());
-			this.ersatz.addListener(new IMweUfdSensorListener(){
+			this.ersatz.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
-				public void aktualisiere(ResultData resultat) {
+				public void aktualisiereDaten(ResultData resultat) {
 					AbstraktMweUfdsSensor.this.letzterErsatzDatensatz = resultat;
 					AbstraktMweUfdsSensor.this.trigger();
 				}
@@ -196,7 +198,7 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 	 * Hier kommen die Daten an, die von dem Sensor kommen, der messwertersetzt 
 	 * werden soll
 	 */
-	public void aktualisiere(ResultData resultat) {
+	public void aktualisiereDaten(ResultData resultat) {
 		if(this.letztesEmpangenesImplausiblesDatum != null){
 			LOGGER.error("Nicht freigegebenes implausibles Datum:\n" +  //$NON-NLS-1$
 					this.letztesEmpangenesImplausiblesDatum + "\nNachfolger:\n" + resultat); //$NON-NLS-1$
@@ -326,7 +328,11 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 						GueteVerfahren.getZustand(datumImpl.getGueteVerfahren()));
 
 				try {
-					gueteGesamt = GueteVerfahren.summe(gueteWert1, gueteWert2);
+					gueteGesamt = GueteVerfahren.gewichte(
+									GueteVerfahren.summe(
+											gueteWert1,
+											gueteWert2),
+									VERWALTUNG.getGueteFaktor());
 				} catch (GueteException e) {
 					LOGGER.error("Guete kann nicht angepasst werden\n" +  //$NON-NLS-1$
 							"Wert1: " + datumVor + //$NON-NLS-1$
@@ -334,7 +340,7 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 					e.printStackTrace();
 				}
 
-				datumImpl.setGueteIndex(gueteGesamt.getIndexUnskaliert());
+				datumImpl.setGueteIndex(gueteGesamt.getIndexUnskaliertGewichtet());
 				datumImpl.setStatusMessWertErsetzungInterpoliert(DUAKonstanten.JA);
 				datumImpl.getWert().setWert(durchschnitt);
 
@@ -360,6 +366,7 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 	protected final Data getNutzdatenKopieVon(ResultData resultat){
 		UmfeldDatenSensorDatum kopie = new UmfeldDatenSensorDatum(resultat);
 		
+		kopie.setStatusMessWertErsetzungImplausibel(DUAKonstanten.JA);
 		kopie.setStatusMessWertErsetzungInterpoliert(DUAKonstanten.JA);
 		GWert guete = new GWert(kopie.getGueteIndex(), 
 				GueteVerfahren.getZustand(kopie.getGueteVerfahren()), false);
@@ -372,7 +379,7 @@ implements ClientSenderInterface, IMweUfdSensorListener{
 					kopie);
 			e.printStackTrace();
 		}
-		kopie.setGueteIndex(neueGuete.getIndexUnskaliert());
+		kopie.setGueteIndex(neueGuete.getIndexUnskaliertGewichtet());
 		
 		return kopie.getDatum();
 	}

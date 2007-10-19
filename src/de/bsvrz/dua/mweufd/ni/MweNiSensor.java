@@ -28,14 +28,14 @@ package de.bsvrz.dua.mweufd.ni;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dua.mweufd.AbstraktMweUfdsSensor;
-import de.bsvrz.dua.mweufd.IMweUfdSensorListener;
 import de.bsvrz.dua.mweufd.MweMethodenErgebnis;
 import de.bsvrz.dua.mweufd.MweUfdSensor;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenMessStelle;
-import de.bsvrz.dua.mweufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 
 /**
@@ -99,9 +99,9 @@ extends AbstraktMweUfdsSensor{
 		super(verwaltung, messStelle, sensor);
 				
 		if(this.nachfolger != null){
-			this.nachfolger.addListener(new IMweUfdSensorListener(){
+			this.nachfolger.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
-				public void aktualisiere(ResultData resultat) {
+				public void aktualisiereDaten(ResultData resultat) {
 					MweNiSensor.this.letzterNachfolgerDatensatz = resultat;
 					MweNiSensor.this.trigger();
 				}
@@ -110,9 +110,9 @@ extends AbstraktMweUfdsSensor{
 		}
 		
 		if(this.vorgaenger != null){
-			this.vorgaenger.addListener(new IMweUfdSensorListener(){
+			this.vorgaenger.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
-				public void aktualisiere(ResultData resultat) {
+				public void aktualisiereDaten(ResultData resultat) {
 					MweNiSensor.this.letzterVorgaengerDatensatz = resultat;
 					MweNiSensor.this.trigger();
 				}
@@ -131,9 +131,9 @@ extends AbstraktMweUfdsSensor{
 		
 		if(wfdSensor != null){
 			this.wfdDatenSensor = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), wfdSensor.getObjekt());
-			this.wfdDatenSensor.addListener(new IMweUfdSensorListener(){
+			this.wfdDatenSensor.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
-				public void aktualisiere(ResultData resultat) {
+				public void aktualisiereDaten(ResultData resultat) {
 					MweNiSensor.this.letzterWfdDatensatz = resultat;
 					MweNiSensor.this.trigger();
 				}
@@ -189,7 +189,8 @@ extends AbstraktMweUfdsSensor{
 				 * wenn die Wasserfilmdicke gemessen wurde, wird kein Ersatzwert für die Niederschalgsintensität
 				 * bestimmt, Der Sensorwert ist als nicht ermittelbar zu kennzeichnen
 				 */
-				if(this.wfdDatenSensor != null && this.letzterWfdDatensatz != null){
+				if(this.wfdDatenSensor != null && this.letzterWfdDatensatz != null &&
+						this.letzterWfdDatensatz.getData() != null){
 					UmfeldDatenSensorDatum datumWfd = new UmfeldDatenSensorDatum(this.letzterWfdDatensatz);
 					
 					if(datumWfd.getT() == datumImpl.getT()) {
