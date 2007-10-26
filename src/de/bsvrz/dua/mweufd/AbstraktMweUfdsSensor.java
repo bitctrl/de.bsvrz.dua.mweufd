@@ -224,7 +224,7 @@ implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 					this.messWertErsetzungStart = resultat.getDataTime();
 				}
 				
-				if(resultat.getDataTime() - this.messWertErsetzungStart > 
+				if(resultat.getDataTime() - this.messWertErsetzungStart >= 
 					this.sensorMitParametern.getMaxZeitMessWertErsetzung()){
 					/**
 					 * Für implausible Messwerte wird nur für einen je Umfeldmessstelle und
@@ -269,7 +269,7 @@ implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 	 * @param resultat ein Originaldatum, so wie es empfangen wurde
 	 * @param nutzDatum die ggf. messwertersetzen Nutzdaten
 	 */
-	protected final void publiziere(final ResultData original,
+	protected void publiziere(final ResultData original,
 									final Data nutzDatum){
 		boolean publiziereDatensatz = false;
 		
