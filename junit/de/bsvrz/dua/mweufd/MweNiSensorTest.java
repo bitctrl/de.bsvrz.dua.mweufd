@@ -3,6 +3,8 @@ package de.bsvrz.dua.mweufd;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.junit.Test;
+
 import junit.framework.Assert;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
@@ -12,7 +14,10 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.ni.MweNiSensor;
+import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
+import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
+import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktVerwaltungsAdapter;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
@@ -85,9 +90,14 @@ public class MweNiSensorTest extends MweNiSensor {
 		}
 	}
 	
-	public static void parametriereSensor(long messWertErsetzungIntervall) {
+	
+	public static void parametriereSensor(long messwertFortschreibungsIntervall, long messWertErsetzungIntervall) {
 		Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"));
 		data.getItem("maxZeitMessWertErsetzung").asTimeValue().setMillis(messWertErsetzungIntervall);
+		/**
+		 * TODO Unkommnetieren
+		 */
+		////data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(messWertFortschreibungsIntervall);
 		ResultData result = new ResultData(niSensor, DD_MESSWERT_ERSETZUNG, System.currentTimeMillis(), data);
 		try {
 			dav.sendData(result);
@@ -274,14 +284,6 @@ public class MweNiSensorTest extends MweNiSensor {
 		System.out.print(' ');
 	}
 	
-	/**
-	 * Publiziert ein Datum nach den Vorgaben der Datenflusssteuerung
-	 * (Es werden hier keine zwei Datensaetze nacheinander mit der Kennzeichnung
-	 * "keine Daten" versendet)
-	 * 
-	 * @param resultat ein Originaldatum, so wie es empfangen wurde
-	 * @param nutzDatum die ggf. messwertersetzen Nutzdaten
-	 */
 	@Override
 	protected void publiziere(final ResultData original,
 									final Data nutzDatum){
@@ -311,6 +313,7 @@ public class MweNiSensorTest extends MweNiSensor {
 				if(index >= ersetzteAusgabeDaten.length) MweNiSensorJunitTester.warten = false;
 				VERWALTUNG.notify();
 			}
+			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.DFS.publiziere(original, nutzDatum);
 		}
 	}
 }
