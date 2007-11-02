@@ -28,7 +28,6 @@ package de.bsvrz.dua.mweufd.sw;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dua.mweufd.AbstraktMweUfdsSensor;
-import de.bsvrz.dua.mweufd.MweUfdSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
