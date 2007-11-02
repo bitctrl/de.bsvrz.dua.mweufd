@@ -1,4 +1,4 @@
-<!DOCTYPE konfigurationsBereich PUBLIC "-//K2S//DTD Dokument//DE" "K2S.dtd">
+﻿<!DOCTYPE konfigurationsBereich PUBLIC "-//K2S//DTD Dokument//DE" "K2S.dtd">
 <konfigurationsBereich pid="kb.mweUfdTestModell" verantwortlich="kv.aoe.bitctrl.tester">
     <konfigurationsAenderung stand="17.10.2007" autor="Thomas Thierfelder, BitCtrl Systems GmbH" grund="Test">
 		Bereich zum Test der Messwertersetzung UFD erzeugt.</konfigurationsAenderung>
@@ -69,7 +69,7 @@
 				<datum name="Nachfolger" wert="null" />
 				<datum name="ErsatzSensor" wert="null" />
 				<datum name="UmfeldDatenSensorQuelle" wert="null" />
-				<datum name="Typ" wert="NebenSensor" />
+				<datum name="Typ" wert="HauptSensor" />
 			</datensatz>
 		</konfigurationsObjekt>
 	
@@ -431,11 +431,11 @@
 				<datum name="Nachfolger" wert="null" />
 				<datum name="ErsatzSensor" wert="null" />
 				<datum name="UmfeldDatenSensorQuelle" wert="null" />
-				<datum name="Typ" wert="NebenSensor" />
+				<datum name="Typ" wert="HauptSensor" />
 			</datensatz>
 		</konfigurationsObjekt>
 
-		<konfigurationsObjekt pid="ufdSensor.testWFD.wfd.nach" name="ufdSensor.testWFD.wfd.nach" typ="typ.ufdsNiederschlagsIntensität">
+		<konfigurationsObjekt pid="ufdSensor.testWFD.wfd.nach" name="ufdSensor.testWFD.wfd.nach" typ="typ.ufdsWasserFilmDicke">
 			<info>
 				<kurzinfo>info</kurzinfo>
 			</info>
@@ -444,11 +444,11 @@
 				<datum name="Nachfolger" wert="null" />
 				<datum name="ErsatzSensor" wert="null" />
 				<datum name="UmfeldDatenSensorQuelle" wert="null" />
-				<datum name="Typ" wert="NebenSensor" />
+				<datum name="Typ" wert="HauptSensor" />
 			</datensatz>
 		</konfigurationsObjekt>
 	
-		<konfigurationsObjekt pid="ufdSensor.testWFD.wfd.vor" name="ufdSensor.testWFD.wfd.vor" typ="typ.ufdsNiederschlagsIntensität">
+		<konfigurationsObjekt pid="ufdSensor.testWFD.wfd.vor" name="ufdSensor.testWFD.wfd.vor" typ="typ.ufdsWasserFilmDicke">
 			<info>
 				<kurzinfo>info</kurzinfo>
 			</info>
