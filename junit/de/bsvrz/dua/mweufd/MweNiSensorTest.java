@@ -1,30 +1,57 @@
+/**
+ * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *
+ * Contact Information:<br>
+ * BitCtrl Systems GmbH<br>
+ * Weißenfelser Straße 67<br>
+ * 04229 Leipzig<br>
+ * Phone: +49 341-490670<br>
+ * mailto: info@bitctrl.de
+ */
 package de.bsvrz.dua.mweufd;
 
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.junit.Test;
-
 import junit.framework.Assert;
-
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.ni.MweNiSensor;
 import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
-import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
-import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktVerwaltungsAdapter;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 
+/**
+ * Ermoeglicht die Klasse MweNiSensor zu testen
+ * @author BitCtrl Systems GmbH, Bachraty
+ *
+ */
 public class MweNiSensorTest extends MweNiSensor {
 	
 
+	/**
+	 * Testdaten
+	 */
 	static double [] prueflingDaten;
 	static double [] vorherigeNachbarDaten;
 	static double [] nachfolgeneNachbarDaten;
@@ -32,21 +59,60 @@ public class MweNiSensorTest extends MweNiSensor {
 	static double [] wasserFilmDicke;
 	static double [] ersetzteAusgabeDaten;
 	static long   [] time;
-	static long ZEIT_INTERVALL;
-	static int index = 0;
-	static int indexSend = 0;
-
-	static protected SystemObject niSensor;
+	
+	/**
+	 * Periode der Datensendung
+	 */
+	static long ZEIT_INTERVALL;	
+	
+	/**
+	 * Letzter index der gesendeten und empfangenen Daten
+	 */
+	static protected int indexEmpf = 0;
+	static protected int indexSend = 0;
+	
+	/**
+	 * Getesteter Sensor
+	 */
+	static protected SystemObject zentralSensor;
+	/**
+	 * Ersatzsensor
+	 */
 	static protected SystemObject ersatzSensor;
+	/**
+	 * Vorsensor
+	 */
 	static protected SystemObject vorSensor;
+	/**
+	 * Nachsensor
+	 */
 	static protected SystemObject nachSensor;
-	
+	/**
+	 * Wasserfilmdickesensor
+	 */
 	static protected SystemObject wfdSensor;
-	
+	/**
+	 * Verbindung zum DAV
+	 */
 	static protected ClientDavInterface dav;
-
-	static protected DataDescription DD_MESSWERTE, DD_WFDMESSWERTE, DD_MESSWERT_ERSETZUNG;
 	
+	/**
+	 * Datenbeschreibung der geschickten daten
+	 */
+	static protected DataDescription DD_MESSWERTE, DD_WFDMESSWERTE, DD_MESSWERT_ERSETZUNG;
+	/**
+	 * Datensender
+	 */
+	static protected  MweTestDatenSender sender;
+
+
+	/**
+	 * Standardkonstruktor
+	 * @param verwaltung 
+	 * @param messStelle
+	 * @param sensor
+	 * @throws DUAInitialisierungsException 
+	 */
 	public MweNiSensorTest(IVerwaltungMitGuete verwaltung,
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
@@ -55,7 +121,9 @@ public class MweNiSensorTest extends MweNiSensor {
 		if(dav != null) return;
 		
 		dav = verwaltung.getVerbindung();
-		niSensor = dav.getDataModel().getObject("ufdSensor.testNI.ni.zentral");
+		sender = new MweTestDatenSender(dav);
+		
+		zentralSensor = dav.getDataModel().getObject("ufdSensor.testNI.ni.zentral");
 		vorSensor = dav.getDataModel().getObject("ufdSensor.testNI.ni.vor");
 		nachSensor = dav.getDataModel().getObject("ufdSensor.testNI.ni.nach");
 		ersatzSensor = dav.getDataModel().getObject("ufdSensor.testNI.ni.ersatz");
@@ -70,125 +138,49 @@ public class MweNiSensorTest extends MweNiSensor {
 				dav.getDataModel().getAspect("asp.parameterVorgabe"));
 		
 		Collection<SystemObject> list = new LinkedList<SystemObject>();
-		list.add(niSensor);
+		list.add(zentralSensor);
 		list.add(ersatzSensor);
 		list.add(nachSensor);
 		list.add(vorSensor);
-		try {
-			dav.subscribeSender(this, list, DD_MESSWERTE, SenderRole.source());
-			dav.subscribeSender(this, list, DD_MESSWERT_ERSETZUNG, SenderRole.sender());
-		} catch (Exception e) {
-			System.out.print("Fehler " + e.getMessage());
-		}
-		
-		list.clear();
-		list.add(wfdSensor);
-		try {
-			dav.subscribeSender(this, list, DD_WFDMESSWERTE, SenderRole.source());
-		} catch (Exception e) {
-			System.out.print("Fehler " + e.getMessage());
-		}
+
+		sender.anmeldeQuelle(list, DD_MESSWERTE);
+		sender.anmeldeParametrierung(zentralSensor);
+	
+		sender.anmeldeQuelle(wfdSensor, DD_WFDMESSWERTE);
 	}
-	
-	
-	public static void parametriereSensor(long messwertFortschreibungsIntervall, long messWertErsetzungIntervall) {
-		Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"));
-		data.getItem("maxZeitMessWertErsetzung").asTimeValue().setMillis(messWertErsetzungIntervall);
-		/**
-		 * TODO Unkommnetieren
-		 */
-		////data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(messWertFortschreibungsIntervall);
-		ResultData result = new ResultData(niSensor, DD_MESSWERT_ERSETZUNG, System.currentTimeMillis(), data);
-		try {
-			dav.sendData(result);
-		} catch (Exception e) {
-			System.out.print("Fehler " + e.getMessage());
-			e.printStackTrace();
-		}
+	/**
+	 * Parametreirt den gestesteten Sensor
+	 * @param messwertFortschreibungsIntervall Maximaler MesswertFortschreibungsIntervall
+	 * @param messWertErsetzungIntervall Maximaler MessWertErsetzungIntervall 
+	 * @param periode Elementares Schritt
+	 */
+	public static void parametriereSensor(long messwertFortschreibungsIntervall, long messWertErsetzungIntervall, long periode) {
+		sender.parametriereSensor(zentralSensor, messwertFortschreibungsIntervall, messWertErsetzungIntervall, periode);
 	}
-	
+
+	/**
+	 * Sendet die Daten des naechsten Schrittes
+	 * @return <code>true</code> wenn man mit dem Test fortsetzen soll, sonst false
+	 */
 	static public boolean naechsterCyklus() {
 		if(indexSend>= ersatzQuerrschnittDaten.length) return false;
 		
-		sendeDatenSatz(niSensor, prueflingDaten[indexSend], time[indexSend]);
-		sendeDatenSatz(vorSensor, vorherigeNachbarDaten[indexSend], time[indexSend]);
-		sendeDatenSatz(nachSensor, nachfolgeneNachbarDaten[indexSend], time[indexSend]);
-		sendeDatenSatz(ersatzSensor, ersatzQuerrschnittDaten[indexSend], time[indexSend]);
-		sendeWfdDatenSatz(wfdSensor, wasserFilmDicke[indexSend], time[indexSend]);
+		sender.sendeDatenSatz(zentralSensor, DD_MESSWERTE, "NiederschlagsIntensität", prueflingDaten[indexSend], time[indexSend]);
+		sender.sendeDatenSatz(vorSensor, DD_MESSWERTE, "NiederschlagsIntensität", vorherigeNachbarDaten[indexSend], time[indexSend]);
+		sender.sendeDatenSatz(nachSensor, DD_MESSWERTE, "NiederschlagsIntensität", nachfolgeneNachbarDaten[indexSend], time[indexSend]);
+		sender.sendeDatenSatz(ersatzSensor, DD_MESSWERTE, "NiederschlagsIntensität", ersatzQuerrschnittDaten[indexSend], time[indexSend]);
+		sender.sendeDatenSatz(wfdSensor, DD_WFDMESSWERTE, "WasserFilmDicke", wasserFilmDicke[indexSend], time[indexSend]);
 		
 		indexSend++;
 		return true;
 	}
 	
-	static  public void sendeDatenSatz(SystemObject sensor, double messwert, long zeitStempel) {
-		
-		Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufdsNiederschlagsIntensität"));
-
-		String att = "NiederschlagsIntensität";
-		data.getTimeValue("T").setMillis(ZEIT_INTERVALL);
-		if(messwert>0)
-			data.getItem(att).getScaledValue("Wert").set(messwert);
-		else
-			data.getItem(att).getUnscaledValue("Wert").set(messwert);
-	
-	
-		data.getItem(att).getItem("Status").getItem("Erfassung").getUnscaledValue("NichtErfasst").set(0);
-		data.getItem(att).getItem("Status").getItem("PlFormal").getUnscaledValue("WertMax").set(0);
-		data.getItem(att).getItem("Status").getItem("PlFormal").getUnscaledValue("WertMin").set(0);	
-		
-
-		if(messwert>0)
-			data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").set(0);
-		else
-			data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").set(1);
-		
-		
-		data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").set(0);
-		data.getItem(att).getItem("Güte").getUnscaledValue("Index").set(1000);
-		data.getItem(att).getItem("Güte").getUnscaledValue("Verfahren").set(0);
-		
-		ResultData result = new ResultData(sensor, DD_MESSWERTE, zeitStempel, data);
-		try { 
-			dav.sendData(result);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-	}
-	
-	static  public void sendeWfdDatenSatz(SystemObject sensor, double messwert, long zeitStempel) {
-		
-		Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufdsWasserFilmDicke"));
-
-		String att = "WasserFilmDicke";
-		data.getTimeValue("T").setMillis(ZEIT_INTERVALL);
-		if(messwert>0)
-			data.getItem(att).getScaledValue("Wert").set(messwert);
-		else
-			data.getItem(att).getUnscaledValue("Wert").set(messwert);
-	
-		data.getItem(att).getItem("Status").getItem("Erfassung").getUnscaledValue("NichtErfasst").set(0);
-		data.getItem(att).getItem("Status").getItem("PlFormal").getUnscaledValue("WertMax").set(0);
-		data.getItem(att).getItem("Status").getItem("PlFormal").getUnscaledValue("WertMin").set(0);
-		
-		if(messwert>0)
-			data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").set(0);
-		else
-			data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").set(1);
-		
-		data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").set(0);
-		data.getItem(att).getItem("Güte").getUnscaledValue("Index").set(1000);
-		data.getItem(att).getItem("Güte").getUnscaledValue("Verfahren").set(0);
-		
-		ResultData result = new ResultData(sensor, DD_WFDMESSWERTE, zeitStempel, data);
-		try { 
-			dav.sendData(result);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-	}
-
+	/**
+	 * Generiert die Testdaten nach der Pruefspezifikation
+	 * @param t1 Messwertfortsetzungsintervall
+	 * @param tE Messwertersetzungsintervall
+	 * @param T Periode
+	 */
 	static public void generiereTestDatenNachPruefSpezNI_1(long t1, long tE, long T) {
 		
 		double w1 = 2.0;
@@ -284,6 +276,9 @@ public class MweNiSensorTest extends MweNiSensor {
 		System.out.print(' ');
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void publiziere(final ResultData original,
 									final Data nutzDatum){
@@ -302,15 +297,15 @@ public class MweNiSensorTest extends MweNiSensor {
 		}
 		
 		if(publiziereDatensatz){
-			if(!original.getObject().getPid().equals("ufdSensor.testNI.ni.zentral") ) return;
+			if(!original.getObject().getPid().equals(zentralSensor.getPid()) ) return;
 			double ni = nutzDatum.getItem("NiederschlagsIntensität").getItem("Wert").asUnscaledValue().doubleValue();
 			if(ni>=0) ni = nutzDatum.getItem("NiederschlagsIntensität").getItem("Wert").asScaledValue().doubleValue();
 			else ni = -1.0;
-			Assert.assertTrue("Erwartetes datum: " + ersetzteAusgabeDaten[index] + " Berechnetes datum: " + ni + " index " + (index),ersetzteAusgabeDaten[index] == ni);
-			System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f == %3f", index, ersetzteAusgabeDaten[index], ni));
-			index++;
+			Assert.assertTrue("Erwartetes datum: " + ersetzteAusgabeDaten[indexEmpf] + " Berechnetes datum: " + ni + " index " + (indexEmpf),ersetzteAusgabeDaten[indexEmpf] == ni);
+			System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f == %3f", indexEmpf, ersetzteAusgabeDaten[indexEmpf], ni));
+			indexEmpf++;
 			synchronized (VERWALTUNG) {
-				if(index >= ersetzteAusgabeDaten.length) MweNiSensorJunitTester.warten = false;
+				if(indexEmpf >= ersetzteAusgabeDaten.length) MweNiSensorJunitTester.warten = false;
 				VERWALTUNG.notify();
 			}
 			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.DFS.publiziere(original, nutzDatum);

@@ -28,6 +28,7 @@ package de.bsvrz.dua.mweufd.sw;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dua.mweufd.AbstraktMweUfdsSensor;
+import de.bsvrz.dua.mweufd.MweUfdSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
@@ -59,6 +60,10 @@ extends AbstraktMweUfdsSensor {
 	 */
 	private ResultData letzterNachfolgerDatensatz = null;
 	
+	/**
+	 * letzter empfangener plausible Datensatz des Nachfolgersensors
+	 */
+	private ResultData letzterPlausibleNachfolgerDatensatz = null;
 	
 	/**
 	 * Standardkonstruktor
@@ -80,6 +85,12 @@ extends AbstraktMweUfdsSensor {
 			this.nachfolger.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
 				public void aktualisiereDaten(ResultData resultat) {
+					if(resultat.getData() != null) {
+						UmfeldDatenSensorDatum datum = new UmfeldDatenSensorDatum(resultat);
+						if(datum.getStatusMessWertErsetzungImplausibel() != DUAKonstanten.JA)
+							MweSwSensor.this.letzterPlausibleNachfolgerDatensatz = resultat;
+					}
+					
 					MweSwSensor.this.letzterNachfolgerDatensatz = resultat;
 					MweSwSensor.this.trigger();
 				}
@@ -117,14 +128,14 @@ extends AbstraktMweUfdsSensor {
 			}
 				
 			if(this.messWertFortschreibungStart == -1 ||
-			   this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart <=
-				this.sensorMitParametern.getMaxZeitMessWertFortschreibung()){
-				if(this.letztesEmpangenesPlausiblesDatum != null){
+			   this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart <
+			   this.sensorMitParametern.getMaxZeitMessWertFortschreibung()){
+				if(this.letzterPlausibleNachfolgerDatensatz!= null){
 					if(this.messWertFortschreibungStart == -1){
 						this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum.getDataTime();
 					}
 					this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-							this.getNutzdatenKopieVon(letztesEmpangenesPlausiblesDatum));
+							this.getNutzdatenKopieVon(this.letzterPlausibleNachfolgerDatensatz));
 					this.letztesEmpangenesImplausiblesDatum = null;
 					return;
 				}

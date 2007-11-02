@@ -27,7 +27,6 @@
 package de.bsvrz.dua.mweufd;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.LinkedList;
 
 import junit.framework.Assert;
@@ -36,9 +35,9 @@ import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
+import de.bsvrz.dua.mweufd.MweTestDatenSender;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
@@ -54,62 +53,115 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
  */
 public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 
-
-	static double [] prueflingDaten;
-	static double [] ersatzQuerrschnittDaten;	
-	static double [] ersetzteAusgabeDaten;
-	static long   [] time;
+	/**
+	 * Testdaten
+	 */
+	static protected double [] prueflingDaten;
+	static protected double [] ersatzQuerrschnittDaten;	
+	static protected double [] ersetzteAusgabeDaten;
+	static protected long   [] time;
 	
-	static int index = 0;
-	static int indexSend = 0;
+	/**
+	 * Letzter index der gesendeten und empfangenen Daten
+	 */
+	static protected int indexEmpf = 0;
+	static protected int indexSend = 0;
 	
-	
+	/**
+	 * <code>true</code>, wenn alle Daten initialisiert sind 
+	 */
 	static protected boolean initialisiert = false;
 	
+	/**
+	 * Hauptsensor
+	 */
 	static protected SystemObject zentralSensor;
+	/**
+	 * Ersatzsensor
+	 */
 	static protected SystemObject ersatzSensor;
 	
+	/**
+	 * Verbindung zum dav
+	 */
 	static protected ClientDavInterface dav;
+	/**
+	 * Datenbeschreibung der Messwert-Attributgruppe
+	 */
 	static protected DataDescription DD_MESSWERTE;
 	
-	static  String zentralSensorName = "ufdSensor.testNS.ns.zentral";
-	static  String ersatzSensorName = "ufdSensor.testNS.ns.ersatz";
-	static  String attribut = "NiederschlagsArt";
+	/**
+	 * Die Sensore und getestete Attribute
+	 */
+	static protected String zentralSensorName = "ufdSensor.testFBZ.fbz.zentral";
+	static protected String ersatzSensorName ="ufdSensor.testFBZ.fbz.ersatz";
+	static protected String attribut = "FahrBahnOberFlächenZustand";
+	/**
+	 * Datensender
+	 */
+	static protected  MweTestDatenSender sender;
 	
-	static MweTestDatenSender sender;
+	/**
+	 * Die Testwerte
+	 */
+	static protected double w1 = 4;
+	static protected double w2 = 1;
+	static protected double w3 = 2;
 	
-	static double w1 = 4;
-	static double w2 = 1;
-	static double w3 = 2;
-	
+	/**
+	 * Setzt die Testwerte
+	 * @param w1 W1
+	 * @param w2 W2
+	 * @param w3 W3
+	 */
 	static public void setTestWerte(double w1, double w2, double w3) {
 		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.w1 = w1;
 		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.w2 = w2;
 		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.w3 = w3;
 	}
 	
+	/**
+	 * Setzt die Namen des Des Sensors und seiner Attribute
+	 * @param zentralSensor Hauptsensor 
+	 * @param ersatzSensor Ersatzsensor
+	 * @param attribut Getesteter Attribut
+	 */
 	static public void setSensorUndAttribut(String zentralSensor, String ersatzSensor, String attribut) {
 		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.zentralSensorName = zentralSensor;
 		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.ersatzSensorName = ersatzSensor;
 		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.attribut = attribut;
 	}
+	/**
+	 * Setzt den Flag initialsisiert
+	 * @param init true, wenn schon initialisiert ist
+	 */
+	static public void setInititalisiert(boolean init) {
+		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.initialisiert = init;
+	}
 	
+	/**
+	 * Standardkonstruktor
+	 * @param verwaltung 
+	 * @param messStelle
+	 * @param sensor
+	 * @throws DUAInitialisierungsException 
+	 */
 	public Mwe_Tpt_Lt_Ns_Fbz_SensorTest(IVerwaltungMitGuete verwaltung,
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 		
 		if(initialisiert) return;
-		
 		dav = verwaltung.getVerbindung();
 		sender = new MweTestDatenSender(dav);
+		
+		DD_MESSWERTE = new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufds" + attribut),
+				dav.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
 		
 		zentralSensor = dav.getDataModel().getObject(zentralSensorName);
 		ersatzSensor = dav.getDataModel().getObject(ersatzSensorName);
 		
-		DD_MESSWERTE = new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufds" + attribut),
-							dav.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
-	 	
+
 		Collection<SystemObject> list = new LinkedList<SystemObject>();
 		
 		list.add(zentralSensor);
@@ -119,9 +171,14 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 		sender.anmeldeParametrierung(zentralSensor);
 		
 		initialisiert = true;
+	
 	}
 	
-	static public boolean naechsterCyklus() {
+	/**
+	 * Sendet die Daten des naechsten Schrittes
+	 * @return <code>true</code> wenn man mit dem Test fortsetzen soll, sonst false
+	 */
+	static public boolean naechsterZyklus() {
 		if(indexSend>= ersetzteAusgabeDaten.length) return false;
 		
 		sender.sendeDatenSatz(zentralSensor, DD_MESSWERTE, attribut, prueflingDaten[indexSend], time[indexSend]);
@@ -131,11 +188,22 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 		return true;
 	}
 	
-	
+	/**
+	 * Parametreirt den gestesteten Sensor
+	 * @param messwertFortschreibungsIntervall Maximaler MesswertFortschreibungsIntervall
+	 * @param messWertErsetzungIntervall Maximaler MessWertErsetzungIntervall 
+	 * @param periode Elementares Schritt
+	 */
 	public static void parametriereSensor(long messwertFortschreibungsIntervall, long messWertErsetzungIntervall, long periode) {
 		sender.parametriereSensor(zentralSensor, messwertFortschreibungsIntervall, messWertErsetzungIntervall, periode);
 	}
 
+	/**
+	 * Generiert die Testdaten nach der Pruefspezifikation
+	 * @param t1 Messwertfortsetzungsintervall
+	 * @param tE Messwertersetzungsintervall
+	 * @param T Periode
+	 */
 	static public void generiereTestDatenNachPruefSpez_1(long t1, long tE, long T) {
 		
 		int length = (int)(tE/T) + 5;
@@ -146,6 +214,7 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 		
 		time = new long [length];
 		time[0] = 0;
+		indexEmpf = indexSend = 0;
 		
 		long t[] = new long [5];
 		long t_int = ( tE - t1) / 3;
@@ -196,7 +265,9 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 			
 	}
 	
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void publiziere(final ResultData original,
 									final Data nutzDatum){
@@ -214,18 +285,21 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 			if(!original.getObject().getPid().equals(zentralSensor.getPid()) ) return;
 			
 			double sw = nutzDatum.getItem(attribut).getItem("Wert").asUnscaledValue().doubleValue();
-			if(sw>=0) sw = nutzDatum.getItem(attribut).getItem("Wert").asScaledValue().doubleValue();
+			if(sw>=0) {
+				try {
+					sw = nutzDatum.getItem(attribut).getItem("Wert").asScaledValue().doubleValue();
+				} catch (ArithmeticException e) {	}
+			}
 			else sw = -1;
 			
-			Assert.assertTrue("Erwartetes datum: " + ersetzteAusgabeDaten[index] + " Berechnetes datum: " + sw + " index " + (index), Math.abs(ersetzteAusgabeDaten[index]- sw)<0.001);
-			System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f == %3f", index, ersetzteAusgabeDaten[index], sw));
-			index++;
-			synchronized (VERWALTUNG) {
-				if(index >= ersetzteAusgabeDaten.length) MweWfdSensorJunitTester.warten = false;
-				VERWALTUNG.notify();
-			}
+			Assert.assertTrue("Erwartetes datum: " + ersetzteAusgabeDaten[indexEmpf] + " Berechnetes datum: " + sw + " index " + (indexEmpf), Math.abs(ersetzteAusgabeDaten[indexEmpf]- sw)<0.001);
+			System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f == %3f", indexEmpf, ersetzteAusgabeDaten[indexEmpf], sw));
+			if(++indexEmpf >= ersetzteAusgabeDaten.length)
+				synchronized (VERWALTUNG) {
+					Mwe_Tpt_Lt_Ns_Fbz_SensorJunitTester.warten = false;
+					VERWALTUNG.notifyAll();
+				}
 			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.DFS.publiziere(original, nutzDatum);
 		}
 	}
-
 }

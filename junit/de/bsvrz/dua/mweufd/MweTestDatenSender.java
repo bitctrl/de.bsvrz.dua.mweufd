@@ -56,8 +56,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	/**
 	 * Die Parametrierung Datenbeschreibung
 	 */
-	private final DataDescription DD_MESSWERT_ERSETZUNG =  new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"),
-			dav.getDataModel().getAspect("asp.parameterVorgabe"));
+	private final DataDescription DD_MESSWERT_ERSETZUNG;
 	
 	/**
 	 * Standardkonstruktor
@@ -65,6 +64,8 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 */
 	public MweTestDatenSender(ClientDavInterface dav) {
 		this.dav = dav;
+		DD_MESSWERT_ERSETZUNG = new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"),
+				dav.getDataModel().getAspect("asp.parameterVorgabe"));
 	}
 	/**
 	 * Setzt den ZeitIntervall der Messwerterzeugung
@@ -149,7 +150,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 		ZEIT_INTERVALL = periode;
 		Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"));
 		data.getItem("maxZeitMessWertErsetzung").asTimeValue().setMillis(messWertErsetzungIntervall);
-		data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(messwertFortschreibungsIntervall);
+		//data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(messwertFortschreibungsIntervall);
 
 		ResultData result = new ResultData(sensor, DD_MESSWERT_ERSETZUNG, System.currentTimeMillis(), data);
 		try {
@@ -174,8 +175,12 @@ public class MweTestDatenSender implements ClientSenderInterface {
 
 		data.getTimeValue("T").setMillis(ZEIT_INTERVALL);
 		
-		if(messwert>=0)
-			data.getItem(att).getScaledValue("Wert").set(messwert);
+		if(messwert>=0) 
+			try {
+				data.getItem(att).getScaledValue("Wert").set(messwert);
+			} catch (IllegalArgumentException e) {
+				data.getItem(att).getUnscaledValue("Wert").set(messwert);
+			}
 		else
 			data.getItem(att).getUnscaledValue("Wert").set(messwert);
 	

@@ -149,7 +149,7 @@ extends AbstraktMweUfdsSensor {
 						
 			if(this.letztesEmpangenesPlausiblesDatum == null || 
 				(this.messWertFortschreibungStart != -1 &&
-				this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart >
+				this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart >=
 				this.sensorMitParametern.getMaxZeitMessWertFortschreibung())){
 				
 				/**

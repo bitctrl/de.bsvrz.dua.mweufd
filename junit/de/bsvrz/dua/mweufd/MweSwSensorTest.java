@@ -1,16 +1,38 @@
+/**
+ * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *
+ * Contact Information:<br>
+ * BitCtrl Systems GmbH<br>
+ * Weißenfelser Straße 67<br>
+ * 04229 Leipzig<br>
+ * Phone: +49 341-490670<br>
+ * mailto: info@bitctrl.de
+ */
 package de.bsvrz.dua.mweufd;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.LinkedList;
 
 import junit.framework.Assert;
-
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.sw.MweSwSensor;
 import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
@@ -19,23 +41,114 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 
+/**
+ * Ermoeglicht die Klasse MweSwSensor zu testen
+ * @author BitCtrl Systems GmbH, Bachraty
+ *
+ */
 public class MweSwSensorTest extends MweSwSensor {
 
-
+	/**
+	 * Testdaten
+	 */
 	static long [] prueflingDaten;
 	static long [] nachfolgerDaten;
 	static long [] ersetzteAusgabeDaten;
 	static long [] time;
+	
+	/**
+	 * Periode der Datensendung
+	 */
 	static long ZEIT_INTERVALL;	
-	static int index = 0;
-	static int indexSend = 0;
-
-	static protected SystemObject swSensor;
+	
+	/**
+	 * Letzter index der gesendeten und empfangenen Daten
+	 */
+	static protected int indexEmpf = 0;
+	static protected int indexSend = 0;
+	
+	/**
+	 * Getesteter Sensor
+	 */
+	static protected SystemObject zentralSensor;
+	/**
+	 * Nachfolgersensor
+	 */
 	static protected SystemObject nachfolgerSensor;
-	
+	/**
+	 * Verbindung zum DAV
+	 */
 	static protected ClientDavInterface dav;
-	static protected DataDescription DD_MESSWERTE, DD_MESSWERT_ERSETZUNG;
 	
+	/**
+	 * Datenbeschreibung der geschickten daten
+	 */
+	static protected DataDescription DD_MESSWERTE, DD_MESSWERT_ERSETZUNG;
+	/**
+	 * Datensender
+	 */
+	static protected  MweTestDatenSender sender;
+
+
+	/**
+	 * Standardkonstruktor
+	 * @param verwaltung 
+	 * @param messStelle
+	 * @param sensor
+	 * @throws DUAInitialisierungsException 
+	 */
+	public MweSwSensorTest(IVerwaltungMitGuete verwaltung,
+				DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+		throws DUAInitialisierungsException {
+		super(verwaltung, messStelle, sensor);
+		if(dav != null) return;
+		
+		dav = verwaltung.getVerbindung();
+		sender = new MweTestDatenSender(dav);
+		
+		zentralSensor = dav.getDataModel().getObject("ufdSensor.testSW.sw.zentral");
+		nachfolgerSensor = dav.getDataModel().getObject("ufdSensor.testSW.sw.nach");
+		
+		DD_MESSWERTE = new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufdsSichtWeite"),
+							dav.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
+		
+		
+		Collection<SystemObject> list = new LinkedList<SystemObject>();
+		list.add(zentralSensor);
+		list.add(nachfolgerSensor);
+		
+		sender.anmeldeQuelle(list, DD_MESSWERTE);
+		sender.anmeldeParametrierung(zentralSensor);
+	}
+	 /**
+	  * Parametreirt den gestesteten Sensor
+	  * @param messwertFortschreibungsIntervall Maximaler MesswertFortschreibungsIntervall
+	  * @param messWertErsetzungIntervall Maximaler MessWertErsetzungIntervall 
+	  * @param periode Elementares Schritt
+	  */
+	public static void parametriereSensor(long messwertFortschreibungsIntervall, long messWertErsetzungIntervall, long periode) {
+		sender.parametriereSensor(zentralSensor, messwertFortschreibungsIntervall, messWertErsetzungIntervall, periode);
+	}
+
+	/**
+	 * Sendet die Daten des naechsten Schrittes
+	 * @return <code>true</code> wenn man mit dem Test fortsetzen soll, sonst false
+	 */
+	static public boolean naechsterCyklus() {
+		if(indexSend>= nachfolgerDaten.length) return false;
+		
+		sender.sendeDatenSatz(zentralSensor, DD_MESSWERTE, "SichtWeite", prueflingDaten[indexSend], time[indexSend]);
+		sender.sendeDatenSatz(nachfolgerSensor, DD_MESSWERTE, "SichtWeite", nachfolgerDaten[indexSend], time[indexSend]);
+	
+		indexSend++;
+		return true;
+	}
+	/**
+	 * Generiert die Testdaten nach der Pruefspezifikation
+	 * @param t1 Messwertfortsetzungsintervall
+	 * @param tE Messwertersetzungsintervall
+	 * @param T Periode
+	 */
 	static public void generiereTestDatenNachPruefSpezSW_1(long t1, long tE, long T) {
 		
 		long w1 =  40;
@@ -108,102 +221,9 @@ public class MweSwSensorTest extends MweSwSensor {
 				
 		System.out.print(' ');
 	}
-	
-
-	
-	
-	public MweSwSensorTest(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
-			throws DUAInitialisierungsException {
-		super(verwaltung, messStelle, sensor);
-		if(dav != null) return;
-		
-		dav = verwaltung.getVerbindung();
-		swSensor = dav.getDataModel().getObject("ufdSensor.testSW.sw.zentral");
-		nachfolgerSensor = dav.getDataModel().getObject("ufdSensor.testSW.sw.nach");
-		
-		DD_MESSWERTE = new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufdsSichtWeite"),
-							dav.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
-	 	
-		DD_MESSWERT_ERSETZUNG =  new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"),
-				dav.getDataModel().getAspect("asp.parameterVorgabe"));
-		
-		Collection<SystemObject> list = new LinkedList<SystemObject>();
-		
-		list.add(swSensor);
-		list.add(nachfolgerSensor);
-		
-		try {
-			dav.subscribeSender(this, list, DD_MESSWERTE, SenderRole.source());
-			dav.subscribeSender(this, list, DD_MESSWERT_ERSETZUNG, SenderRole.sender());
-		} catch (Exception e) {
-			System.out.print("Fehler " + e.getMessage());
-		}
-	}
-	
-	public static void parametriereSensor(long messwertFortschreibungsIntervall, long messWertErsetzungIntervall) {
-		Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"));
-		data.getItem("maxZeitMessWertErsetzung").asTimeValue().setMillis(messWertErsetzungIntervall);
-		/**
-		 * TODO Unkommnetieren
-		 */
-		//data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(messWertFortschreibungsIntervall);
-
-		ResultData result = new ResultData(swSensor, DD_MESSWERT_ERSETZUNG, System.currentTimeMillis(), data);
-		try {
-			dav.sendData(result);
-		} catch (Exception e) {
-			System.out.print("Fehler " + e.getMessage());
-			e.printStackTrace();
-		}
-	}
-	
-
-	static public boolean naechsterCyklus() {
-		if(indexSend>= nachfolgerDaten.length) return false;
-		
-		sendeDatenSatz(swSensor, prueflingDaten[indexSend], time[indexSend]);
-		sendeDatenSatz(nachfolgerSensor, nachfolgerDaten[indexSend], time[indexSend]);
-
-		indexSend++;
-		return true;
-	}
-	
-
-	static  public void sendeDatenSatz(SystemObject sensor, double messwert, long zeitStempel) {
-		
-		Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufdsSichtWeite"));
-
-		String att = "SichtWeite";
-		data.getTimeValue("T").setMillis(ZEIT_INTERVALL);
-		if(messwert>0)
-			data.getItem(att).getScaledValue("Wert").set(messwert);
-		else
-			data.getItem(att).getUnscaledValue("Wert").set(messwert);
-	
-		data.getItem(att).getItem("Status").getItem("Erfassung").getUnscaledValue("NichtErfasst").set(0);
-		data.getItem(att).getItem("Status").getItem("PlFormal").getUnscaledValue("WertMax").set(0);
-		data.getItem(att).getItem("Status").getItem("PlFormal").getUnscaledValue("WertMin").set(0);	
-		
-		if(messwert>0)
-			data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").set(0);
-		else
-			data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").set(1);
-		
-		
-		data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").set(0);
-		data.getItem(att).getItem("Güte").getUnscaledValue("Index").set(1000);
-		data.getItem(att).getItem("Güte").getUnscaledValue("Verfahren").set(0);
-		
-		ResultData result = new ResultData(sensor, DD_MESSWERTE, zeitStempel, data);
-		try { 
-			dav.sendData(result);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-	}
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void publiziere(final ResultData original,
 									final Data nutzDatum){
@@ -222,16 +242,16 @@ public class MweSwSensorTest extends MweSwSensor {
 		}
 		
 		if(publiziereDatensatz){
-			if(!original.getObject().getPid().equals("ufdSensor.testSW.sw.zentral") ) return;
+			if(!original.getObject().getPid().equals(zentralSensor.getPid()) ) return;
 			
 			long sw = nutzDatum.getItem("SichtWeite").getItem("Wert").asUnscaledValue().longValue();
 			if(sw>=0) sw = nutzDatum.getItem("SichtWeite").getItem("Wert").asScaledValue().longValue();
 			else sw = -1;
-			Assert.assertTrue("Erwartetes datum: " + ersetzteAusgabeDaten[index] + " Berechnetes datum: " + sw + " index " + (index), Math.abs(ersetzteAusgabeDaten[index]- sw)<0.001);
-			System.out.println(String.format("[ %4d ] Ersatzwert OK: %3d == %3d", index, ersetzteAusgabeDaten[index], sw) + new Date(original.getDataTime()));
-			index++;
+			Assert.assertTrue("Erwartetes datum: " + ersetzteAusgabeDaten[indexEmpf] + " Berechnetes datum: " + sw + " index " + (indexEmpf), Math.abs(ersetzteAusgabeDaten[indexEmpf]- sw)<0.001);
+			System.out.println(String.format("[ %4d ] Ersatzwert OK: %3d == %3d", indexEmpf, ersetzteAusgabeDaten[indexEmpf], sw));
+			indexEmpf++;
 			synchronized (VERWALTUNG) {
-				if(index >= ersetzteAusgabeDaten.length) MweWfdSensorJunitTester.warten = false;
+				if(indexEmpf >= ersetzteAusgabeDaten.length) MweSwSensorJunitTester.warten = false;
 				VERWALTUNG.notify();
 			}
 			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.DFS.publiziere(original, nutzDatum);

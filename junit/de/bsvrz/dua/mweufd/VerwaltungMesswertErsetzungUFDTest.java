@@ -26,14 +26,14 @@
 package de.bsvrz.dua.mweufd;
 
 import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
-import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 
 /**
- * Ermoeglicht die Klasse VerwaltungMesswertErsetzungUFD zu Testen
+ * Ermoeglicht die mit hilfe der Klasse VerwaltungMesswertErsetzungUFD 
+ * die einzelne *Sensor Klassen zu testen
  * 
  * @author BitCtrl Systems GmbH, Bachraty
  *
@@ -41,14 +41,18 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 public class VerwaltungMesswertErsetzungUFDTest extends
 		VerwaltungMesswertErsetzungUFD {
 
+	private static boolean kernInitialisiert = false;
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected void initialisiere()
 	throws DUAInitialisierungsException {
-		super.initialisiere();
 
+		if(!kernInitialisiert) {
+			super.initialisiere();
+			kernInitialisiert = true;
+		}
 		for(DUAUmfeldDatenMessStelle messStelle:DUAUmfeldDatenMessStelle.getInstanzen()){
 			DUAUmfeldDatenSensor hauptSensorNI = messStelle.getHauptSensor(UmfeldDatenArt.NI);
 			DUAUmfeldDatenSensor hauptSensorNS = messStelle.getHauptSensor(UmfeldDatenArt.NS);
@@ -85,25 +89,7 @@ public class VerwaltungMesswertErsetzungUFDTest extends
 			}
 		}
 	}
-
-	
-	/**
-	 * Startet diese Applikation
-	 * 
-	 * @param argumente Argumente der Kommandozeile
-	 */
-	public static void main(String argumente[]){
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.
-        				UncaughtExceptionHandler(){
-            public void uncaughtException(@SuppressWarnings("unused")
-			Thread t, Throwable e) {
-                LOGGER.error("Applikation wird wegen" +  //$NON-NLS-1$
-                		" unerwartetem Fehler beendet", e);  //$NON-NLS-1$
-            	e.printStackTrace();
-                Runtime.getRuntime().exit(0);
-            }
-        });
-		StandardApplicationRunner.run(new VerwaltungMesswertErsetzungUFD(), argumente);
+	public void disconnect() {
+		this.verbindung.disconnect(false, "");
 	}
-
 }

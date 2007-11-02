@@ -154,6 +154,10 @@ extends AbstraktMweUfdsSensor {
 		}
 		
 		for(DUAUmfeldDatenSensor nebenSensor:messStelle.getNebenSensoren(UmfeldDatenArt.WFD)){
+			
+			// Der ErsatzSensor iast auch in der Menge der Nebensensoren, aber wird anders behandelt
+			if(this.ersatz != null && nebenSensor.getObjekt() == this.ersatz.getObjekt()) continue;
+			
 			MweUfdSensor datenNebenSensor = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), nebenSensor.getObjekt());
 			
 			datenNebenSensor.addListener(new IOnlineUfdSensorListener<ResultData>(){
@@ -170,7 +174,6 @@ extends AbstraktMweUfdsSensor {
 		}
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -179,17 +182,8 @@ extends AbstraktMweUfdsSensor {
 		if(this.letztesEmpangenesImplausiblesDatum != null){
 			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(this.letztesEmpangenesImplausiblesDatum);
 			
-			MweMethodenErgebnis ergebnisNebenSensorErsetzung = this.versucheErsetzungDurchNebenSensoren(datumImpl);
-			if(ergebnisNebenSensorErsetzung == MweMethodenErgebnis.JA){
-				this.letztesEmpangenesImplausiblesDatum = null;
-				return;
-			}else
-			if(ergebnisNebenSensorErsetzung == MweMethodenErgebnis.WARTE){
-				return;
-			}
-			
 			if(this.messWertFortschreibungStart == -1 ||
-					this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart <=
+					this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart <
 				this.sensorMitParametern.getMaxZeitMessWertFortschreibung()){
 				if(this.letztesEmpangenesPlausiblesDatum != null){
 					if(this.messWertFortschreibungStart == -1){
@@ -200,6 +194,16 @@ extends AbstraktMweUfdsSensor {
 					this.letztesEmpangenesImplausiblesDatum = null;
 					return;
 				}
+			}
+			
+			MweMethodenErgebnis ergebnisNebenSensorErsetzung = this.versucheErsetzungDurchNebenSensoren(datumImpl);
+			if(ergebnisNebenSensorErsetzung == MweMethodenErgebnis.JA){
+				this.letztesEmpangenesImplausiblesDatum = null;
+				return;
+			}
+			else
+			if(ergebnisNebenSensorErsetzung == MweMethodenErgebnis.WARTE){
+				return;
 			}
 				
 			if(this.vorgaenger != null && 

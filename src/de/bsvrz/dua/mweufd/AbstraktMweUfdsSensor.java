@@ -310,8 +310,8 @@ implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 		
 		if(datumVor.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN &&
 				datumNach.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN &&
-				datumVor.getWert().getWert() >= 0 &&
-				datumNach.getWert().getWert() >= 0){
+				((datumVor.getWert().getWert() > 0 && datumNach.getWert().getWert() > 0) ||
+					(datumVor.getWert().getWert() == 0 && datumNach.getWert().getWert() == 0))){
 
 			long durchschnitt = Math.round(((double)datumVor.getWert().getWert() + 
 					(double)datumNach.getWert().getWert()) / 2.0);
