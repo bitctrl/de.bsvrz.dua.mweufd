@@ -63,7 +63,7 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorJunitTester {
 		final long MIN_IN_MS = 1000 * 60;
 		final long S_IN_MS = 1000;
 		
-		final long messwertErsetzungMax = 20*MIN_IN_MS;
+		final long messwertErsetzungMax = 120*MIN_IN_MS;
 		final long messwertFortFuehrungMax = 3*MIN_IN_MS;
 		final long periode = 30* S_IN_MS;
 		
@@ -101,7 +101,7 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorJunitTester {
 	public void test1() {
 		test("ufdSensor.testFBZ.fbz.zentral", "ufdSensor.testFBZ.fbz.ersatz", "FahrBahnOberFlächenZustand", 1.0, 32.0, 64.0);
 	}
-
+	
 	public void test2() {
 		test("ufdSensor.testNS.ns.zentral", "ufdSensor.testNS.ns.ersatz", "NiederschlagsArt", 1.0, 2.0, 3.0);
 	}

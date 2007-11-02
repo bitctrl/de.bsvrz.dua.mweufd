@@ -150,7 +150,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 		ZEIT_INTERVALL = periode;
 		Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"));
 		data.getItem("maxZeitMessWertErsetzung").asTimeValue().setMillis(messWertErsetzungIntervall);
-		//data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(messwertFortschreibungsIntervall);
+		data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(messwertFortschreibungsIntervall);
 
 		ResultData result = new ResultData(sensor, DD_MESSWERT_ERSETZUNG, System.currentTimeMillis(), data);
 		try {

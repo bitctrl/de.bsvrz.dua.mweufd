@@ -61,8 +61,8 @@ public class MweSwSensorJunitTester {
 		final long S_IN_MS = 1000;
 		
 		
-		final long messwertErsetzungMax = 20*MIN_IN_MS;
-		final long messwertFortFuehrungMax = 3*MIN_IN_MS;
+		final long messwertErsetzungMax = 120*MIN_IN_MS;
+		final long messwertFortFuehrungMax = 15*MIN_IN_MS;
 		final long periode = 30* S_IN_MS;
 	
 		
