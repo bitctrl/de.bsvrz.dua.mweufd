@@ -97,7 +97,7 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorJunitTester {
 		((VerwaltungMesswertErsetzungUFDTest)verw).disconnect();
 	}	
 	
-	@Test
+	@Test 
 	public void test1() {
 		test("ufdSensor.testFBZ.fbz.zentral", "ufdSensor.testFBZ.fbz.ersatz", "FahrBahnOberFlächenZustand", 1.0, 32.0, 64.0);
 	}
@@ -105,7 +105,7 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorJunitTester {
 	public void test2() {
 		test("ufdSensor.testNS.ns.zentral", "ufdSensor.testNS.ns.ersatz", "NiederschlagsArt", 1.0, 2.0, 3.0);
 	}
-	
+ 
 	public void test3() {
 		test("ufdSensor.testTPT.tpt.zentral", "ufdSensor.testTPT.tpt.ersatz", "TaupunktTemperatur", 0.1, 1.2, 2.4);
 	}
