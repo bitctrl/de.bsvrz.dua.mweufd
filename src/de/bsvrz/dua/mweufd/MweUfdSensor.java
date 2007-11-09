@@ -32,6 +32,7 @@ import java.util.Map;
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.AbstraktOnlineUfdSensor;
 
 /**
@@ -65,7 +66,7 @@ extends AbstraktOnlineUfdSensor<ResultData>{
 		
 		if(instanz == null){
 			instanz = new MweUfdSensor();
-			instanz.initialisiere(dav, objekt);
+			instanz.initialisiere(dav, objekt, dav.getDataModel().getAspect(DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH));
 			INSTANZEN.put(objekt, instanz);
 		}
 		
