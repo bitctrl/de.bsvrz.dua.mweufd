@@ -152,6 +152,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 		data.getItem("maxZeitMessWertErsetzung").asTimeValue().setMillis(messWertErsetzungIntervall);
 		data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(messwertFortschreibungsIntervall);
 
+		System.out.println("Sensor " + sensor.getPid() + " parmatetriert. ");
 		ResultData result = new ResultData(sensor, DD_MESSWERT_ERSETZUNG, System.currentTimeMillis(), data);
 		try {
 			dav.sendData(result);
@@ -177,6 +178,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 		
 		if(messwert>=0) 
 			try {
+				// bei einigen sensoren ist der Wert skaliert, bei anderen nicht
 				data.getItem(att).getScaledValue("Wert").set(messwert);
 			} catch (IllegalArgumentException e) {
 				data.getItem(att).getUnscaledValue("Wert").set(messwert);

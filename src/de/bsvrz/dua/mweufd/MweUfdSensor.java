@@ -47,7 +47,7 @@ extends AbstraktOnlineUfdSensor<ResultData>{
 	/**
 	 * statische Instanzen dieser Klasse
 	 */
-	private static final Map<SystemObject, MweUfdSensor> INSTANZEN = new HashMap<SystemObject, MweUfdSensor>();
+	protected static final Map<SystemObject, MweUfdSensor> INSTANZEN = new HashMap<SystemObject, MweUfdSensor>();
 	
 	
 	/**

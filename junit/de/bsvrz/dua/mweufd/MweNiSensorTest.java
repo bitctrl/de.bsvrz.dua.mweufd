@@ -70,6 +70,7 @@ public class MweNiSensorTest extends MweNiSensor {
 	 */
 	static protected int indexEmpf = 0;
 	static protected int indexSend = 0;
+	static protected boolean initialisiert = false;
 	
 	/**
 	 * Getesteter Sensor
@@ -118,8 +119,8 @@ public class MweNiSensorTest extends MweNiSensor {
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 		
-		if(dav != null) return;
-		
+		if(!sensor.getObjekt().getPid().equals("ufdSensor.testNI.ni.zentral")) return;
+		//if(dav != null) return;	
 		dav = verwaltung.getVerbindung();
 		sender = new MweTestDatenSender(dav);
 		

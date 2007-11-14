@@ -68,8 +68,7 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 */
 	static protected int indexEmpf = 0;
 	static protected int indexSend = 0;
-	static protected boolean initialisiert = false;
-	
+		
 	/**
 	 * Getesteter Sensor
 	 */
@@ -119,9 +118,9 @@ public class MweFbtSensorTest extends MweFbtSensor {
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
-		
-		if(initialisiert) return;
-		
+	
+		if(!sensor.getObjekt().getPid().equals("ufdSensor.testFBT.fbt.zentral")) return;
+		//if(dav != null) return;
 		dav = verwaltung.getVerbindung();
 		sender = new MweTestDatenSender(dav);
 		

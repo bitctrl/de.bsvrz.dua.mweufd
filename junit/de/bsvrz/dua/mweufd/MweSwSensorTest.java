@@ -101,8 +101,8 @@ public class MweSwSensorTest extends MweSwSensor {
 				DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 		throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
-		if(dav != null) return;
-		
+		//if(dav != null) return;
+		if(!sensor.getObjekt().getPid().equals("ufdSensor.testSW.sw.zentral")) return;
 		dav = verwaltung.getVerbindung();
 		sender = new MweTestDatenSender(dav);
 		

@@ -140,6 +140,16 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 	}
 	
 	/**
+	 * Initialisiert die Testklasse ins Ausgangzustand
+	 */
+	public static void reset() {
+		setSensorUndAttribut(null, null, null);
+		initialisiert = false;
+		zentralSensor = null;
+		ersatzSensor = null;
+	}
+	
+	/**
 	 * Standardkonstruktor
 	 * @param verwaltung 
 	 * @param messStelle
@@ -151,7 +161,7 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 		
-		if(initialisiert) return;
+		if(initialisiert || attribut == null) return;
 		dav = verwaltung.getVerbindung();
 		sender = new MweTestDatenSender(dav);
 		
@@ -170,8 +180,8 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 		sender.anmeldeQuelle(list, DD_MESSWERTE);
 		sender.anmeldeParametrierung(zentralSensor);
 		
+		indexSend = 0;
 		initialisiert = true;
-	
 	}
 	
 	/**
@@ -282,6 +292,8 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorTest extends Mwe_Tpt_Lt_Ns_Fbz_Sensor {
 		}
 		
 		if(publiziereDatensatz){
+			
+			if( attribut == null || nutzDatum == null) return;
 			if(!original.getObject().getPid().equals(zentralSensor.getPid()) ) return;
 			
 			double sw = nutzDatum.getItem(attribut).getItem("Wert").asUnscaledValue().doubleValue();

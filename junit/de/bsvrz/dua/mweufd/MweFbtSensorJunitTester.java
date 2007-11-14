@@ -65,6 +65,9 @@ public class MweFbtSensorJunitTester {
 	
 		
 		MweFbtSensorTest.generiereTestDatenNachPruefSpez_1(messwertFortFuehrungMax,messwertErsetzungMax , periode);
+		DatenFlussSteuerungVersorgerTest.reset();
+		DUAUmfeldDatenSensorTest.reset();
+		MweUfdSensorTest.reset();
 		
 		AbstraktVerwaltungsAdapter verw = new VerwaltungMesswertErsetzungUFDTest();
 		StandardApplicationRunner.run(verw, CON_DATA);
@@ -80,5 +83,9 @@ public class MweFbtSensorJunitTester {
 				while(warten)  verw.wait();
 			} catch (Exception e) {	}
 		}
+		((VerwaltungMesswertErsetzungUFDTest)verw).disconnect();
+		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.reset();
+		
+		try { Thread.sleep(500); } catch (Exception e) { }
 	}	
 }

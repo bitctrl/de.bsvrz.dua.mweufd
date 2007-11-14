@@ -25,8 +25,13 @@
  */
 package de.bsvrz.dua.mweufd;
 
+import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.dua.mweufd.vew.MweDatenFlussSteuerung;
+import de.bsvrz.dua.mweufd.vew.MweUfdStandardAspekteVersorger;
 import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
+import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
+import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
@@ -41,7 +46,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 public class VerwaltungMesswertErsetzungUFDTest extends
 		VerwaltungMesswertErsetzungUFD {
 
-	private static boolean kernInitialisiert = false;
+	private  boolean kernInitialisiert = false;
 	/**
 	 * {@inheritDoc}
 	 */
@@ -49,10 +54,8 @@ public class VerwaltungMesswertErsetzungUFDTest extends
 	protected void initialisiere()
 	throws DUAInitialisierungsException {
 
-		if(!kernInitialisiert) {
-			super.initialisiere();
-			kernInitialisiert = true;
-		}
+		super.initialisiere();
+		
 		for(DUAUmfeldDatenMessStelle messStelle:DUAUmfeldDatenMessStelle.getInstanzen()){
 			DUAUmfeldDatenSensor hauptSensorNI = messStelle.getHauptSensor(UmfeldDatenArt.NI);
 			DUAUmfeldDatenSensor hauptSensorNS = messStelle.getHauptSensor(UmfeldDatenArt.NS);
