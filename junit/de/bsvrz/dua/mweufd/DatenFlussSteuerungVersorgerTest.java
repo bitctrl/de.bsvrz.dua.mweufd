@@ -40,11 +40,27 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
 public class DatenFlussSteuerungVersorgerTest extends
 		DatenFlussSteuerungsVersorger {
 	
+	/**
+	 * Standardkonstruktor
+	 * 
+	 * @param verwaltung
+	 *            Verbindung zum Verwaltungsmodul
+	 * @param dfsObjekt
+	 *            das des Objektes, das die Datenflusssteuerung für das
+	 *            übergebene Verwaltungsmodul beschreibt
+	 * @throws DUAInitialisierungsException
+	 *             wird geworfen, wenn die übergebene Verbindung fehlerhaft ist
+	 *             (nicht die geforderten Informationen bereit hält), bzw. keine
+	 *             Datenanmeldungen durchgeführt werden konnten
+	 */
 	private DatenFlussSteuerungVersorgerTest(final IVerwaltung verwaltung,
 			final SystemObject dfsObjekt) throws DUAInitialisierungsException {
 		super(verwaltung, dfsObjekt);
 	}
 
+	/**
+	 * Ermoeglicht dass die Klasse neu initialisiert wird
+	 */
 	public static void reset() {
 		INSTANZ = null;
 	}

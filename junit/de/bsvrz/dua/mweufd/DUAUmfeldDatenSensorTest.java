@@ -38,10 +38,19 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
  */
 public class DUAUmfeldDatenSensorTest extends DUAUmfeldDatenSensor {
 
+	/**
+	 * Standardkonstruktor
+	 * 
+	 * @param dav Datenverteiler-Verbindung
+	 * @param objekt das Systemobjekt des Umfelddatensensors
+	 */
 	protected DUAUmfeldDatenSensorTest(final ClientDavInterface dav, final SystemObject objekt) {
 		super(dav, objekt);
 	}
 	
+	/**
+	 * Ermoeglicht dass die Klasse neu initialisiert wird
+	 */
 	public static void reset() {
 		INSTANZEN.clear();
 	}
