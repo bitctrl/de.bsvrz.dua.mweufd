@@ -193,10 +193,7 @@ implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 	
 	
 	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * Hier kommen die Daten an, die von dem Sensor kommen, der messwertersetzt 
-	 * werden soll
+	 * {@inheritDoc}
 	 */
 	public void aktualisiereDaten(ResultData resultat) {
 		if(this.letztesEmpangenesImplausiblesDatum != null){
@@ -266,7 +263,7 @@ implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 	 * (Es werden hier keine zwei Datensaetze nacheinander mit der Kennzeichnung
 	 * "keine Daten" versendet)
 	 * 
-	 * @param resultat ein Originaldatum, so wie es empfangen wurde
+	 * @param original ein Originaldatum, so wie es empfangen wurde
 	 * @param nutzDatum die ggf. messwertersetzen Nutzdaten
 	 */
 	protected void publiziere(final ResultData original,

@@ -30,7 +30,30 @@ gestartet werden kann (zusaetzlich zu den normalen Parametern jeder
 Datenverteiler-Applikation):
 	-KonfigurationsBereichsPid=pid(,pid)
 
-##########TODO
+	
+- Tests:
+
+	Für die Tests wird eine Verbindung zum Datenverteiler mit einer Konfiguration mit dem
+	Testkonfigurationsbereich "kb.mweUfdTestModell" benötigt (Diese Konfiguration mit den entsprechenden
+	Parametern liegt bereits komplett im Archiv testKonfig.zip vor). Die SWE 4.12 muss 
+	nicht explizit gestartet werden.
+	
+	Die Tests selbst sind als JUnit-Tests (alle unterhalb von JUnit) ausführbar. Es sind
+	alle innerhalb der Prüfspezifikation verlangten Tests implementiert und so bereits durchgeführt
+	worden.
+	Bevor die Tests gestartet werden können, muss die Verbindung zum Datenverteiler wird über
+	die statische Variable CON_DATA der Klasse de.bsvrz.dua.mweufd.Verbindung hergestellt werden:
+
+	/**
+	 * Verbindungsdaten
+	 */
+	public static final String[] CON_DATA = new String[] {
+			"-datenverteiler=localhost:8083",  
+			"-benutzer=Tester", 
+			"-authentifizierung=c:\\passwd", 
+			"-debugLevelStdErrText=CONFIG", 
+			"-debugLevelFileText=CONFIG",
+			"-KonfigurationsBereichsPid=kb.mweUfdTestModell" };
 
 - Logging-Hierarchie (Wann wird welche Art von Logging-Meldung produziert?):
 

@@ -37,16 +37,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktVerwaltungsAdapter;
  *
  */
 public class Mwe_Tpt_Lt_Ns_Fbz_SensorJunitTester {
-	/**
-	 * Verbindungsdaten
-	 */
-	private static final String[] CON_DATA = new String[] {
-			"-datenverteiler=localhost:8083",  
-			"-benutzer=Tester", 
-			"-authentifizierung=c:\\passwd", 
-			"-debugLevelStdErrText=WARNING", 
-			"-debugLevelFileText=WARNING",
-			"-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; 
+
 
 	public static boolean warten = true;
 		
@@ -77,9 +68,9 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorJunitTester {
 		
 		AbstraktVerwaltungsAdapter verw = new VerwaltungMesswertErsetzungUFDTest();
 		
-		String [] conn_data = new String [CON_DATA.length];
+		String [] conn_data = new String [Verbindung.getConData().length];
 		for(int i=0; i<conn_data.length; i++)
-			conn_data[i] = new String(CON_DATA[i]);
+			conn_data[i] = new String(Verbindung.getConData()[i]);
 		
 		StandardApplicationRunner.run(verw, conn_data);
 		

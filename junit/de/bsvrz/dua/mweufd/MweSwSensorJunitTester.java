@@ -39,17 +39,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktVerwaltungsAdapter;
  */
 public class MweSwSensorJunitTester {
 	
-	/**
-	 * Verbindungsdaten
-	 */
-	private static final String[] CON_DATA = new String[] {
-			"-datenverteiler=localhost:8083",  
-			"-benutzer=Tester", 
-			"-authentifizierung=c:\\passwd", 
-			"-debugLevelStdErrText=WARNING", 
-			"-debugLevelFileText=WARNING",
-			"-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; 
-
 	public static boolean warten = true;
 	
 	/**
@@ -72,7 +61,7 @@ public class MweSwSensorJunitTester {
 		MweUfdSensorTest.reset();
 		
 		AbstraktVerwaltungsAdapter verw = new VerwaltungMesswertErsetzungUFDTest();
-		StandardApplicationRunner.run(verw, CON_DATA);
+		StandardApplicationRunner.run(verw, Verbindung.getConData());
 		
 		MweSwSensorTest.parametriereSensor( messwertFortFuehrungMax, messwertErsetzungMax, periode);
 		
