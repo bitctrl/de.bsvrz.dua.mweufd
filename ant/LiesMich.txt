@@ -20,6 +20,9 @@ Versionsgeschichte
 
   - Erste Auslieferung
 
+1.1.0
+
+  - Aenderungen an der Teststruktur
 
 Bemerkungen
 ===========

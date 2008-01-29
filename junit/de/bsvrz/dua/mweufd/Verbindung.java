@@ -40,7 +40,7 @@ public class Verbindung {
 	private static final String[] CON_DATA = new String[] {
 			"-datenverteiler=localhost:8083",   //$NON-NLS-1$
 			"-benutzer=Tester",  //$NON-NLS-1$
-			"-authentifizierung=c:\\passwd1",  //$NON-NLS-1$
+			"-authentifizierung=passwd",  //$NON-NLS-1$
 			"-debugLevelStdErrText=WARNING",  //$NON-NLS-1$
 			"-debugLevelFileText=WARNING", //$NON-NLS-1$
 			"-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; //$NON-NLS-1$
