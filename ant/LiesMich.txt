@@ -23,6 +23,10 @@ Versionsgeschichte
 1.1.0
 
   - Aenderungen an der Teststruktur
+  
+1.1.1
+
+  - Bash-Startskript hinzu
 
 Bemerkungen
 ===========
