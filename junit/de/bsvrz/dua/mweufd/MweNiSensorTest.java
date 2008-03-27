@@ -302,8 +302,14 @@ public class MweNiSensorTest extends MweNiSensor {
 			double ni = nutzDatum.getItem("NiederschlagsIntensität").getItem("Wert").asUnscaledValue().doubleValue();
 			if(ni>=0) ni = nutzDatum.getItem("NiederschlagsIntensität").getItem("Wert").asScaledValue().doubleValue();
 			else ni = -1.0;
+			
 			Assert.assertTrue("Erwartetes datum: " + ersetzteAusgabeDaten[indexEmpf] + " Berechnetes datum: " + ni + " index " + (indexEmpf),ersetzteAusgabeDaten[indexEmpf] == ni);
-			System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f == %3f", indexEmpf, ersetzteAusgabeDaten[indexEmpf], ni));
+			if(ersetzteAusgabeDaten[indexEmpf] == ni){
+				System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f == %3f", indexEmpf, ersetzteAusgabeDaten[indexEmpf], ni));				
+			}else{
+				System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f != %3f", indexEmpf, ersetzteAusgabeDaten[indexEmpf], ni));
+			}
+			
 			indexEmpf++;
 			synchronized (VERWALTUNG) {
 				if(indexEmpf >= ersetzteAusgabeDaten.length) MweNiSensorJunitTester.warten = false;

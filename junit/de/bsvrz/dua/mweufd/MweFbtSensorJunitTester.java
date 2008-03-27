@@ -67,7 +67,7 @@ public class MweFbtSensorJunitTester {
 		
 		while(MweFbtSensorTest.naechsterCyklus()) 
 		{ 
-			try { Thread.sleep(50); } catch (Exception e) { }
+			try { Thread.sleep(200); } catch (Exception e) { }
 		}
 		synchronized (verw) {
 			try {

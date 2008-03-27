@@ -6,7 +6,7 @@ source ../../../skripte-bash/einstellungen.sh
 # SWE-Spezifische Parameter	(überprüfen und anpassen)                          #
 ################################################################################
 
-kb="KonfigurationsBereichsPid="
+kb="KonfigurationsBereichsPid=kb.mweUfdTestModell"
 
 ################################################################################
 # Folgende Parameter müssen überprüft und evtl. angepasst werden               #

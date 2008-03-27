@@ -67,7 +67,7 @@ public class MweSwSensorJunitTester {
 		
 		while(MweSwSensorTest.naechsterCyklus()) 
 		{ 
-			try { Thread.sleep(50); } catch (Exception e) { }
+			try { Thread.sleep(200); } catch (Exception e) { }
 		}
 		synchronized (verw) {
 			try {
@@ -77,6 +77,6 @@ public class MweSwSensorJunitTester {
 		((VerwaltungMesswertErsetzungUFDTest)verw).disconnect();
 		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.reset();
 		
-		try { Thread.sleep(500); } catch (Exception e) { }
+		try { Thread.sleep(1500); } catch (Exception e) { }
 	}	
 }
