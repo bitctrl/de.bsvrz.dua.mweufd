@@ -197,7 +197,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 			data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").set(1);
 
 		data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").set(0);
-		data.getItem(att).getItem("Güte").getUnscaledValue("Index").set(1000);
+		data.getItem(att).getItem("Güte").getUnscaledValue("Index").set(10000);
 		data.getItem(att).getItem("Güte").getUnscaledValue("Verfahren").set(0);
 		
 		ResultData result = new ResultData(sensor, datenBeschreibung, zeitStempel, data);

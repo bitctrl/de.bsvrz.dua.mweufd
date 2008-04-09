@@ -79,7 +79,7 @@ public class Mwe_Tpt_Lt_Ns_Fbz_SensorJunitTester {
 		warten = true;
 		while(Mwe_Tpt_Lt_Ns_Fbz_SensorTest.naechsterZyklus()) 
 		{ 
-			try { Thread.sleep(200); } catch (Exception e) { }
+			try { Thread.sleep(100); } catch (Exception e) { }
 		}
 		synchronized (verw) {
 			try {
