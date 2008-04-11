@@ -62,6 +62,6 @@ public class DatenFlussSteuerungVersorgerTest extends
 	 * Ermoeglicht dass die Klasse neu initialisiert wird
 	 */
 	public static void reset() {
-		INSTANZ = null;
+		instanz = null;
 	}
 }

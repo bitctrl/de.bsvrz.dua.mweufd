@@ -52,6 +52,6 @@ public class DUAUmfeldDatenSensorTest extends DUAUmfeldDatenSensor {
 	 * Ermoeglicht dass die Klasse neu initialisiert wird
 	 */
 	public static void reset() {
-		INSTANZEN.clear();
+		instanzen.clear();
 	}
 }
