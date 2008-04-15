@@ -42,6 +42,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Implementierung der Messwertersetzung nach folgendem Verfahren:<br><br>
@@ -132,11 +133,11 @@ extends AbstraktMweUfdsSensor {
 			}, true);
 		}
 		
-		DUAUmfeldDatenSensor niSensor = messStelle.getHauptSensor(UmfeldDatenArt.NI);
+		DUAUmfeldDatenSensor niSensor = messStelle.getHauptSensor(UmfeldDatenArt.ni);
 		if(niSensor == null){
-			if(messStelle.getNebenSensoren(UmfeldDatenArt.NI).size() > 0){
-				niSensor = messStelle.getNebenSensoren(UmfeldDatenArt.NI).iterator().next();
-				LOGGER.warning("An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
+			if(messStelle.getNebenSensoren(UmfeldDatenArt.ni).size() > 0){
+				niSensor = messStelle.getNebenSensoren(UmfeldDatenArt.ni).iterator().next();
+				Debug.getLogger().warning("An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
 						" ist kein NI-Hauptsensor konfiguriert. Nehme Nebensensor " + niSensor); //$NON-NLS-1$
 			}
 		}
@@ -153,7 +154,7 @@ extends AbstraktMweUfdsSensor {
 			}, true);	
 		}
 		
-		for(DUAUmfeldDatenSensor nebenSensor:messStelle.getNebenSensoren(UmfeldDatenArt.WFD)){
+		for(DUAUmfeldDatenSensor nebenSensor:messStelle.getNebenSensoren(UmfeldDatenArt.wfd)){
 			
 			// Der ErsatzSensor iast auch in der Menge der Nebensensoren, aber wird anders behandelt
 			if(this.ersatz != null && nebenSensor.getObjekt() == this.ersatz.getObjekt()) continue;

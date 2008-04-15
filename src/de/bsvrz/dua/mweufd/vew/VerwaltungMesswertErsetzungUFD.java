@@ -42,6 +42,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Das Modul Verwaltung ist die zentrale Steuereinheit der SWE Messwertersetzung UFD.
@@ -87,14 +88,14 @@ extends	AbstraktVerwaltungsAdapterMitGuete {
 		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung, this.getSystemObjekte());
 
 		for(DUAUmfeldDatenMessStelle messStelle:DUAUmfeldDatenMessStelle.getInstanzen()){
-			DUAUmfeldDatenSensor hauptSensorNI = messStelle.getHauptSensor(UmfeldDatenArt.NI);
-			DUAUmfeldDatenSensor hauptSensorNS = messStelle.getHauptSensor(UmfeldDatenArt.NS);
-			DUAUmfeldDatenSensor hauptSensorFBZ = messStelle.getHauptSensor(UmfeldDatenArt.FBZ);
-			DUAUmfeldDatenSensor hauptSensorWFD = messStelle.getHauptSensor(UmfeldDatenArt.WFD);
-			DUAUmfeldDatenSensor hauptSensorSW = messStelle.getHauptSensor(UmfeldDatenArt.SW);
-			DUAUmfeldDatenSensor hauptSensorTPT = messStelle.getHauptSensor(UmfeldDatenArt.TPT);
-			DUAUmfeldDatenSensor hauptSensorLT = messStelle.getHauptSensor(UmfeldDatenArt.LT);
-			DUAUmfeldDatenSensor hauptSensorFBT = messStelle.getHauptSensor(UmfeldDatenArt.FBT);
+			DUAUmfeldDatenSensor hauptSensorNI = messStelle.getHauptSensor(UmfeldDatenArt.ni);
+			DUAUmfeldDatenSensor hauptSensorNS = messStelle.getHauptSensor(UmfeldDatenArt.ns);
+			DUAUmfeldDatenSensor hauptSensorFBZ = messStelle.getHauptSensor(UmfeldDatenArt.fbz);
+			DUAUmfeldDatenSensor hauptSensorWFD = messStelle.getHauptSensor(UmfeldDatenArt.wfd);
+			DUAUmfeldDatenSensor hauptSensorSW = messStelle.getHauptSensor(UmfeldDatenArt.sw);
+			DUAUmfeldDatenSensor hauptSensorTPT = messStelle.getHauptSensor(UmfeldDatenArt.tpt);
+			DUAUmfeldDatenSensor hauptSensorLT = messStelle.getHauptSensor(UmfeldDatenArt.lt);
+			DUAUmfeldDatenSensor hauptSensorFBT = messStelle.getHauptSensor(UmfeldDatenArt.fbt);
 			
 			if(hauptSensorNI != null){
 				new MweNiSensor(this, messStelle, hauptSensorNI);
@@ -134,7 +135,7 @@ extends	AbstraktVerwaltungsAdapterMitGuete {
         				UncaughtExceptionHandler(){
             public void uncaughtException(@SuppressWarnings("unused")
 			Thread t, Throwable e) {
-                LOGGER.error("Applikation wird wegen" +  //$NON-NLS-1$
+            	Debug.getLogger().error("Applikation wird wegen" +  //$NON-NLS-1$
                 		" unerwartetem Fehler beendet", e);  //$NON-NLS-1$
             	e.printStackTrace();
                 Runtime.getRuntime().exit(0);

@@ -37,6 +37,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Implementierung der Messwertersetzung nach folgendem Verfahren:<br><br>
@@ -94,11 +95,11 @@ extends AbstraktMweUfdsSensor {
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 				
-		DUAUmfeldDatenSensor wfdSensor = messStelle.getHauptSensor(UmfeldDatenArt.WFD);
+		DUAUmfeldDatenSensor wfdSensor = messStelle.getHauptSensor(UmfeldDatenArt.wfd);
 		if(wfdSensor == null){
-			if(messStelle.getNebenSensoren(UmfeldDatenArt.WFD).size() > 0){
-				wfdSensor = messStelle.getNebenSensoren(UmfeldDatenArt.WFD).iterator().next();
-				LOGGER.warning("An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
+			if(messStelle.getNebenSensoren(UmfeldDatenArt.wfd).size() > 0){
+				wfdSensor = messStelle.getNebenSensoren(UmfeldDatenArt.wfd).iterator().next();
+				Debug.getLogger().warning("An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
 						" ist kein WFD-Hauptsensor konfiguriert. Nehme Nebensensor " + wfdSensor); //$NON-NLS-1$
 			}
 		}
@@ -116,11 +117,11 @@ extends AbstraktMweUfdsSensor {
 		}
 		
 		
-		DUAUmfeldDatenSensor niSensor = messStelle.getHauptSensor(UmfeldDatenArt.NI);
+		DUAUmfeldDatenSensor niSensor = messStelle.getHauptSensor(UmfeldDatenArt.ni);
 		if(niSensor == null){
-			if(messStelle.getNebenSensoren(UmfeldDatenArt.NI).size() > 0){
-				niSensor = messStelle.getNebenSensoren(UmfeldDatenArt.NI).iterator().next();
-				LOGGER.warning("An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
+			if(messStelle.getNebenSensoren(UmfeldDatenArt.ni).size() > 0){
+				niSensor = messStelle.getNebenSensoren(UmfeldDatenArt.ni).iterator().next();
+				Debug.getLogger().warning("An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
 						" ist kein NI-Hauptsensor konfiguriert. Nehme Nebensensor " + niSensor); //$NON-NLS-1$
 			}
 		}

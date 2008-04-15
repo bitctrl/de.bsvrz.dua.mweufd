@@ -55,11 +55,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  */
 public abstract class AbstraktMweUfdsSensor
 implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
-		
-	/**
-	 * Debug-Logger
-	 */
-	protected static final Debug LOGGER = Debug.getLogger();
 	
 	/**
 	 * statische Datenverteiler-Verbindung
@@ -197,7 +192,7 @@ implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 	 */
 	public void aktualisiereDaten(ResultData resultat) {
 		if(this.letztesEmpangenesImplausiblesDatum != null){
-			LOGGER.error("Nicht freigegebenes implausibles Datum:\n" +  //$NON-NLS-1$
+			Debug.getLogger().error("Nicht freigegebenes implausibles Datum:\n" +  //$NON-NLS-1$
 					this.letztesEmpangenesImplausiblesDatum + "\nNachfolger:\n" + resultat); //$NON-NLS-1$
 			
 			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(this.letztesEmpangenesImplausiblesDatum);
@@ -285,7 +280,7 @@ implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 		if(publiziereDatensatz){
 			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.DFS.publiziere(original, nutzDatum);
 			if(this.letztesPubDatum == null){
-				LOGGER.error("Datenflusssteuerung konnte kein Publikationsdatum ermitteln fuer:\n" //$NON-NLS-1$
+				Debug.getLogger().error("Datenflusssteuerung konnte kein Publikationsdatum ermitteln fuer:\n" //$NON-NLS-1$
 						+ original);
 			}
 		}
@@ -331,7 +326,7 @@ implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 											gueteWert2),
 									VERWALTUNG.getGueteFaktor());
 				} catch (GueteException e) {
-					LOGGER.error("Guete kann nicht angepasst werden\n" +  //$NON-NLS-1$
+					Debug.getLogger().error("Guete kann nicht angepasst werden\n" +  //$NON-NLS-1$
 							"Wert1: " + datumVor + //$NON-NLS-1$
 							"\nWert2: " + datumNach); //$NON-NLS-1$
 					e.printStackTrace();
@@ -372,7 +367,7 @@ implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData>{
 		try {
 			neueGuete = GueteVerfahren.gewichte(guete, VERWALTUNG.getGueteFaktor());
 		} catch (GueteException e) {
-			LOGGER.error("Guete von kopiertem Wert kann nicht angepasst werden: " +  //$NON-NLS-1$
+			Debug.getLogger().error("Guete von kopiertem Wert kann nicht angepasst werden: " +  //$NON-NLS-1$
 					kopie);
 			e.printStackTrace();
 		}

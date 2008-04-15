@@ -58,8 +58,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class MweDatenFlussSteuerung
 implements IDatenFlussSteuerungsListener{
 	
-	protected static Debug LOGGER = Debug.getLogger();
-
 	/**
 	 * Verbindung zum Verwaltungsmodul
 	 */
@@ -103,7 +101,7 @@ implements IDatenFlussSteuerungsListener{
 								  final IStandardAspekte standardAspekte)
 	throws DUAInitialisierungsException{
 		if(VERWALTUNG != null){
-			LOGGER.error("Datenflusssteuerung darf nur einmal initialisiert werden"); //$NON-NLS-1$
+			Debug.getLogger().error("Datenflusssteuerung darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
 		
 		VERWALTUNG = verwaltung;
