@@ -37,112 +37,132 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
 
 /**
- * Implementierung der Messwertersetzung nach folgendem Verfahren:<br><br>
+ * Implementierung der Messwertersetzung nach folgendem Verfahren:<br>
+ * <br>
  * 
- * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist über keines der
- * Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der Sensorwert als nicht
- * ermittelbar zukennzeichnen:<br><br>
+ * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist über
+ * keines der Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der
+ * Sensorwert als nicht ermittelbar zukennzeichnen:<br>
+ * <br>
+ *  - nehme die Werte der Nachfolger-Umfeldmessstelle<br> - wenn keine
+ * Nachfolger-Umfeldmessstelle vorhanden ist, nehme für eine dynamisch
+ * parametrierbare Zeit (Ersteinstellung = 3 Minuten) den letzten plausiblen
+ * Messwert,<br> - sonst Sensorwert als nicht ermittelbar kennzeichnen.
  * 
- * - nehme die Werte der Nachfolger-Umfeldmessstelle<br>
- * - wenn keine Nachfolger-Umfeldmessstelle vorhanden ist, nehme für eine dynamisch parametrierbare
- * Zeit (Ersteinstellung = 3 Minuten) den letzten plausiblen Messwert,<br>
- * - sonst Sensorwert als nicht ermittelbar kennzeichnen. 
- *  
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
-public class MweSwSensor
-extends AbstraktMweUfdsSensor {
-	
+public class MweSwSensor extends AbstraktMweUfdsSensor {
+
 	/**
-	 * letzter empfangener Datensatz des Nachfolgersensors
+	 * letzter empfangener Datensatz des Nachfolgersensors.
 	 */
 	private ResultData letzterNachfolgerDatensatz = null;
-	
+
 	/**
-	 * letzter empfangener plausible Datensatz des Nachfolgersensors
+	 * letzter empfangener plausible Datensatz des Nachfolgersensors.
 	 */
 	private ResultData letzterPlausibleNachfolgerDatensatz = null;
-	
+
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor.
 	 * 
-	 * @param verwaltung Verbindung zum Verwaltungsmodul
-	 * @param messStelle die Umfelddatenmessstelle, die in Bezug auf einen bestimmten
-	 * Hauptsensor messwertersetzt werden soll (muss <code> != null</code> sein)
-	 * @param sensor der Umfelddatensensor der messwertersetzt werden soll
-	 * (muss <code> != null</code> sein)
-	 * @throws DUAInitialisierungsException wenn die Initialisierung des Bearbeitungsknotens
-	 * fehlgeschlagen ist
+	 * @param verwaltung
+	 *            Verbindung zum Verwaltungsmodul
+	 * @param messStelle
+	 *            die Umfelddatenmessstelle, die in Bezug auf einen bestimmten
+	 *            Hauptsensor messwertersetzt werden soll (muss
+	 *            <code> != null</code> sein)
+	 * @param sensor
+	 *            der Umfelddatensensor der messwertersetzt werden soll (muss
+	 *            <code> != null</code> sein)
+	 * @throws DUAInitialisierungsException
+	 *             wenn die Initialisierung des Bearbeitungsknotens
+	 *             fehlgeschlagen ist
 	 */
 	public MweSwSensor(IVerwaltungMitGuete verwaltung,
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 
-		if(this.nachfolger != null){
-			this.nachfolger.addListener(new IOnlineUfdSensorListener<ResultData>(){
+		if (this.nachfolger != null) {
+			this.nachfolger.addListener(
+					new IOnlineUfdSensorListener<ResultData>() {
 
-				public void aktualisiereDaten(ResultData resultat) {
-					if(resultat.getData() != null) {
-						UmfeldDatenSensorDatum datum = new UmfeldDatenSensorDatum(resultat);
-						if(datum.getStatusMessWertErsetzungImplausibel() != DUAKonstanten.JA)
-							MweSwSensor.this.letzterPlausibleNachfolgerDatensatz = resultat;
-					}
-					
-					MweSwSensor.this.letzterNachfolgerDatensatz = resultat;
-					MweSwSensor.this.trigger();
-				}
-				
-			}, true);
+						public void aktualisiereDaten(ResultData resultat) {
+							if (resultat.getData() != null) {
+								UmfeldDatenSensorDatum datum = new UmfeldDatenSensorDatum(
+										resultat);
+								if (datum
+										.getStatusMessWertErsetzungImplausibel() != DUAKonstanten.JA) {
+									MweSwSensor.this.letzterPlausibleNachfolgerDatensatz = resultat;
+								}
+							}
+
+							MweSwSensor.this.letzterNachfolgerDatensatz = resultat;
+							MweSwSensor.this.trigger();
+						}
+
+					}, true);
 		}
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected synchronized void trigger() {
-		if(this.letztesEmpangenesImplausiblesDatum != null){
+		if (this.letztesEmpangenesImplausiblesDatum != null) {
 
-			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(this.letztesEmpangenesImplausiblesDatum);
+			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
+					this.letztesEmpangenesImplausiblesDatum);
 
-			if(this.nachfolger != null && this.letzterNachfolgerDatensatz != null &&
-				this.letzterNachfolgerDatensatz.getData() != null){
-				
-				UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(this.letzterNachfolgerDatensatz);
-				if(datumNach.getT() == datumImpl.getT()){
-					if(datumNach.getDatenZeit() == datumImpl.getDatenZeit()){
-						if(datumNach.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN){
-							this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-									this.getNutzdatenKopieVon(this.letzterNachfolgerDatensatz));
+			if (this.nachfolger != null
+					&& this.letzterNachfolgerDatensatz != null
+					&& this.letzterNachfolgerDatensatz.getData() != null) {
+
+				UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(
+						this.letzterNachfolgerDatensatz);
+				if (datumNach.getT() == datumImpl.getT()) {
+					if (datumNach.getDatenZeit() == datumImpl.getDatenZeit()) {
+						if (datumNach.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
+							this
+									.publiziere(
+											this.letztesEmpangenesImplausiblesDatum,
+											this
+													.getNutzdatenKopieVon(this.letzterNachfolgerDatensatz));
 							this.letztesEmpangenesImplausiblesDatum = null;
 							return;
 						}
-					}else{
+					} else {
 						return;
 					}
 				}
 			}
-				
-			if(this.messWertFortschreibungStart == -1 ||
-			   this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart <
-			   this.sensorMitParametern.getMaxZeitMessWertFortschreibung()){
-				if(this.letzterPlausibleNachfolgerDatensatz!= null){
-					if(this.messWertFortschreibungStart == -1){
-						this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum.getDataTime();
+
+			if (this.messWertFortschreibungStart == -1
+					|| this.letztesEmpangenesImplausiblesDatum.getDataTime()
+							- this.messWertFortschreibungStart < this.sensorMitParametern
+							.getMaxZeitMessWertFortschreibung()) {
+				if (this.letzterPlausibleNachfolgerDatensatz != null) {
+					if (this.messWertFortschreibungStart == -1) {
+						this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum
+								.getDataTime();
 					}
-					this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-							this.getNutzdatenKopieVon(this.letzterPlausibleNachfolgerDatensatz));
+					this
+							.publiziere(
+									this.letztesEmpangenesImplausiblesDatum,
+									this
+											.getNutzdatenKopieVon(this.letzterPlausibleNachfolgerDatensatz));
 					this.letztesEmpangenesImplausiblesDatum = null;
 					return;
 				}
 			}
-						
+
 			datumImpl.getWert().setNichtErmittelbarAn();
-			this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-					datumImpl.getDatum());
+			this.publiziere(this.letztesEmpangenesImplausiblesDatum, datumImpl
+					.getDatum());
 			this.letztesEmpangenesImplausiblesDatum = null;
 		}
 	}

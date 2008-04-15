@@ -31,25 +31,30 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 
 /**
- *  Wegen Test-zwecken muss die Klasse DUAUmfeldDatenSensor neuinitialisiert werden
- *  reset() ermoeglicht die Singleton-Instanzen zu loeschen
+ * Wegen Test-zwecken muss die Klasse DUAUmfeldDatenSensor neuinitialisiert
+ * werden reset() ermoeglicht die Singleton-Instanzen zu loeschen.
+ * 
  * @author BitCtrl Systems GmbH, Bachraty
- *
+ * 
+ * @version $Id$
  */
 public class DUAUmfeldDatenSensorTest extends DUAUmfeldDatenSensor {
 
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor.
 	 * 
-	 * @param dav Datenverteiler-Verbindung
-	 * @param objekt das Systemobjekt des Umfelddatensensors
+	 * @param dav
+	 *            Datenverteiler-Verbindung
+	 * @param objekt
+	 *            das Systemobjekt des Umfelddatensensors
 	 */
-	protected DUAUmfeldDatenSensorTest(final ClientDavInterface dav, final SystemObject objekt) {
+	protected DUAUmfeldDatenSensorTest(final ClientDavInterface dav,
+			final SystemObject objekt) {
 		super(dav, objekt);
 	}
-	
+
 	/**
-	 * Ermoeglicht dass die Klasse neu initialisiert wird
+	 * Ermoeglicht dass die Klasse neu initialisiert wird.
 	 */
 	public static void reset() {
 		instanzen.clear();

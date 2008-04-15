@@ -27,45 +27,55 @@
 package de.bsvrz.dua.mweufd;
 
 /**
- * Speichert die Verbindungsdaten
+ * Speichert die Verbindungsdaten.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
-public class Verbindung {
-	
-//	/**
-//	 * Verbindungsdaten
-//	 */
-//	private static final String[] CON_DATA = new String[] {
-//			"-datenverteiler=localhost:8083",   //$NON-NLS-1$
-//			"-benutzer=Tester",  //$NON-NLS-1$
-//			"-authentifizierung=passwd",  //$NON-NLS-1$
-//			"-debugLevelStdErrText=WARNING",  //$NON-NLS-1$
-//			"-debugLevelFileText=WARNING", //$NON-NLS-1$
-//			"-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; //$NON-NLS-1$
-	
+public final class Verbindung {
+
 	/**
-	 * Verbindungsdaten
+	 * Standardkonstruktor.
+	 */
+	private Verbindung() {
+		//
+	}
+	
+	// /**
+	// * Verbindungsdaten
+	// */
+	// private static final String[] CON_DATA = new String[] {
+	// "-datenverteiler=localhost:8083", //$NON-NLS-1$
+	// "-benutzer=Tester", //$NON-NLS-1$
+	// "-authentifizierung=passwd", //$NON-NLS-1$
+	// "-debugLevelStdErrText=WARNING", //$NON-NLS-1$
+	// "-debugLevelFileText=WARNING", //$NON-NLS-1$
+	// "-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; //$NON-NLS-1$
+
+	/**
+	 * Verbindungsdaten.
 	 */
 	private static final String[] CON_DATA = new String[] {
-			"-datenverteiler=localhost:8083",   //$NON-NLS-1$
-			"-benutzer=Tester",  //$NON-NLS-1$
-			"-authentifizierung=c:\\passwd",  //$NON-NLS-1$
-			"-debugLevelStdErrText=WARNING",  //$NON-NLS-1$
+			"-datenverteiler=localhost:8083", //$NON-NLS-1$
+			"-benutzer=Tester", //$NON-NLS-1$
+			"-authentifizierung=c:\\passwd", //$NON-NLS-1$
+			"-debugLevelStdErrText=WARNING", //$NON-NLS-1$
 			"-debugLevelFileText=WARNING", //$NON-NLS-1$
 			"-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; //$NON-NLS-1$
-	
+
 	/**
-	 * Erfragt eine Kopie der Verbindungsdaten
+	 * Erfragt eine Kopie der Verbindungsdaten.
 	 * 
 	 * @return eine Kopie der Verbindungsdaten
 	 */
-	protected static final String[] getConData(){
+	protected static String[] getConData() {
 		String[] conDataKopie = new String[CON_DATA.length];
-		
-		for(int i = 0; i < conDataKopie.length; i++)conDataKopie[i] = CON_DATA[i];
-		
+
+		for (int i = 0; i < conDataKopie.length; i++) {
+			conDataKopie[i] = CON_DATA[i];
+		}
+
 		return conDataKopie;
 	}
 

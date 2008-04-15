@@ -28,7 +28,7 @@ package de.bsvrz.dua.mweufd.vew;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.dua.mweufd.Mwe_Tpt_Lt_Ns_Fbz_Sensor;
+import de.bsvrz.dua.mweufd.mweTptLtNsFbzSensor;
 import de.bsvrz.dua.mweufd.fbt.MweFbtSensor;
 import de.bsvrz.dua.mweufd.ni.MweNiSensor;
 import de.bsvrz.dua.mweufd.sw.MweSwSensor;
@@ -45,105 +45,114 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
- * Das Modul Verwaltung ist die zentrale Steuereinheit der SWE Messwertersetzung UFD.
- * Seine Aufgabe besteht in der Auswertung der Aufrufparameter, der Anmeldung beim
- * Datenverteiler und der entsprechenden Initialisierung aller Auswertungsmodule.
- * Weiter ist das Modul Verwaltung für die Anmeldung der zu prüfenden Daten zuständig.
- * Die Verwaltung gibt ein Objekt des Moduls Niederschlagsintensität als Beobachterobjekt
- * an, an das die zu überprüfenden Daten durch den Aktualisierungsmechanismus weitergeleitet
- * werden. 
- *  
+ * Das Modul Verwaltung ist die zentrale Steuereinheit der SWE Messwertersetzung
+ * UFD. Seine Aufgabe besteht in der Auswertung der Aufrufparameter, der
+ * Anmeldung beim Datenverteiler und der entsprechenden Initialisierung aller
+ * Auswertungsmodule. Weiter ist das Modul Verwaltung für die Anmeldung der zu
+ * prüfenden Daten zuständig. Die Verwaltung gibt ein Objekt des Moduls
+ * Niederschlagsintensität als Beobachterobjekt an, an das die zu überprüfenden
+ * Daten durch den Aktualisierungsmechanismus weitergeleitet werden.
+ * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
-public class VerwaltungMesswertErsetzungUFD
-extends	AbstraktVerwaltungsAdapterMitGuete {
+public class VerwaltungMesswertErsetzungUFD extends
+		AbstraktVerwaltungsAdapterMitGuete {
 
 	/**
-	 * Datenflusssteuerung
+	 * Datenflusssteuerung.
 	 */
-	public static MweDatenFlussSteuerung DFS = null;
-	
-	
+	public static MweDatenFlussSteuerung dieDfs = null;
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void initialisiere()
-	throws DUAInitialisierungsException {
+	protected void initialisiere() throws DUAInitialisierungsException {
 		super.initialisiere();
-		
-		DFS = new MweDatenFlussSteuerung(this, 
+
+		dieDfs = new MweDatenFlussSteuerung(this,
 				new MweUfdStandardAspekteVersorger(this).getStandardPubInfos());
 		UmfeldDatenArt.initialisiere(this.verbindung);
-		
+
 		/**
 		 * UFD-Messstellen ermitteln
 		 */
 		this.objekte = DUAUtensilien.getBasisInstanzen(
-				this.verbindung.getDataModel().getType(DUAKonstanten.TYP_UFD_MESSSTELLE),
-				this.verbindung,
+				this.verbindung.getDataModel().getType(
+						DUAKonstanten.TYP_UFD_MESSSTELLE), this.verbindung,
 				this.getKonfigurationsBereiche()).toArray(new SystemObject[0]);
-		
-		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung, this.getSystemObjekte());
 
-		for(DUAUmfeldDatenMessStelle messStelle:DUAUmfeldDatenMessStelle.getInstanzen()){
-			DUAUmfeldDatenSensor hauptSensorNI = messStelle.getHauptSensor(UmfeldDatenArt.ni);
-			DUAUmfeldDatenSensor hauptSensorNS = messStelle.getHauptSensor(UmfeldDatenArt.ns);
-			DUAUmfeldDatenSensor hauptSensorFBZ = messStelle.getHauptSensor(UmfeldDatenArt.fbz);
-			DUAUmfeldDatenSensor hauptSensorWFD = messStelle.getHauptSensor(UmfeldDatenArt.wfd);
-			DUAUmfeldDatenSensor hauptSensorSW = messStelle.getHauptSensor(UmfeldDatenArt.sw);
-			DUAUmfeldDatenSensor hauptSensorTPT = messStelle.getHauptSensor(UmfeldDatenArt.tpt);
-			DUAUmfeldDatenSensor hauptSensorLT = messStelle.getHauptSensor(UmfeldDatenArt.lt);
-			DUAUmfeldDatenSensor hauptSensorFBT = messStelle.getHauptSensor(UmfeldDatenArt.fbt);
-			
-			if(hauptSensorNI != null){
+		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung, this
+				.getSystemObjekte());
+
+		for (DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle
+				.getInstanzen()) {
+			DUAUmfeldDatenSensor hauptSensorNI = messStelle
+					.getHauptSensor(UmfeldDatenArt.ni);
+			DUAUmfeldDatenSensor hauptSensorNS = messStelle
+					.getHauptSensor(UmfeldDatenArt.ns);
+			DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
+					.getHauptSensor(UmfeldDatenArt.fbz);
+			DUAUmfeldDatenSensor hauptSensorWFD = messStelle
+					.getHauptSensor(UmfeldDatenArt.wfd);
+			DUAUmfeldDatenSensor hauptSensorSW = messStelle
+					.getHauptSensor(UmfeldDatenArt.sw);
+			DUAUmfeldDatenSensor hauptSensorTPT = messStelle
+					.getHauptSensor(UmfeldDatenArt.tpt);
+			DUAUmfeldDatenSensor hauptSensorLT = messStelle
+					.getHauptSensor(UmfeldDatenArt.lt);
+			DUAUmfeldDatenSensor hauptSensorFBT = messStelle
+					.getHauptSensor(UmfeldDatenArt.fbt);
+
+			if (hauptSensorNI != null) {
 				new MweNiSensor(this, messStelle, hauptSensorNI);
 			}
-			if(hauptSensorNS != null){
-				new Mwe_Tpt_Lt_Ns_Fbz_Sensor(this, messStelle, hauptSensorNS);
+			if (hauptSensorNS != null) {
+				new mweTptLtNsFbzSensor(this, messStelle, hauptSensorNS);
 			}
-			if(hauptSensorFBZ != null){
-				new Mwe_Tpt_Lt_Ns_Fbz_Sensor(this, messStelle, hauptSensorFBZ);
+			if (hauptSensorFBZ != null) {
+				new mweTptLtNsFbzSensor(this, messStelle, hauptSensorFBZ);
 			}
-			if(hauptSensorLT != null){
-				new Mwe_Tpt_Lt_Ns_Fbz_Sensor(this, messStelle, hauptSensorLT);
+			if (hauptSensorLT != null) {
+				new mweTptLtNsFbzSensor(this, messStelle, hauptSensorLT);
 			}
-			if(hauptSensorTPT != null){
-				new Mwe_Tpt_Lt_Ns_Fbz_Sensor(this, messStelle, hauptSensorTPT);
+			if (hauptSensorTPT != null) {
+				new mweTptLtNsFbzSensor(this, messStelle, hauptSensorTPT);
 			}
-			if(hauptSensorWFD != null){
+			if (hauptSensorWFD != null) {
 				new MweWfdSensor(this, messStelle, hauptSensorWFD);
 			}
-			if(hauptSensorSW != null){
+			if (hauptSensorSW != null) {
 				new MweSwSensor(this, messStelle, hauptSensorSW);
-			}			
-			if(hauptSensorFBT != null){
+			}
+			if (hauptSensorFBT != null) {
 				new MweFbtSensor(this, messStelle, hauptSensorFBT);
 			}
 		}
 	}
 
-	
 	/**
-	 * Startet diese Applikation
+	 * Startet diese Applikation.
 	 * 
-	 * @param argumente Argumente der Kommandozeile
+	 * @param argumente
+	 *            Argumente der Kommandozeile
 	 */
-	public static void main(String argumente[]){
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.
-        				UncaughtExceptionHandler(){
-            public void uncaughtException(@SuppressWarnings("unused")
-			Thread t, Throwable e) {
-            	Debug.getLogger().error("Applikation wird wegen" +  //$NON-NLS-1$
-                		" unerwartetem Fehler beendet", e);  //$NON-NLS-1$
-            	e.printStackTrace();
-                Runtime.getRuntime().exit(0);
-            }
-        });
-		StandardApplicationRunner.run(new VerwaltungMesswertErsetzungUFD(), argumente);
+	public static void main(String[] argumente) {
+		Thread
+				.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+					public void uncaughtException(@SuppressWarnings("unused")
+					Thread t, Throwable e) {
+						Debug.getLogger().error("Applikation wird wegen" + //$NON-NLS-1$
+								" unerwartetem Fehler beendet", e); //$NON-NLS-1$
+						e.printStackTrace();
+						Runtime.getRuntime().exit(0);
+					}
+				});
+		StandardApplicationRunner.run(new VerwaltungMesswertErsetzungUFD(),
+				argumente);
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -152,16 +161,14 @@ extends	AbstraktVerwaltungsAdapterMitGuete {
 	public double getStandardGueteFaktor() {
 		return 0.9;
 	}
-	
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public SWETyp getSWETyp() {
 		return SWETyp.SWE_MESSWERTERSETZUNG_UFD;
-	}	
-	
-	
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

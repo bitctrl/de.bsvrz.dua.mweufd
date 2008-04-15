@@ -25,73 +25,86 @@
  */
 package de.bsvrz.dua.mweufd;
 
-import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.dua.mweufd.vew.MweDatenFlussSteuerung;
-import de.bsvrz.dua.mweufd.vew.MweUfdStandardAspekteVersorger;
 import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
-import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
-import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 
 /**
- * Ermoeglicht die mit hilfe der Klasse VerwaltungMesswertErsetzungUFD 
- * die einzelne *Sensor Klassen zu testen
+ * Ermoeglicht die mit hilfe der Klasse VerwaltungMesswertErsetzungUFD die
+ * einzelne *Sensor Klassen zu testen.
  * 
  * @author BitCtrl Systems GmbH, Bachraty
- *
+ * 
+ * @version $Id$
  */
 public class VerwaltungMesswertErsetzungUFDTest extends
 		VerwaltungMesswertErsetzungUFD {
 
-	private  boolean kernInitialisiert = false;
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void initialisiere()
-	throws DUAInitialisierungsException {
+	protected void initialisiere() throws DUAInitialisierungsException {
 
 		super.initialisiere();
-		
-		for(DUAUmfeldDatenMessStelle messStelle:DUAUmfeldDatenMessStelle.getInstanzen()){
-			DUAUmfeldDatenSensor hauptSensorNI = messStelle.getHauptSensor(UmfeldDatenArt.ni);
-			DUAUmfeldDatenSensor hauptSensorNS = messStelle.getHauptSensor(UmfeldDatenArt.ns);
-			DUAUmfeldDatenSensor hauptSensorFBZ = messStelle.getHauptSensor(UmfeldDatenArt.fbz);
-			DUAUmfeldDatenSensor hauptSensorWFD = messStelle.getHauptSensor(UmfeldDatenArt.wfd);
-			DUAUmfeldDatenSensor hauptSensorSW = messStelle.getHauptSensor(UmfeldDatenArt.sw);
-			DUAUmfeldDatenSensor hauptSensorTPT = messStelle.getHauptSensor(UmfeldDatenArt.tpt);
-			DUAUmfeldDatenSensor hauptSensorLT = messStelle.getHauptSensor(UmfeldDatenArt.lt);
-			DUAUmfeldDatenSensor hauptSensorFBT = messStelle.getHauptSensor(UmfeldDatenArt.fbt);
-			
-			if(hauptSensorNI != null){
+
+		for (DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle
+				.getInstanzen()) {
+			DUAUmfeldDatenSensor hauptSensorNI = messStelle
+					.getHauptSensor(UmfeldDatenArt.ni);
+			DUAUmfeldDatenSensor hauptSensorNS = messStelle
+					.getHauptSensor(UmfeldDatenArt.ns);
+			DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
+					.getHauptSensor(UmfeldDatenArt.fbz);
+			DUAUmfeldDatenSensor hauptSensorWFD = messStelle
+					.getHauptSensor(UmfeldDatenArt.wfd);
+			DUAUmfeldDatenSensor hauptSensorSW = messStelle
+					.getHauptSensor(UmfeldDatenArt.sw);
+			DUAUmfeldDatenSensor hauptSensorTPT = messStelle
+					.getHauptSensor(UmfeldDatenArt.tpt);
+			DUAUmfeldDatenSensor hauptSensorLT = messStelle
+					.getHauptSensor(UmfeldDatenArt.lt);
+			DUAUmfeldDatenSensor hauptSensorFBT = messStelle
+					.getHauptSensor(UmfeldDatenArt.fbt);
+
+			if (hauptSensorNI != null) {
 				new MweNiSensorTest(this, messStelle, hauptSensorNI);
 			}
-			if(hauptSensorNS != null){
-				new Mwe_Tpt_Lt_Ns_Fbz_SensorTest(this, messStelle, hauptSensorNS);
+			if (hauptSensorNS != null) {
+				new MweTptLtNsFbzSensorTest(this, messStelle,
+						hauptSensorNS);
 			}
-			if(hauptSensorFBZ != null){
-				new Mwe_Tpt_Lt_Ns_Fbz_SensorTest(this, messStelle, hauptSensorFBZ);
+			if (hauptSensorFBZ != null) {
+				new MweTptLtNsFbzSensorTest(this, messStelle,
+						hauptSensorFBZ);
 			}
-			if(hauptSensorLT != null){
-				new Mwe_Tpt_Lt_Ns_Fbz_SensorTest(this, messStelle, hauptSensorLT);
+			if (hauptSensorLT != null) {
+				new MweTptLtNsFbzSensorTest(this, messStelle,
+						hauptSensorLT);
 			}
-			if(hauptSensorTPT != null){
-				new Mwe_Tpt_Lt_Ns_Fbz_SensorTest(this, messStelle, hauptSensorTPT);
+			if (hauptSensorTPT != null) {
+				new MweTptLtNsFbzSensorTest(this, messStelle,
+						hauptSensorTPT);
 			}
-			if(hauptSensorWFD != null){
+			if (hauptSensorWFD != null) {
 				new MweWfdSensorTest(this, messStelle, hauptSensorWFD);
 			}
-			if(hauptSensorSW != null){
+			if (hauptSensorSW != null) {
 				new MweSwSensorTest(this, messStelle, hauptSensorSW);
-			}			
-			if(hauptSensorFBT != null){
+			}
+			if (hauptSensorFBT != null) {
 				new MweFbtSensorTest(this, messStelle, hauptSensorFBT);
 			}
 		}
 	}
+
+	
+	/**
+	 * Verbindung trennen.
+	 */
 	public void disconnect() {
 		this.verbindung.disconnect(false, "");
 	}

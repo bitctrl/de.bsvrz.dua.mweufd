@@ -32,35 +32,34 @@ import de.bsvrz.sys.funclib.bitctrl.dua.StandardAspekteVersorger;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
 
 /**
- * Diese Klasse repräsentiert die Versorgung des Moduls
- * Messwertersetzung UFD (innerhalb der SWE Messwertersetzung UFD)
- * mit Standard-Publikationsinformationen (Zuordnung von
- * Objekt-Datenbeschreibung-Kombination zu Standard-
- * Publikationsaspekt).
+ * Diese Klasse repräsentiert die Versorgung des Moduls Messwertersetzung UFD
+ * (innerhalb der SWE Messwertersetzung UFD) mit
+ * Standard-Publikationsinformationen (Zuordnung von
+ * Objekt-Datenbeschreibung-Kombination zu Standard- Publikationsaspekt).
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
-public class MweUfdStandardAspekteVersorger 
-extends StandardAspekteVersorger{
+public class MweUfdStandardAspekteVersorger extends StandardAspekteVersorger {
 
 	/**
-	 * Standardkonstruktor
-	 *
-	 * @param verwaltung Verbindung zum Verwaltungsmodul
+	 * Standardkonstruktor.
+	 * 
+	 * @param verwaltung
+	 *            Verbindung zum Verwaltungsmodul
+	 * @throws DUAInitialisierungsException wird weitergereicht
 	 */
 	public MweUfdStandardAspekteVersorger(IVerwaltung verwaltung)
-	throws DUAInitialisierungsException {
+			throws DUAInitialisierungsException {
 		super(verwaltung);
 	}
-	
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void init()
-	throws DUAInitialisierungsException{
+	protected void init() throws DUAInitialisierungsException {
 
 		this.standardAspekte = new StandardAspekteAdapter(
 				new StandardPublikationsZuordnung[] {
@@ -163,7 +162,7 @@ extends StandardAspekteVersorger{
 								"typ.ufdsWasserFilmDicke", //$NON-NLS-1$
 								"atg.ufdsWasserFilmDicke", //$NON-NLS-1$
 								DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH,
-								DUAKonstanten.ASP_MESSWERTERSETZUNG),									
+								DUAKonstanten.ASP_MESSWERTERSETZUNG),
 						new StandardPublikationsZuordnung(
 								"typ.ufdsWindRichtung", //$NON-NLS-1$
 								"atg.ufdsWindRichtung", //$NON-NLS-1$
@@ -178,9 +177,8 @@ extends StandardAspekteVersorger{
 								"typ.ufdsWindGeschwindigkeitSpitzenWert", //$NON-NLS-1$
 								"atg.ufdsWindGeschwindigkeitSpitzenWert", //$NON-NLS-1$
 								DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH,
-								DUAKonstanten.ASP_MESSWERTERSETZUNG),
-				});
-					
-	}	
+								DUAKonstanten.ASP_MESSWERTERSETZUNG), });
+
+	}
 
 }

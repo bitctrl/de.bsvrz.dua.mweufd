@@ -42,102 +42,136 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 
 /**
- * Ermoeglicht die Klasse MweNiSensor zu testen
+ * Ermoeglicht die Klasse MweNiSensor zu testen.
+ * 
  * @author BitCtrl Systems GmbH, Bachraty
- *
+ * 
+ * @version $Id$
  */
 public class MweNiSensorTest extends MweNiSensor {
-	
 
 	/**
-	 * Testdaten
+	 * Testdaten.
 	 */
-	static double [] prueflingDaten;
-	static double [] vorherigeNachbarDaten;
-	static double [] nachfolgeneNachbarDaten;
-	static double [] ersatzQuerrschnittDaten;
-	static double [] wasserFilmDicke;
-	static double [] ersetzteAusgabeDaten;
-	static long   [] time;
+	static double[] prueflingDaten;
 	
 	/**
-	 * Periode der Datensendung
+	 * Testdaten.
 	 */
-	static long ZEIT_INTERVALL;	
+	static double[] vorherigeNachbarDaten;
 	
+	/**
+	 * Testdaten.
+	 */
+	static double[] nachfolgeneNachbarDaten;
+	
+	/**
+	 * Testdaten.
+	 */
+	static double[] ersatzQuerrschnittDaten;
+	
+	/**
+	 * Testdaten.
+	 */
+	static double[] wasserFilmDicke;
+	
+	/**
+	 * Testdaten.
+	 */
+	static double[] ersetzteAusgabeDaten;
+	
+	/**
+	 * Testdaten.
+	 */
+	static long[] time;
+
+	/**
+	 * Periode der Datensendung.
+	 */
+	static long ZEIT_INTERVALL;
+
 	/**
 	 * Letzter index der gesendeten und empfangenen Daten
 	 */
-	static protected int indexEmpf = 0;
-	static protected int indexSend = 0;
-	static protected boolean initialisiert = false;
+	protected static int indexEmpf = 0;
 	
+	
+	protected static int indexSend = 0;
+	protected static boolean initialisiert = false;
+
 	/**
 	 * Getesteter Sensor
 	 */
-	static protected SystemObject zentralSensor;
+	protected static SystemObject zentralSensor;
 	/**
 	 * Ersatzsensor
 	 */
-	static protected SystemObject ersatzSensor;
+	protected static SystemObject ersatzSensor;
 	/**
 	 * Vorsensor
 	 */
-	static protected SystemObject vorSensor;
+	protected static SystemObject vorSensor;
 	/**
 	 * Nachsensor
 	 */
-	static protected SystemObject nachSensor;
+	protected static SystemObject nachSensor;
 	/**
 	 * Wasserfilmdickesensor
 	 */
-	static protected SystemObject wfdSensor;
+	protected static SystemObject wfdSensor;
 	/**
 	 * Verbindung zum DAV
 	 */
-	static protected ClientDavInterface dav;
-	
+	protected static ClientDavInterface dav;
+
 	/**
 	 * Datenbeschreibung der geschickten daten
 	 */
-	static protected DataDescription DD_MESSWERTE, DD_WFDMESSWERTE, DD_MESSWERT_ERSETZUNG;
+	protected static DataDescription DD_MESSWERTE, DD_WFDMESSWERTE,
+			DD_MESSWERT_ERSETZUNG;
 	/**
 	 * Datensender
 	 */
-	static protected  MweTestDatenSender sender;
-
+	protected static MweTestDatenSender sender;
 
 	/**
 	 * Standardkonstruktor
-	 * @param verwaltung 
+	 * 
+	 * @param verwaltung
 	 * @param messStelle
 	 * @param sensor
-	 * @throws DUAInitialisierungsException 
+	 * @throws DUAInitialisierungsException
 	 */
 	public MweNiSensorTest(IVerwaltungMitGuete verwaltung,
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
-		
-		if(!sensor.getObjekt().getPid().equals("ufdSensor.testNI.ni.zentral")) return;
-		//if(dav != null) return;	
+
+		if (!sensor.getObjekt().getPid().equals("ufdSensor.testNI.ni.zentral"))
+			return;
+		// if(dav != null) return;
 		dav = verwaltung.getVerbindung();
 		sender = new MweTestDatenSender(dav);
-		
-		zentralSensor = dav.getDataModel().getObject("ufdSensor.testNI.ni.zentral");
+
+		zentralSensor = dav.getDataModel().getObject(
+				"ufdSensor.testNI.ni.zentral");
 		vorSensor = dav.getDataModel().getObject("ufdSensor.testNI.ni.vor");
 		nachSensor = dav.getDataModel().getObject("ufdSensor.testNI.ni.nach");
-		ersatzSensor = dav.getDataModel().getObject("ufdSensor.testNI.ni.ersatz");
+		ersatzSensor = dav.getDataModel().getObject(
+				"ufdSensor.testNI.ni.ersatz");
 		wfdSensor = dav.getDataModel().getObject("ufdSensor.testNI.wfd");
-		
-		DD_MESSWERTE = new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufdsNiederschlagsIntensität"),
-							dav.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
-		DD_WFDMESSWERTE = new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufdsWasserFilmDicke"),
-				dav.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
-		
-		DD_MESSWERT_ERSETZUNG =  new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"),
-				dav.getDataModel().getAspect("asp.parameterVorgabe"));
-		
+
+		DD_MESSWERTE = new DataDescription(dav.getDataModel()
+				.getAttributeGroup("atg.ufdsNiederschlagsIntensität"), dav
+				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
+		DD_WFDMESSWERTE = new DataDescription(dav.getDataModel()
+				.getAttributeGroup("atg.ufdsWasserFilmDicke"), dav
+				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
+
+		DD_MESSWERT_ERSETZUNG = new DataDescription(dav.getDataModel()
+				.getAttributeGroup("atg.ufdsMessWertErsetzung"), dav
+				.getDataModel().getAspect("asp.parameterVorgabe"));
+
 		Collection<SystemObject> list = new LinkedList<SystemObject>();
 		list.add(zentralSensor);
 		list.add(ersatzSensor);
@@ -146,176 +180,218 @@ public class MweNiSensorTest extends MweNiSensor {
 
 		sender.anmeldeQuelle(list, DD_MESSWERTE);
 		sender.anmeldeParametrierung(zentralSensor);
-	
+
 		sender.anmeldeQuelle(wfdSensor, DD_WFDMESSWERTE);
 	}
+
 	/**
 	 * Parametreirt den gestesteten Sensor
-	 * @param messwertFortschreibungsIntervall Maximaler MesswertFortschreibungsIntervall
-	 * @param messWertErsetzungIntervall Maximaler MessWertErsetzungIntervall 
-	 * @param periode Elementares Schritt
+	 * 
+	 * @param messwertFortschreibungsIntervall
+	 *            Maximaler MesswertFortschreibungsIntervall
+	 * @param messWertErsetzungIntervall
+	 *            Maximaler MessWertErsetzungIntervall
+	 * @param periode
+	 *            Elementares Schritt
 	 */
-	public static void parametriereSensor(long messwertFortschreibungsIntervall, long messWertErsetzungIntervall, long periode) {
-		sender.parametriereSensor(zentralSensor, messwertFortschreibungsIntervall, messWertErsetzungIntervall, periode);
+	public static void parametriereSensor(
+			long messwertFortschreibungsIntervall,
+			long messWertErsetzungIntervall, long periode) {
+		sender.parametriereSensor(zentralSensor,
+				messwertFortschreibungsIntervall, messWertErsetzungIntervall,
+				periode);
 	}
 
 	/**
 	 * Sendet die Daten des naechsten Schrittes
-	 * @return <code>true</code> wenn man mit dem Test fortsetzen soll, sonst false
+	 * 
+	 * @return <code>true</code> wenn man mit dem Test fortsetzen soll, sonst
+	 *         false
 	 */
 	static public boolean naechsterCyklus() {
-		if(indexSend>= ersatzQuerrschnittDaten.length) return false;
-		
-		sender.sendeDatenSatz(zentralSensor, DD_MESSWERTE, "NiederschlagsIntensität", prueflingDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(vorSensor, DD_MESSWERTE, "NiederschlagsIntensität", vorherigeNachbarDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(nachSensor, DD_MESSWERTE, "NiederschlagsIntensität", nachfolgeneNachbarDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(ersatzSensor, DD_MESSWERTE, "NiederschlagsIntensität", ersatzQuerrschnittDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(wfdSensor, DD_WFDMESSWERTE, "WasserFilmDicke", wasserFilmDicke[indexSend], time[indexSend]);
-		
+		if (indexSend >= ersatzQuerrschnittDaten.length)
+			return false;
+
+		sender.sendeDatenSatz(zentralSensor, DD_MESSWERTE,
+				"NiederschlagsIntensität", prueflingDaten[indexSend],
+				time[indexSend]);
+		sender.sendeDatenSatz(vorSensor, DD_MESSWERTE,
+				"NiederschlagsIntensität", vorherigeNachbarDaten[indexSend],
+				time[indexSend]);
+		sender.sendeDatenSatz(nachSensor, DD_MESSWERTE,
+				"NiederschlagsIntensität", nachfolgeneNachbarDaten[indexSend],
+				time[indexSend]);
+		sender.sendeDatenSatz(ersatzSensor, DD_MESSWERTE,
+				"NiederschlagsIntensität", ersatzQuerrschnittDaten[indexSend],
+				time[indexSend]);
+		sender.sendeDatenSatz(wfdSensor, DD_WFDMESSWERTE, "WasserFilmDicke",
+				wasserFilmDicke[indexSend], time[indexSend]);
+
 		indexSend++;
 		return true;
 	}
-	
+
 	/**
 	 * Generiert die Testdaten nach der Pruefspezifikation
-	 * @param t1 Messwertfortsetzungsintervall
-	 * @param tE Messwertersetzungsintervall
-	 * @param T Periode
+	 * 
+	 * @param t1
+	 *            Messwertfortsetzungsintervall
+	 * @param tE
+	 *            Messwertersetzungsintervall
+	 * @param T
+	 *            Periode
 	 */
-	static public void generiereTestDatenNachPruefSpezNI_1(long t1, long tE, long T) {
-		
+	static public void generiereTestDatenNachPruefSpezNI_1(long t1, long tE,
+			long T) {
+
 		double w1 = 2.0;
 		double w2 = 1.5;
 		double w3 = 5.5;
 		double w4 = 0.5;
 		double wfd = 1.8;
-		
+
 		ZEIT_INTERVALL = T;
-		int length = (int)(tE/T) + 5;
-		
-		prueflingDaten = new double [length];
-		vorherigeNachbarDaten = new double [length];
-		nachfolgeneNachbarDaten  = new double [length];
-		ersatzQuerrschnittDaten = new double [length];
-		ersetzteAusgabeDaten = new double [length];
-		wasserFilmDicke  = new double [length];
-		
-		time = new long [length];
+		int length = (int) (tE / T) + 5;
+
+		prueflingDaten = new double[length];
+		vorherigeNachbarDaten = new double[length];
+		nachfolgeneNachbarDaten = new double[length];
+		ersatzQuerrschnittDaten = new double[length];
+		ersetzteAusgabeDaten = new double[length];
+		wasserFilmDicke = new double[length];
+
+		time = new long[length];
 		// Zeit
-		for(int i=0; i<length; i++)
-			time[i] = i*T;
-		
+		for (int i = 0; i < length; i++)
+			time[i] = i * T;
+
 		// Intervalle
-		long t[] = new long [9];
-		long t_int = ( tE - t1 ) / 7;
+		long t[] = new long[9];
+		long t_int = (tE - t1) / 7;
 		t[0] = T;
 		t[1] = t[0] + t1;
-		
-		for(int i=2; i<9; i++)
-			t[i] = t[i-1] + t_int;
-	
-		
+
+		for (int i = 2; i < 9; i++)
+			t[i] = t[i - 1] + t_int;
+
 		// Ersatzquerrschnittdaten
-		for(int i=0; i<length; i++)
-			if(time[i]>=t[6] && time[i]<t[7])
+		for (int i = 0; i < length; i++)
+			if (time[i] >= t[6] && time[i] < t[7])
 				ersatzQuerrschnittDaten[i] = -1;
 			else
 				ersatzQuerrschnittDaten[i] = w4;
-		
+
 		// Nachbar Sensor
-		for(int i=0; i<length; i++)
-			if(time[i]<t[2])
+		for (int i = 0; i < length; i++)
+			if (time[i] < t[2])
 				vorherigeNachbarDaten[i] = w2;
-			else if(time[i]<t[5])
+			else if (time[i] < t[5])
 				vorherigeNachbarDaten[i] = w3;
 			else
 				vorherigeNachbarDaten[i] = -1;
-				
+
 		// Pruefling
-		for(int i=0; i<length; i++)
-			if(time[i]<t[0])
+		for (int i = 0; i < length; i++)
+			if (time[i] < t[0])
 				prueflingDaten[i] = w1;
-			else prueflingDaten[i] = -1;
-		
+			else
+				prueflingDaten[i] = -1;
+
 		// Nachbar Sensor
-		for(int i=0; i<length; i++)
-			if(time[i]<t[3])
+		for (int i = 0; i < length; i++)
+			if (time[i] < t[3])
 				nachfolgeneNachbarDaten[i] = w3;
-			else nachfolgeneNachbarDaten[i] = 0.0;
-		
+			else
+				nachfolgeneNachbarDaten[i] = 0.0;
+
 		// WFD
-		for(int i=0; i<length; i++)
-			if(time[i] < t[4])
+		for (int i = 0; i < length; i++)
+			if (time[i] < t[4])
 				wasserFilmDicke[i] = wfd;
-			else wasserFilmDicke[i] = -1;
-		
+			else
+				wasserFilmDicke[i] = -1;
+
 		// Ausgabewerte
 		double letzterWert = w1;
-		for(int i=0; i<length; i++)
-			if(time[i] < t[0]) {
+		for (int i = 0; i < length; i++)
+			if (time[i] < t[0]) {
 				ersetzteAusgabeDaten[i] = prueflingDaten[i];
 				letzterWert = prueflingDaten[i];
-			}
-			else if(time[i] >= t[0] && time[i] < t[1])
+			} else if (time[i] >= t[0] && time[i] < t[1])
 				ersetzteAusgabeDaten[i] = letzterWert;
-			else if(time[i] >= t[1] && time[i] < t[2])
-				ersetzteAusgabeDaten[i] = (vorherigeNachbarDaten[i] + nachfolgeneNachbarDaten[i])/2.0;
-			else if(time[i] >= t[2] && time[i] < t[3])
-				ersetzteAusgabeDaten[i] = (vorherigeNachbarDaten[i] + nachfolgeneNachbarDaten[i])/2.0;
-			else if(time[i] >= t[3] && time[i] < t[4])
+			else if (time[i] >= t[1] && time[i] < t[2])
+				ersetzteAusgabeDaten[i] = (vorherigeNachbarDaten[i] + nachfolgeneNachbarDaten[i]) / 2.0;
+			else if (time[i] >= t[2] && time[i] < t[3])
+				ersetzteAusgabeDaten[i] = (vorherigeNachbarDaten[i] + nachfolgeneNachbarDaten[i]) / 2.0;
+			else if (time[i] >= t[3] && time[i] < t[4])
 				ersetzteAusgabeDaten[i] = -1;
-			else if(time[i] >= t[4] && time[i] < t[5])
+			else if (time[i] >= t[4] && time[i] < t[5])
 				ersetzteAusgabeDaten[i] = ersatzQuerrschnittDaten[i];
-			else if(time[i] >= t[5] && time[i] < t[6])
+			else if (time[i] >= t[5] && time[i] < t[6])
 				ersetzteAusgabeDaten[i] = ersatzQuerrschnittDaten[i];
-			else if(time[i] >= t[6] && time[i] < t[7])
+			else if (time[i] >= t[6] && time[i] < t[7])
 				ersetzteAusgabeDaten[i] = -1;
-			else if(time[i] >= t[7] && time[i] < t[8])
+			else if (time[i] >= t[7] && time[i] < t[8])
 				ersetzteAusgabeDaten[i] = ersatzQuerrschnittDaten[i];
-			else ersetzteAusgabeDaten[i] = -1;
-				
+			else
+				ersetzteAusgabeDaten[i] = -1;
+
 		System.out.print(' ');
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void publiziere(final ResultData original,
-									final Data nutzDatum){
+	protected void publiziere(final ResultData original, final Data nutzDatum) {
 		boolean publiziereDatensatz = false;
-		
-		if(nutzDatum == null){
+
+		if (nutzDatum == null) {
 			/**
-			 * "keine Daten" wird nur publiziert, wenn das Objekt vorher
-			 * nicht auch schon auf keine Daten stand
+			 * "keine Daten" wird nur publiziert, wenn das Objekt vorher nicht
+			 * auch schon auf keine Daten stand
 			 */
-			if(this.letztesPubDatum != null && this.letztesPubDatum.getData() != null){
+			if (this.letztesPubDatum != null
+					&& this.letztesPubDatum.getData() != null) {
 				publiziereDatensatz = true;
 			}
-		}else{
+		} else {
 			publiziereDatensatz = true;
 		}
-		
-		if(publiziereDatensatz){
-			if(!original.getObject().getPid().equals(zentralSensor.getPid()) ) return;
-			double ni = nutzDatum.getItem("NiederschlagsIntensität").getItem("Wert").asUnscaledValue().doubleValue();
-			if(ni>=0) ni = nutzDatum.getItem("NiederschlagsIntensität").getItem("Wert").asScaledValue().doubleValue();
-			else ni = -1.0;
-			
-			Assert.assertTrue("Erwartetes datum: " + ersetzteAusgabeDaten[indexEmpf] + " Berechnetes datum: " + ni + " index " + (indexEmpf),ersetzteAusgabeDaten[indexEmpf] == ni);
-			if(ersetzteAusgabeDaten[indexEmpf] == ni){
-				System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f == %3f", indexEmpf, ersetzteAusgabeDaten[indexEmpf], ni));				
-			}else{
-				System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f != %3f", indexEmpf, ersetzteAusgabeDaten[indexEmpf], ni));
+
+		if (publiziereDatensatz) {
+			if (!original.getObject().getPid().equals(zentralSensor.getPid()))
+				return;
+			double ni = nutzDatum.getItem("NiederschlagsIntensität").getItem(
+					"Wert").asUnscaledValue().doubleValue();
+			if (ni >= 0)
+				ni = nutzDatum.getItem("NiederschlagsIntensität").getItem(
+						"Wert").asScaledValue().doubleValue();
+			else
+				ni = -1.0;
+
+			Assert.assertTrue("Erwartetes datum: "
+					+ ersetzteAusgabeDaten[indexEmpf] + " Berechnetes datum: "
+					+ ni + " index " + (indexEmpf),
+					ersetzteAusgabeDaten[indexEmpf] == ni);
+			if (ersetzteAusgabeDaten[indexEmpf] == ni) {
+				System.out.println(String.format(
+						"[ %4d ] Ersatzwert OK: %3f == %3f", indexEmpf,
+						ersetzteAusgabeDaten[indexEmpf], ni));
+			} else {
+				System.out.println(String.format(
+						"[ %4d ] Ersatzwert OK: %3f != %3f", indexEmpf,
+						ersetzteAusgabeDaten[indexEmpf], ni));
 			}
-			
+
 			indexEmpf++;
-			synchronized (VERWALTUNG) {
-				if(indexEmpf >= ersetzteAusgabeDaten.length) MweNiSensorJunitTester.warten = false;
-				VERWALTUNG.notify();
+			synchronized (dieVerwaltung) {
+				if (indexEmpf >= ersetzteAusgabeDaten.length)
+					MweNiSensorJunitTester.warten = false;
+				dieVerwaltung.notify();
 			}
-			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.DFS.publiziere(original, nutzDatum);
+			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.dieDfs
+					.publiziere(original, nutzDatum);
 		}
 	}
 }

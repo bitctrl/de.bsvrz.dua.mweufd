@@ -28,26 +28,27 @@ package de.bsvrz.dua.mweufd;
 
 /**
  * Repräsentiert die drei Ergebnismoeglichkeiten, die bei der Messwertersetzung
- * in Bezug auf eine bestimmte Methode moeglich sind
- *  
+ * in Bezug auf eine bestimmte Methode moeglich sind.
+ * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
 public enum MweMethodenErgebnis {
-	
+
 	/**
-	 * Messwertersetzung war moeglich und wurde durchgefuehrt
+	 * Messwertersetzung war moeglich und wurde durchgefuehrt.
 	 */
 	JA,
-	
+
 	/**
-	 * Messwertersetzung war nicht moeglich und Warten waere sinnlos
+	 * Messwertersetzung war nicht moeglich und Warten waere sinnlos.
 	 */
 	NEIN,
-	
+
 	/**
-	 * Messwertersetzung war nicht moeglich ABER Warten waere sinnvoll
+	 * Messwertersetzung war nicht moeglich ABER Warten waere sinnvoll.
 	 */
 	WARTE;
-	
+
 }

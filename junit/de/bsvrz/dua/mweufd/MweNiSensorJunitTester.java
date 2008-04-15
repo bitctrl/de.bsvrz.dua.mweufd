@@ -31,50 +31,64 @@ import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktVerwaltungsAdapter;
 
 /**
- * Testet die MweNiSensor Klasse
+ * Testet die MweNiSensor Klasse.
  * 
  * @author BitCtrl Systems GmbH, Bachraty
- *
+ * 
+ * @version $Id$
  */
 public class MweNiSensorJunitTester {
-		
 
-	public static boolean warten = true;
-	
 	/**
-	 * Der Test
+	 * warten?
+	 */
+	public static boolean warten = true;
+
+	/**
+	 * Der Test.
 	 */
 	@Test
-	public void test1() {		
-		final long MIN_IN_MS = 1000 * 60;		
-		final long S_IN_MS = 1000;
-		
-		final long messwertErsetzungMax = 120*MIN_IN_MS;
-		final long messwertFortFuehrungMax = 3*MIN_IN_MS;
-		final long periode = 30* S_IN_MS;
-		
-		MweNiSensorTest.generiereTestDatenNachPruefSpezNI_1(messwertFortFuehrungMax,messwertErsetzungMax , periode);
+	public void test1() {
+
+		final long messwertErsetzungMax = 120 * 1000 * 60;
+		final long messwertFortFuehrungMax = 3 * 1000 * 60;
+		final long periode = 30 * 1000;
+
+		MweNiSensorTest.generiereTestDatenNachPruefSpezNI_1(
+				messwertFortFuehrungMax, messwertErsetzungMax, periode);
 		DatenFlussSteuerungVersorgerTest.reset();
 		DUAUmfeldDatenSensorTest.reset();
 		MweUfdSensorTest.reset();
-		
+
 		AbstraktVerwaltungsAdapter verw = new VerwaltungMesswertErsetzungUFDTest();
 		StandardApplicationRunner.run(verw, Verbindung.getConData());
-		
-		MweNiSensorTest.parametriereSensor( messwertFortFuehrungMax, messwertErsetzungMax, periode);
-		
-		while(MweNiSensorTest.naechsterCyklus()) 
-		{ 
-			try { Thread.sleep(200); } catch (Exception e) { }
+
+		MweNiSensorTest.parametriereSensor(messwertFortFuehrungMax,
+				messwertErsetzungMax, periode);
+
+		while (MweNiSensorTest.naechsterCyklus()) {
+			try {
+				Thread.sleep(200);
+			} catch (Exception e) {
+				//
+			}
 		}
 		synchronized (verw) {
 			try {
-				while(warten)  verw.wait();
-			} catch (Exception e) {	}
+				while (warten) {
+					verw.wait();
+				}
+			} catch (Exception e) {
+				//
+			}
 		}
-		((VerwaltungMesswertErsetzungUFDTest)verw).disconnect();
-		Mwe_Tpt_Lt_Ns_Fbz_SensorTest.reset();
-		
-		try { Thread.sleep(1000); } catch (Exception e) { }
+		((VerwaltungMesswertErsetzungUFDTest) verw).disconnect();
+		MweTptLtNsFbzSensorTest.reset();
+
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			//
+		}
 	}
 }

@@ -40,204 +40,238 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
- * Implementierung der Messwertersetzung nach folgendem Verfahren:<br><br>
+ * Implementierung der Messwertersetzung nach folgendem Verfahren:<br>
+ * <br>
  * 
- * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist über keines der
- * Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der Sensorwert als nicht ermittelbar
- * zukennzeichnen:<br><br>
+ * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist über
+ * keines der Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der
+ * Sensorwert als nicht ermittelbar zukennzeichnen:<br>
+ * <br>
+ *  - für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
+ * plausible Messwert maßgebend,<br> - sonst, wenn die zugeordneten beiden
+ * benachbarten Umfelddatenmessstellen (vor und nach) eine
+ * Niederschlagsintensität > 0 oder beide = 0 plausibel gemessen haben, nehme
+ * als Ersatzwert den Mittelwert aus beiden benachbarten MQ-Werten,<br> -
+ * sonst, wenn die Wasserfilmdicke gemessen wurde, wird kein Ersatzwert für die
+ * Niederschalgsintensität bestimmt, Der Sensorwert ist als nicht ermittelbar zu
+ * kennzeichnen<br> - sonst werden die plausiblen Messwerte des
+ * Ersatzquerschnittes übernommen,<br> - sonst Sensorwert als nicht ermittelbar
+ * kennzeichnen<br>
  * 
- * - für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte plausible
- * Messwert maßgebend,<br>
- * - sonst, wenn die zugeordneten beiden benachbarten Umfelddatenmessstellen (vor und
- * nach) eine Niederschlagsintensität > 0 oder beide = 0 plausibel gemessen haben, nehme
- * als Ersatzwert den Mittelwert aus beiden benachbarten MQ-Werten,<br>
- * - sonst, wenn die Wasserfilmdicke gemessen wurde, wird kein Ersatzwert für die Niederschalgsintensität
- * bestimmt, Der Sensorwert ist als nicht ermittelbar zu kennzeichnen<br>
- * - sonst werden die plausiblen Messwerte des Ersatzquerschnittes übernommen,<br>
- * - sonst Sensorwert als nicht ermittelbar kennzeichnen<br>
- *  
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
-public class MweNiSensor
-extends AbstraktMweUfdsSensor{
-	
+public class MweNiSensor extends AbstraktMweUfdsSensor {
+
 	/**
-	 * Der WFD-Sensor mit aktuellen Daten
+	 * Der WFD-Sensor mit aktuellen Daten.
 	 */
 	protected MweUfdSensor wfdDatenSensor = null;
 
 	/**
-	 * letzter empfangener WFD-Datensatz
+	 * letzter empfangener WFD-Datensatz.
 	 */
 	private ResultData letzterWfdDatensatz = null;
-		
+
 	/**
-	 * letzter empfangener Datensatz des Nachfolgersensors
+	 * letzter empfangener Datensatz des Nachfolgersensors.
 	 */
 	private ResultData letzterNachfolgerDatensatz = null;
-	
+
 	/**
-	 * letzter empfangener Datensatz des Vorgaengersensors
+	 * letzter empfangener Datensatz des Vorgaengersensors.
 	 */
 	private ResultData letzterVorgaengerDatensatz = null;
 
-	
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor.
 	 * 
-	 * @param verwaltung Verbindung zum Verwaltungsmodul
-	 * @param messStelle die Umfelddatenmessstelle, die in Bezug auf einen bestimmten
-	 * Hauptsensor messwertersetzt werden soll (muss <code> != null</code> sein)
-	 * @param sensor der Umfelddatensensor der messwertersetzt werden soll
-	 * (muss <code> != null</code> sein)
-	 * @throws DUAInitialisierungsException wenn die Initialisierung des Bearbeitungsknotens
-	 * fehlgeschlagen ist
+	 * @param verwaltung
+	 *            Verbindung zum Verwaltungsmodul
+	 * @param messStelle
+	 *            die Umfelddatenmessstelle, die in Bezug auf einen bestimmten
+	 *            Hauptsensor messwertersetzt werden soll (muss
+	 *            <code> != null</code> sein)
+	 * @param sensor
+	 *            der Umfelddatensensor der messwertersetzt werden soll (muss
+	 *            <code> != null</code> sein)
+	 * @throws DUAInitialisierungsException
+	 *             wenn die Initialisierung des Bearbeitungsknotens
+	 *             fehlgeschlagen ist
 	 */
 	public MweNiSensor(IVerwaltungMitGuete verwaltung,
 			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
-				
-		if(this.nachfolger != null){
-			this.nachfolger.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
-				public void aktualisiereDaten(ResultData resultat) {
-					MweNiSensor.this.letzterNachfolgerDatensatz = resultat;
-					MweNiSensor.this.trigger();
-				}
-				
-			}, true);
-		}
-		
-		if(this.vorgaenger != null){
-			this.vorgaenger.addListener(new IOnlineUfdSensorListener<ResultData>(){
+		if (this.nachfolger != null) {
+			this.nachfolger.addListener(
+					new IOnlineUfdSensorListener<ResultData>() {
 
-				public void aktualisiereDaten(ResultData resultat) {
-					MweNiSensor.this.letzterVorgaengerDatensatz = resultat;
-					MweNiSensor.this.trigger();
-				}
-				
-			}, true);
+						public void aktualisiereDaten(ResultData resultat) {
+							MweNiSensor.this.letzterNachfolgerDatensatz = resultat;
+							MweNiSensor.this.trigger();
+						}
+
+					}, true);
 		}
 
-		DUAUmfeldDatenSensor wfdSensor = messStelle.getHauptSensor(UmfeldDatenArt.wfd);
-		if(wfdSensor == null){
-			if(messStelle.getNebenSensoren(UmfeldDatenArt.wfd).size() > 0){
-				wfdSensor = messStelle.getNebenSensoren(UmfeldDatenArt.wfd).iterator().next();
-				Debug.getLogger().warning("An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
-						" ist kein WFD-Hauptsensor konfiguriert. Nehme Nebensensor " + wfdSensor); //$NON-NLS-1$
+		if (this.vorgaenger != null) {
+			this.vorgaenger.addListener(
+					new IOnlineUfdSensorListener<ResultData>() {
+
+						public void aktualisiereDaten(ResultData resultat) {
+							MweNiSensor.this.letzterVorgaengerDatensatz = resultat;
+							MweNiSensor.this.trigger();
+						}
+
+					}, true);
+		}
+
+		DUAUmfeldDatenSensor wfdSensor = messStelle
+				.getHauptSensor(UmfeldDatenArt.wfd);
+		if (wfdSensor == null) {
+			if (messStelle.getNebenSensoren(UmfeldDatenArt.wfd).size() > 0) {
+				wfdSensor = messStelle.getNebenSensoren(UmfeldDatenArt.wfd)
+						.iterator().next();
+				Debug.getLogger().warning(
+						"An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
+								" ist kein WFD-Hauptsensor konfiguriert. Nehme Nebensensor "
+								+ wfdSensor); //$NON-NLS-1$
 			}
 		}
-		
-		if(wfdSensor != null){
-			this.wfdDatenSensor = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), wfdSensor.getObjekt());
-			this.wfdDatenSensor.addListener(new IOnlineUfdSensorListener<ResultData>(){
 
-				public void aktualisiereDaten(ResultData resultat) {
-					MweNiSensor.this.letzterWfdDatensatz = resultat;
-					MweNiSensor.this.trigger();
-				}
-				
-			}, true);	
+		if (wfdSensor != null) {
+			this.wfdDatenSensor = MweUfdSensor.getInstanz(verwaltung
+					.getVerbindung(), wfdSensor.getObjekt());
+			this.wfdDatenSensor.addListener(
+					new IOnlineUfdSensorListener<ResultData>() {
+
+						public void aktualisiereDaten(ResultData resultat) {
+							MweNiSensor.this.letzterWfdDatensatz = resultat;
+							MweNiSensor.this.trigger();
+						}
+
+					}, true);
 		}
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected synchronized void trigger() {
-		if(this.letztesEmpangenesImplausiblesDatum != null){
-			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(this.letztesEmpangenesImplausiblesDatum);
-						
-			if(this.letztesEmpangenesPlausiblesDatum == null ||
-				(this.messWertFortschreibungStart != -1 &&
-				this.letztesEmpangenesImplausiblesDatum.getDataTime() - this.messWertFortschreibungStart >=
-				this.sensorMitParametern.getMaxZeitMessWertFortschreibung())){
-				
+		if (this.letztesEmpangenesImplausiblesDatum != null) {
+			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
+					this.letztesEmpangenesImplausiblesDatum);
+
+			if (this.letztesEmpangenesPlausiblesDatum == null
+					|| (this.messWertFortschreibungStart != -1 && this.letztesEmpangenesImplausiblesDatum
+							.getDataTime()
+							- this.messWertFortschreibungStart >= this.sensorMitParametern
+							.getMaxZeitMessWertFortschreibung())) {
+
 				/**
-				 * naechster Punkt:
-				 * wenn die zugeordneten beiden benachbarten Umfelddatenmessstellen (vor und
-				 * nach) eine Niederschlagsintensität > 0 oder beide = 0 plausibel gemessen haben, nehme
-				 * als Ersatzwert den Mittelwert aus beiden benachbarten MQ-Werten
+				 * naechster Punkt: wenn die zugeordneten beiden benachbarten
+				 * Umfelddatenmessstellen (vor und nach) eine
+				 * Niederschlagsintensität > 0 oder beide = 0 plausibel gemessen
+				 * haben, nehme als Ersatzwert den Mittelwert aus beiden
+				 * benachbarten MQ-Werten
 				 */
-				if(this.vorgaenger != null && this.nachfolger != null &&
-					this.letzterVorgaengerDatensatz != null && this.letzterNachfolgerDatensatz != null &&
-					this.letzterVorgaengerDatensatz.getData() != null && this.letzterNachfolgerDatensatz.getData() != null){
-					
-					UmfeldDatenSensorDatum datumVor = new UmfeldDatenSensorDatum(this.letzterVorgaengerDatensatz);
-					UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(this.letzterNachfolgerDatensatz);
-					
-					if(datumVor.getT() == datumImpl.getT() &&
-							datumNach.getT() == datumImpl.getT()){
-						if(datumVor.getDatenZeit() == datumImpl.getDatenZeit() &&
-								datumNach.getDatenZeit() == datumImpl.getDatenZeit()){
-							if(this.isMittelWertErrechenbar(datumImpl, datumVor, datumNach)){
+				if (this.vorgaenger != null && this.nachfolger != null
+						&& this.letzterVorgaengerDatensatz != null
+						&& this.letzterNachfolgerDatensatz != null
+						&& this.letzterVorgaengerDatensatz.getData() != null
+						&& this.letzterNachfolgerDatensatz.getData() != null) {
+
+					UmfeldDatenSensorDatum datumVor = new UmfeldDatenSensorDatum(
+							this.letzterVorgaengerDatensatz);
+					UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(
+							this.letzterNachfolgerDatensatz);
+
+					if (datumVor.getT() == datumImpl.getT()
+							&& datumNach.getT() == datumImpl.getT()) {
+						if (datumVor.getDatenZeit() == datumImpl.getDatenZeit()
+								&& datumNach.getDatenZeit() == datumImpl
+										.getDatenZeit()) {
+							if (this.isMittelWertErrechenbar(datumImpl,
+									datumVor, datumNach)) {
 								this.letztesEmpangenesImplausiblesDatum = null;
 								return;
 							}
-						}else if(datumVor.getDatenZeit() < datumImpl.getDatenZeit() ||
-								datumNach.getDatenZeit() < datumImpl.getDatenZeit()){
+						} else if (datumVor.getDatenZeit() < datumImpl
+								.getDatenZeit()
+								|| datumNach.getDatenZeit() < datumImpl
+										.getDatenZeit()) {
 							return;
 						}
 					}
 				}
-				
+
 				/**
-				 * naechster Punkt:
-				 * wenn die Wasserfilmdicke gemessen wurde, wird kein Ersatzwert für die Niederschalgsintensität
-				 * bestimmt, Der Sensorwert ist als nicht ermittelbar zu kennzeichnen
+				 * naechster Punkt: wenn die Wasserfilmdicke gemessen wurde,
+				 * wird kein Ersatzwert für die Niederschalgsintensität
+				 * bestimmt, Der Sensorwert ist als nicht ermittelbar zu
+				 * kennzeichnen
 				 */
-				if(this.wfdDatenSensor != null && this.letzterWfdDatensatz != null &&
-						this.letzterWfdDatensatz.getData() != null){
-					UmfeldDatenSensorDatum datumWfd = new UmfeldDatenSensorDatum(this.letzterWfdDatensatz);
-					
-					if(datumWfd.getT() == datumImpl.getT()) {
-						if(datumWfd.getDatenZeit() == datumImpl.getDatenZeit()){
-							if(datumWfd.getWert().getWert() >= 0){
+				if (this.wfdDatenSensor != null
+						&& this.letzterWfdDatensatz != null
+						&& this.letzterWfdDatensatz.getData() != null) {
+					UmfeldDatenSensorDatum datumWfd = new UmfeldDatenSensorDatum(
+							this.letzterWfdDatensatz);
+
+					if (datumWfd.getT() == datumImpl.getT()) {
+						if (datumWfd.getDatenZeit() == datumImpl.getDatenZeit()) {
+							if (datumWfd.getWert().getWert() >= 0) {
 								datumImpl.getWert().setNichtErmittelbarAn();
-								this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-										this.getNutzdatenKopieVon(this.letztesEmpangenesImplausiblesDatum));						
+								this
+										.publiziere(
+												this.letztesEmpangenesImplausiblesDatum,
+												this
+														.getNutzdatenKopieVon(this.letztesEmpangenesImplausiblesDatum));
 								this.letztesEmpangenesImplausiblesDatum = null;
 								return;
 							}
-						}else{
+						} else {
 							return;
 						}
 					}
 				}
-				
+
 				/**
-				 * naechster Punkt:
-				 * sonst werden die plausiblen Messwerte des Ersatzquerschnittes übernommen
+				 * naechster Punkt: sonst werden die plausiblen Messwerte des
+				 * Ersatzquerschnittes übernommen
 				 */
-				MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this.versucheErsatzWertErsetzung(datumImpl);
-				if(ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA){
+				MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this
+						.versucheErsatzWertErsetzung(datumImpl);
+				if (ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA) {
 					this.letztesEmpangenesImplausiblesDatum = null;
 					return;
-				}else
-				if(ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.WARTE){
+				} else if (ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.WARTE) {
 					return;
-				}				
-				
-				datumImpl.getWert().setNichtErmittelbarAn();
-				this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-						datumImpl.getDatum());
-				this.letztesEmpangenesImplausiblesDatum = null;				
-			}else{
-				/**
-				 * für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte plausible
-				 * Messwert massgebend
-				 */
-				if(this.messWertFortschreibungStart == -1){
-					this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum.getDataTime();
 				}
-				this.publiziere(this.letztesEmpangenesImplausiblesDatum, 
-						this.getNutzdatenKopieVon(this.letztesEmpangenesPlausiblesDatum));						
+
+				datumImpl.getWert().setNichtErmittelbarAn();
+				this.publiziere(this.letztesEmpangenesImplausiblesDatum,
+						datumImpl.getDatum());
+				this.letztesEmpangenesImplausiblesDatum = null;
+			} else {
+				/**
+				 * für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten)
+				 * ist der letzte plausible Messwert massgebend
+				 */
+				if (this.messWertFortschreibungStart == -1) {
+					this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum
+							.getDataTime();
+				}
+				this
+						.publiziere(
+								this.letztesEmpangenesImplausiblesDatum,
+								this
+										.getNutzdatenKopieVon(this.letztesEmpangenesPlausiblesDatum));
 				this.letztesEmpangenesImplausiblesDatum = null;
 			}
 		}
-	}	
+	}
 }

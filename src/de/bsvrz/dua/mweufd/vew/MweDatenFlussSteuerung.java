@@ -50,104 +50,102 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
- * Aktuelle Datenflusssteuerung der Messwertersetzung UFD
+ * Aktuelle Datenflusssteuerung der Messwertersetzung UFD.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
-public class MweDatenFlussSteuerung
-implements IDatenFlussSteuerungsListener{
-	
+public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
+
 	/**
-	 * Verbindung zum Verwaltungsmodul
+	 * Verbindung zum Verwaltungsmodul.
 	 */
-	protected static IVerwaltung VERWALTUNG = null;
-	
+	protected static IVerwaltung dieVerwaltung = null;
+
 	/**
-	 * Schnittstelle zu den Informationen über die
-	 * Standardpublikationsaspekte
+	 * Schnittstelle zu den Informationen über die Standardpublikationsaspekte.
 	 */
 	private IStandardAspekte standardAspekte = null;
 
 	/**
-	 * Anmeldungen zum Publizieren von verarbeiteten
-	 * Daten
+	 * Anmeldungen zum Publizieren von verarbeiteten Daten.
 	 */
-	private DAVSendeAnmeldungsVerwaltung 
-						publikationsAnmeldungen = null;
-	
-	/**
-	 * Parameter zur Datenflusssteuerung
-	 */
-	private IDatenFlussSteuerungFuerModul iDfsMod
-								= DFSKonstanten.STANDARD;
+	private DAVSendeAnmeldungsVerwaltung publikationsAnmeldungen = null;
 
 	/**
-	 * Alle Objekte, die aktuell von der Datenflusssteuerung verwaltet werden
+	 * Parameter zur Datenflusssteuerung.
 	 */
-	private Collection<SystemObject> objekte = Collections.synchronizedCollection(new HashSet<SystemObject>());	
-	
-	
+	private IDatenFlussSteuerungFuerModul iDfsMod = DFSKonstanten.STANDARD;
+
 	/**
-	 * Standardkonstruktor
+	 * Alle Objekte, die aktuell von der Datenflusssteuerung verwaltet werden.
+	 */
+	private Collection<SystemObject> objekte = Collections
+			.synchronizedCollection(new HashSet<SystemObject>());
+
+	/**
+	 * Standardkonstruktor.
 	 * 
-	 * @param verwaltung Verbindung zum Verwaltungsmodul
-	 * @param standardAspekte Schnittstelle zu den Informationen über die
-	 * Standardpublikationsaspekte
-	 * @throws DUAInitialisierungsException wenn die Initialisierung der Datenflusssteuerung
-	 * fehlschlaegt
+	 * @param verwaltung
+	 *            Verbindung zum Verwaltungsmodul
+	 * @param standardAspekte
+	 *            Schnittstelle zu den Informationen über die
+	 *            Standardpublikationsaspekte
+	 * @throws DUAInitialisierungsException
+	 *             wenn die Initialisierung der Datenflusssteuerung fehlschlaegt
 	 */
 	public MweDatenFlussSteuerung(final IVerwaltung verwaltung,
-								  final IStandardAspekte standardAspekte)
-	throws DUAInitialisierungsException{
-		if(VERWALTUNG != null){
-			Debug.getLogger().error("Datenflusssteuerung darf nur einmal initialisiert werden"); //$NON-NLS-1$
+			final IStandardAspekte standardAspekte)
+			throws DUAInitialisierungsException {
+		if (dieVerwaltung != null) {
+			Debug.getLogger().error(
+					"Datenflusssteuerung darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
-		
-		VERWALTUNG = verwaltung;
+
+		dieVerwaltung = verwaltung;
 		this.standardAspekte = standardAspekte;
 		this.publikationsAnmeldungen = new DAVSendeAnmeldungsVerwaltung(
-				verwaltung.getVerbindung(),
-				SenderRole.source());
-		
+				verwaltung.getVerbindung(), SenderRole.source());
+
 		DatenFlussSteuerungsVersorger.getInstanz(verwaltung).addListener(this);
 	}
 
-	
 	/**
-	 * Publiziert ein Datum nach den Vorgaben der Datenflusssteuerung
+	 * Publiziert ein Datum nach den Vorgaben der Datenflusssteuerung.
 	 * 
-	 * @param original das Originaldatum
-	 * @param nutzDatum die im Originaldatum auszutauschenden Nutzdaten 
+	 * @param original
+	 *            das Originaldatum
+	 * @param nutzDatum
+	 *            die im Originaldatum auszutauschenden Nutzdaten
 	 * @return das publizierte Datum oder <code>null</code>, wenn kein Datum
-	 * publiziert werden konnte
+	 *         publiziert werden konnte
 	 */
-	public final synchronized ResultData publiziere(ResultData original, Data nutzDatum){
+	public final synchronized ResultData publiziere(ResultData original,
+			Data nutzDatum) {
 		ResultData letztesPubDatum = null;
-		
-		ResultData publikationsDatum = 
-			iDfsMod.getPublikationsDatum(original,
-					nutzDatum, standardAspekte.getStandardAspekt(original));
-		if(publikationsDatum != null){
-			this.publikationsAnmeldungen.sende(publikationsDatum);		
+
+		ResultData publikationsDatum = iDfsMod.getPublikationsDatum(original,
+				nutzDatum, standardAspekte.getStandardAspekt(original));
+		if (publikationsDatum != null) {
+			this.publikationsAnmeldungen.sende(publikationsDatum);
 			letztesPubDatum = publikationsDatum;
 		}
-		
+
 		return letztesPubDatum;
 	}
-	
-	
+
 	/**
-	 * Fuegt der Menge der Objekte, die aktuell von der Datenflusssteuerung verwaltet werden
-	 * ein Objekt hinzu
+	 * Fuegt der Menge der Objekte, die aktuell von der Datenflusssteuerung
+	 * verwaltet werden ein Objekt hinzu.
 	 * 
-	 * @param objekt ein neues Objekt
+	 * @param objekt
+	 *            ein neues Objekt
 	 */
-	public final synchronized void addObjekt(final SystemObject objekt){
+	public final synchronized void addObjekt(final SystemObject objekt) {
 		this.objekte.add(objekt);
 		this.aktualisiereObjektAnmeldungen();
 	}
-	
 
 	/**
 	 * {@inheritDoc}
@@ -157,24 +155,24 @@ implements IDatenFlussSteuerungsListener{
 				ModulTyp.MESSWERTERSETZUNG_UFD);
 		this.aktualisiereObjektAnmeldungen();
 	}
-	
-	
+
 	/**
-	 * Triggert die Aktualisierung der Objektanmeldungen mit allen aktuellen Objekten
-	 * unter der aktuellen Datenflusssteuerung
+	 * Triggert die Aktualisierung der Objektanmeldungen mit allen aktuellen
+	 * Objekten unter der aktuellen Datenflusssteuerung.
 	 */
-	private final synchronized void aktualisiereObjektAnmeldungen(){
-		Collection<DAVObjektAnmeldung> anmeldungenStd =	new ArrayList<DAVObjektAnmeldung>();
+	private synchronized void aktualisiereObjektAnmeldungen() {
+		Collection<DAVObjektAnmeldung> anmeldungenStd = new ArrayList<DAVObjektAnmeldung>();
 
-		SystemObject[] objekteBisJetzt = this.objekte.toArray(new SystemObject[0]);
+		SystemObject[] objekteBisJetzt = this.objekte
+				.toArray(new SystemObject[0]);
 
-		if(this.standardAspekte != null){
-			anmeldungenStd = this.standardAspekte.
-				getStandardAnmeldungen(objekteBisJetzt);				
+		if (this.standardAspekte != null) {
+			anmeldungenStd = this.standardAspekte
+					.getStandardAnmeldungen(objekteBisJetzt);
 		}
 
-		Collection<DAVObjektAnmeldung> anmeldungen = 
-			this.iDfsMod.getDatenAnmeldungen(objekteBisJetzt, anmeldungenStd);
+		Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod
+				.getDatenAnmeldungen(objekteBisJetzt, anmeldungenStd);
 
 		this.publikationsAnmeldungen.modifiziereObjektAnmeldung(anmeldungen);
 	}

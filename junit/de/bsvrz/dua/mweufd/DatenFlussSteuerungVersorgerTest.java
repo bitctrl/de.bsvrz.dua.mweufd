@@ -32,16 +32,18 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.DatenFlussSteuerungsVersorger;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
 
 /**
- *  Wegen Test-zwecken muss die Klasse DatenFlussSteuerungVersorger neuinitialisiert werden
- *  reset() ermoeglicht die Singleton-Instanz zu loeschen
+ * Wegen Test-zwecken muss die Klasse DatenFlussSteuerungVersorger
+ * neuinitialisiert werden reset() ermoeglicht die Singleton-Instanz zu loeschen.
+ * 
  * @author BitCtrl Systems GmbH, Bachraty
- *
+ * 
+ * @version $Id$
  */
-public class DatenFlussSteuerungVersorgerTest extends
+public final class DatenFlussSteuerungVersorgerTest extends
 		DatenFlussSteuerungsVersorger {
-	
+
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor.
 	 * 
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
@@ -59,7 +61,7 @@ public class DatenFlussSteuerungVersorgerTest extends
 	}
 
 	/**
-	 * Ermoeglicht dass die Klasse neu initialisiert wird
+	 * Ermoeglicht dass die Klasse neu initialisiert wird.
 	 */
 	public static void reset() {
 		instanz = null;
