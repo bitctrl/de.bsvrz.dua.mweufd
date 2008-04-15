@@ -28,7 +28,7 @@ package de.bsvrz.dua.mweufd.vew;
 
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.dua.mweufd.mweTptLtNsFbzSensor;
+import de.bsvrz.dua.mweufd.MweTptLtNsFbzSensor;
 import de.bsvrz.dua.mweufd.fbt.MweFbtSensor;
 import de.bsvrz.dua.mweufd.ni.MweNiSensor;
 import de.bsvrz.dua.mweufd.sw.MweSwSensor;
@@ -110,16 +110,16 @@ public class VerwaltungMesswertErsetzungUFD extends
 				new MweNiSensor(this, messStelle, hauptSensorNI);
 			}
 			if (hauptSensorNS != null) {
-				new mweTptLtNsFbzSensor(this, messStelle, hauptSensorNS);
+				new MweTptLtNsFbzSensor(this, messStelle, hauptSensorNS);
 			}
 			if (hauptSensorFBZ != null) {
-				new mweTptLtNsFbzSensor(this, messStelle, hauptSensorFBZ);
+				new MweTptLtNsFbzSensor(this, messStelle, hauptSensorFBZ);
 			}
 			if (hauptSensorLT != null) {
-				new mweTptLtNsFbzSensor(this, messStelle, hauptSensorLT);
+				new MweTptLtNsFbzSensor(this, messStelle, hauptSensorLT);
 			}
 			if (hauptSensorTPT != null) {
-				new mweTptLtNsFbzSensor(this, messStelle, hauptSensorTPT);
+				new MweTptLtNsFbzSensor(this, messStelle, hauptSensorTPT);
 			}
 			if (hauptSensorWFD != null) {
 				new MweWfdSensor(this, messStelle, hauptSensorWFD);

@@ -51,7 +51,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
  * 
  * @version $Id$
  */
-public class MweTptLtNsFbzSensorTest extends mweTptLtNsFbzSensor {
+public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 
 	/**
 	 * Testdaten.
