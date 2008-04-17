@@ -26,6 +26,10 @@
 
 package de.bsvrz.dua.mweufd.vew;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import de.bsvrz.dav.daf.main.OneSubscriptionPerSendData;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.MweTptLtNsFbzSensor;
@@ -42,7 +46,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
-import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Das Modul Verwaltung ist die zentrale Steuereinheit der SWE Messwertersetzung
@@ -86,7 +89,22 @@ public class VerwaltungMesswertErsetzungUFD extends
 
 		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung, this
 				.getSystemObjekte());
-
+		
+		/**
+		 * die Datenarten, die nicht messwertersetzt werden, aber dennoch
+		 * weitergereicht werden sollen
+		 */
+		Set<UmfeldDatenArt> rest = new HashSet<UmfeldDatenArt>();
+		rest.addAll(UmfeldDatenArt.getInstanzen());
+		rest.remove(UmfeldDatenArt.ni);
+		rest.remove(UmfeldDatenArt.ns);
+		rest.remove(UmfeldDatenArt.fbz);
+		rest.remove(UmfeldDatenArt.wfd);
+		rest.remove(UmfeldDatenArt.sw);
+		rest.remove(UmfeldDatenArt.tpt);
+		rest.remove(UmfeldDatenArt.lt);	
+		rest.remove(UmfeldDatenArt.fbt);
+		
 		for (DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle
 				.getInstanzen()) {
 			DUAUmfeldDatenSensor hauptSensorNI = messStelle
@@ -105,7 +123,7 @@ public class VerwaltungMesswertErsetzungUFD extends
 					.getHauptSensor(UmfeldDatenArt.lt);
 			DUAUmfeldDatenSensor hauptSensorFBT = messStelle
 					.getHauptSensor(UmfeldDatenArt.fbt);
-
+			
 			if (hauptSensorNI != null) {
 				new MweNiSensor(this, messStelle, hauptSensorNI);
 			}
@@ -129,6 +147,23 @@ public class VerwaltungMesswertErsetzungUFD extends
 			}
 			if (hauptSensorFBT != null) {
 				new MweFbtSensor(this, messStelle, hauptSensorFBT);
+			}
+
+			for (UmfeldDatenArt datenArt : rest) {
+				DUAUmfeldDatenSensor restSensor = messStelle
+						.getHauptSensor(datenArt);
+				if (restSensor != null) {
+					try {
+						RestDatenVersender.getInstanz(this.verbindung).add(
+								restSensor.getObjekt());
+					} catch (OneSubscriptionPerSendData e) {
+						throw new DUAInitialisierungsException(
+								"Daten von Umfelddatensensor "
+										+ restSensor.getObjekt()
+										+ " koennen nicht weitergeleitet werden",
+								e);
+					}
+				}
 			}
 		}
 	}
