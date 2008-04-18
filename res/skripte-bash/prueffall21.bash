@@ -21,8 +21,8 @@ appname=mweufd
 #     Testroutinen     #
 ########################
 
-testTexts[$index]="Testet die Mwe_Tpt_Lt_Ns_Fbz_Sensor Klasse"
-tests[$index]="Mwe_Tpt_Lt_Ns_Fbz_SensorJunitTester"
+testTexts[$index]="Testet die MweTptLtNsFbzSensor Klasse"
+tests[$index]="MweTptLtNsFbzSensorJunitTester"
 index=$(($index+1))
 
 testTexts[$index]="Testet die MweFbtSensor Klasse"

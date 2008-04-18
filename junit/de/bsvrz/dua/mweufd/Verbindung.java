@@ -42,27 +42,27 @@ public final class Verbindung {
 		//
 	}
 	
-	// /**
-	// * Verbindungsdaten
-	// */
-	// private static final String[] CON_DATA = new String[] {
-	// "-datenverteiler=localhost:8083", //$NON-NLS-1$
-	// "-benutzer=Tester", //$NON-NLS-1$
-	// "-authentifizierung=passwd", //$NON-NLS-1$
-	// "-debugLevelStdErrText=WARNING", //$NON-NLS-1$
-	// "-debugLevelFileText=WARNING", //$NON-NLS-1$
-	// "-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; //$NON-NLS-1$
-
-	/**
-	 * Verbindungsdaten.
+	 /**
+	 * Verbindungsdaten
 	 */
-	private static final String[] CON_DATA = new String[] {
-			"-datenverteiler=localhost:8083", //$NON-NLS-1$
-			"-benutzer=Tester", //$NON-NLS-1$
-			"-authentifizierung=c:\\passwd", //$NON-NLS-1$
-			"-debugLevelStdErrText=WARNING", //$NON-NLS-1$
-			"-debugLevelFileText=WARNING", //$NON-NLS-1$
-			"-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; //$NON-NLS-1$
+	 private static final String[] CON_DATA = new String[] {
+	 "-datenverteiler=localhost:8083", //$NON-NLS-1$
+	 "-benutzer=Tester", //$NON-NLS-1$
+	 "-authentifizierung=passwd", //$NON-NLS-1$
+	 "-debugLevelStdErrText=OFF", //$NON-NLS-1$
+	 "-debugLevelFileText=OFF", //$NON-NLS-1$
+	 "-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; //$NON-NLS-1$
+
+//	/**
+//	 * Verbindungsdaten.
+//	 */
+//	private static final String[] CON_DATA = new String[] {
+//			"-datenverteiler=localhost:8083", //$NON-NLS-1$
+//			"-benutzer=Tester", //$NON-NLS-1$
+//			"-authentifizierung=c:\\passwd", //$NON-NLS-1$
+//			"-debugLevelStdErrText=WARNING", //$NON-NLS-1$
+//			"-debugLevelFileText=WARNING", //$NON-NLS-1$
+//			"-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; //$NON-NLS-1$
 
 	/**
 	 * Erfragt eine Kopie der Verbindungsdaten.
