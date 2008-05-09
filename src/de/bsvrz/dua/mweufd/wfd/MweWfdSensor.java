@@ -42,7 +42,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
-import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Implementierung der Messwertersetzung nach folgendem Verfahren:<br>
@@ -51,14 +50,13 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist über
  * keines der Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der
  * Sensorwert als nicht ermittelbar zukennzeichnen:<br>
- * <br>
- *  - wenn am gleichen Umfeldmessstellen ein weiterer Bodensensor (Nebensensor)
- * plausible Werte liefert, so sind diese zu übernehmen, - sonst ist für eine
- * parametrierbare Zeit (Ersteinstellung = 3 Minuten) der letzte plausible
- * Messwert maßgebend,<br> - sonst, wenn die zugeordneten beiden benachbarten
- * Umfeldmessstellen (vor und nach) eine Wasserfilmdicke > 0 oder beide = 0
- * plausibel gemessen haben, nehme als Ersatzwert den Mittelwert aus beiden
- * benachbarten Umfeldmessstellen-Werten,<br> - sonst, wenn die
+ * <br> - wenn am gleichen Umfeldmessstellen ein weiterer Bodensensor
+ * (Nebensensor) plausible Werte liefert, so sind diese zu übernehmen, - sonst
+ * ist für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) der letzte
+ * plausible Messwert maßgebend,<br> - sonst, wenn die zugeordneten beiden
+ * benachbarten Umfeldmessstellen (vor und nach) eine Wasserfilmdicke > 0 oder
+ * beide = 0 plausibel gemessen haben, nehme als Ersatzwert den Mittelwert aus
+ * beiden benachbarten Umfeldmessstellen-Werten,<br> - sonst, wenn die
  * Niederschlagsintensität plausibel gemessen wurde, wird kein Ersatzwert für
  * die Wasserfilmdicke bestimmt. Der Sensorwert ist als nicht ermittelbar zu
  * kennzeichnen. - sonst werden die plausiblen Messwerte des Ersatzquerschnittes
@@ -146,10 +144,6 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 			if (messStelle.getNebenSensoren(UmfeldDatenArt.ni).size() > 0) {
 				niSensor = messStelle.getNebenSensoren(UmfeldDatenArt.ni)
 						.iterator().next();
-				Debug.getLogger().warning(
-						"An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
-								" ist kein NI-Hauptsensor konfiguriert. Nehme Nebensensor "
-								+ niSensor); //$NON-NLS-1$
 			}
 		}
 

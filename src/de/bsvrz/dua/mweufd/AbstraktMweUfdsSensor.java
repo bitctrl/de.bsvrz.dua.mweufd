@@ -299,7 +299,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.dieDfs
 					.publiziere(original, nutzDatum);
 			if (this.letztesPubDatum == null) {
-				Debug.getLogger().error(
+				Debug.getLogger().warning(
 						"Datenflusssteuerung konnte kein Publikationsdatum ermitteln fuer:\n" //$NON-NLS-1$
 								+ original);
 			}
@@ -354,7 +354,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 							gueteWert1, gueteWert2), dieVerwaltung
 							.getGueteFaktor());
 				} catch (GueteException e) {
-					Debug.getLogger().error(
+					Debug.getLogger().warning(
 							"Guete kann nicht angepasst werden\n" + //$NON-NLS-1$
 									"Wert1: " + datumVor + //$NON-NLS-1$
 									"\nWert2: " + datumNach); //$NON-NLS-1$
@@ -400,7 +400,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 			neueGuete = GueteVerfahren.gewichte(guete, dieVerwaltung
 					.getGueteFaktor());
 		} catch (GueteException e) {
-			Debug.getLogger().error(
+			Debug.getLogger().warning(
 					"Guete von kopiertem Wert kann nicht angepasst werden: " + //$NON-NLS-1$
 							kopie);
 			e.printStackTrace();

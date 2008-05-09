@@ -37,7 +37,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
-import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Implementierung der Messwertersetzung nach folgendem Verfahren:<br>
@@ -135,10 +134,6 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 			if (messStelle.getNebenSensoren(UmfeldDatenArt.wfd).size() > 0) {
 				wfdSensor = messStelle.getNebenSensoren(UmfeldDatenArt.wfd)
 						.iterator().next();
-				Debug.getLogger().warning(
-						"An Umfelddatenmessstelle " + messStelle + //$NON-NLS-1$
-								" ist kein WFD-Hauptsensor konfiguriert. Nehme Nebensensor "
-								+ wfdSensor); //$NON-NLS-1$
 			}
 		}
 

@@ -47,7 +47,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.ModulTyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IStandardAspekte;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
-import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Aktuelle Datenflusssteuerung der Messwertersetzung UFD.
@@ -99,7 +98,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 			final IStandardAspekte standardAspekte)
 			throws DUAInitialisierungsException {
 		if (dieVerwaltung != null) {
-			Debug.getLogger().error(
+			throw new RuntimeException(
 					"Datenflusssteuerung darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
 
