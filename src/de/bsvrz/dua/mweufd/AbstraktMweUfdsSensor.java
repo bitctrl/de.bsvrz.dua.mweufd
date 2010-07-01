@@ -214,13 +214,13 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 
 			this.letztesEmpangenesImplausiblesDatum = null;
 
-			/**
-			 * TODO: raus
-			 */
-			throw new RuntimeException(
-					"Nicht freigegebenes implausibles Datum:\n" + //$NON-NLS-1$
-							this.letztesEmpangenesImplausiblesDatum
-							+ "\nNachfolger:\n" + resultat); //$NON-NLS-1$
+//			/**
+//			 * TODO: raus
+//			 */
+//			throw new RuntimeException(
+//					"Nicht freigegebenes implausibles Datum:\n" + //$NON-NLS-1$
+//							this.letztesEmpangenesImplausiblesDatum
+//							+ "\nNachfolger:\n" + resultat); //$NON-NLS-1$
 		}
 
 		if (resultat.getData() != null) {
