@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Messwertersetzung UFD
 Bundle-SymbolicName: de.bsvrz.dua.mweufd
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.4
 Bundle-Vendor: BitCtrl Systems GmbH
 Require-Bundle: de.bsvrz.dua.guete,
  de.bsvrz.sys.funclib.bitctrl;bundle-version="1.2.2"

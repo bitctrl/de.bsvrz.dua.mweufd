@@ -50,17 +50,20 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist über
  * keines der Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der
  * Sensorwert als nicht ermittelbar zukennzeichnen:<br>
- * <br> - wenn am gleichen Umfeldmessstellen ein weiterer Bodensensor
- * (Nebensensor) plausible Werte liefert, so sind diese zu übernehmen, - sonst
- * ist für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) der letzte
- * plausible Messwert maßgebend,<br> - sonst, wenn die zugeordneten beiden
- * benachbarten Umfeldmessstellen (vor und nach) eine Wasserfilmdicke > 0 oder
- * beide = 0 plausibel gemessen haben, nehme als Ersatzwert den Mittelwert aus
- * beiden benachbarten Umfeldmessstellen-Werten,<br> - sonst, wenn die
- * Niederschlagsintensität plausibel gemessen wurde, wird kein Ersatzwert für
- * die Wasserfilmdicke bestimmt. Der Sensorwert ist als nicht ermittelbar zu
- * kennzeichnen. - sonst werden die plausiblen Messwerte des Ersatzquerschnittes
- * übernommen,<br> - sonst Sensorwert als nicht ermittelbar kennzeichnen.
+ * <br>
+ * - wenn am gleichen Umfeldmessstellen ein weiterer Bodensensor (Nebensensor)
+ * plausible Werte liefert, so sind diese zu übernehmen, - sonst ist für eine
+ * parametrierbare Zeit (Ersteinstellung = 3 Minuten) der letzte plausible
+ * Messwert maßgebend,<br>
+ * - sonst, wenn die zugeordneten beiden benachbarten Umfeldmessstellen (vor und
+ * nach) eine Wasserfilmdicke > 0 oder beide = 0 plausibel gemessen haben, nehme
+ * als Ersatzwert den Mittelwert aus beiden benachbarten
+ * Umfeldmessstellen-Werten,<br>
+ * - sonst, wenn die Niederschlagsintensität plausibel gemessen wurde, wird kein
+ * Ersatzwert für die Wasserfilmdicke bestimmt. Der Sensorwert ist als nicht
+ * ermittelbar zu kennzeichnen. - sonst werden die plausiblen Messwerte des
+ * Ersatzquerschnittes übernommen,<br>
+ * - sonst Sensorwert als nicht ermittelbar kennzeichnen.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
@@ -302,16 +305,17 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 	 * 
 	 * @param datumImpl
 	 *            das implausible Datum, das ersetzt werden soll
-	 * @return das Ergebnis des Ersetzungsversuchs<br> - <code><b>JA</b></code>:
-	 *         es existiert ein Nebensensor mit aktuellen, plausiblen Daten. Der
-	 *         implausible Messwert wurde ersetzt und publiziert<br> -
-	 *         <code><b>NEIN</b></code>: entweder gibt es keine
-	 *         Nebensensoren, oder alle Nebensensoren, die Daten liefern haben
-	 *         keine Nutzdaten oder senden im falschen Intervall oder senden im
-	 *         richtigen Intervall und haben nur implausible aktuelle Nutzdaten<br> -
-	 *         <code><b>WARTE</b></code>: es gibt Nebensensoren mit
-	 *         Nutzdaten, die im richtigen Intervall senden, von denen aber noch
-	 *         keine aktuellen Daten vorliegen
+	 * @return das Ergebnis des Ersetzungsversuchs<br>
+	 *         - <code><b>JA</b></code>: es existiert ein Nebensensor mit
+	 *         aktuellen, plausiblen Daten. Der implausible Messwert wurde
+	 *         ersetzt und publiziert<br>
+	 *         - <code><b>NEIN</b></code>: entweder gibt es keine Nebensensoren,
+	 *         oder alle Nebensensoren, die Daten liefern haben keine Nutzdaten
+	 *         oder senden im falschen Intervall oder senden im richtigen
+	 *         Intervall und haben nur implausible aktuelle Nutzdaten<br>
+	 *         - <code><b>WARTE</b></code>: es gibt Nebensensoren mit Nutzdaten,
+	 *         die im richtigen Intervall senden, von denen aber noch keine
+	 *         aktuellen Daten vorliegen
 	 */
 	private MweMethodenErgebnis versucheErsetzungDurchNebenSensoren(
 			UmfeldDatenSensorDatum datumImpl) {
@@ -328,40 +332,44 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 		 * stattfinden soll
 		 */
 		int nutzbareNebenSensorenAktuellGesamt = 0;
-		for (ResultData nebenSensorResultat : this.nebenSensorenMitDaten
-				.values()) {
-			if (nebenSensorResultat != null
-					&& nebenSensorResultat.getData() != null) {
-				UmfeldDatenSensorDatum datumNebenSensor = new UmfeldDatenSensorDatum(
-						nebenSensorResultat);
+		if (nebenSensorenMitDaten != null) {
+			for (ResultData nebenSensorResultat : this.nebenSensorenMitDaten
+					.values()) {
+				if (nebenSensorResultat != null
+						&& nebenSensorResultat.getData() != null) {
+					UmfeldDatenSensorDatum datumNebenSensor = new UmfeldDatenSensorDatum(
+							nebenSensorResultat);
 
-				if (datumNebenSensor.getT() == datumImpl.getT()) {
-					nutzbareNebenSensorenGesamt++;
-					if (datumNebenSensor.getDatenZeit() == datumImpl
-							.getDatenZeit()) {
-						nutzbareNebenSensorenAktuellGesamt++;
+					if (datumNebenSensor.getT() == datumImpl.getT()) {
+						nutzbareNebenSensorenGesamt++;
+						if (datumNebenSensor.getDatenZeit() == datumImpl
+								.getDatenZeit()) {
+							nutzbareNebenSensorenAktuellGesamt++;
 
-						if (datumNebenSensor
-								.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
-							this.publiziere(
-									this.letztesEmpangenesImplausiblesDatum,
-									this.getNutzdatenKopieVon(datumNebenSensor
-											.getOriginalDatum()));
-							this.letztesEmpangenesImplausiblesDatum = null;
-							ergebnis = MweMethodenErgebnis.JA;
-							break;
+							if (datumNebenSensor
+									.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
+								this
+										.publiziere(
+												this.letztesEmpangenesImplausiblesDatum,
+												this
+														.getNutzdatenKopieVon(datumNebenSensor
+																.getOriginalDatum()));
+								this.letztesEmpangenesImplausiblesDatum = null;
+								ergebnis = MweMethodenErgebnis.JA;
+								break;
+							}
+						} else if (datumNebenSensor.getDatenZeit() > datumImpl
+								.getDatenZeit()) {
+							nutzbareNebenSensorenGesamt--;
 						}
-					} else if (datumNebenSensor.getDatenZeit() > datumImpl
-							.getDatenZeit()) {
-						nutzbareNebenSensorenGesamt--;
 					}
 				}
 			}
-		}
 
-		if (nutzbareNebenSensorenGesamt > 0) {
-			if (nutzbareNebenSensorenGesamt > nutzbareNebenSensorenAktuellGesamt) {
-				ergebnis = MweMethodenErgebnis.WARTE;
+			if (nutzbareNebenSensorenGesamt > 0) {
+				if (nutzbareNebenSensorenGesamt > nutzbareNebenSensorenAktuellGesamt) {
+					ergebnis = MweMethodenErgebnis.WARTE;
+				}
 			}
 		}
 
