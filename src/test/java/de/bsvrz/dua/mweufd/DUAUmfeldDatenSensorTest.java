@@ -28,6 +28,7 @@ package de.bsvrz.dua.mweufd;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorUnbekannteDatenartException;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 
 /**
@@ -47,9 +48,10 @@ public class DUAUmfeldDatenSensorTest extends DUAUmfeldDatenSensor {
 	 *            Datenverteiler-Verbindung
 	 * @param objekt
 	 *            das Systemobjekt des Umfelddatensensors
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
 	 */
 	protected DUAUmfeldDatenSensorTest(final ClientDavInterface dav,
-			final SystemObject objekt) {
+			final SystemObject objekt) throws UmfeldDatenSensorUnbekannteDatenartException {
 		super(dav, objekt);
 	}
 

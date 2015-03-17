@@ -2,7 +2,7 @@
 *  Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD  *
 *************************************************************************************
 
-Version: @Version@
+Version: 1.2.0
 
 
 Übersicht
@@ -15,6 +15,9 @@ S. 112f). Danach werden die Daten unter dem Aspekt MessWertErsetzung publiziert.
 
 Versionsgeschichte
 ==================
+
+1.2.0
+- Umstellung auf Maven-Build  
   
 1.1.4
 
