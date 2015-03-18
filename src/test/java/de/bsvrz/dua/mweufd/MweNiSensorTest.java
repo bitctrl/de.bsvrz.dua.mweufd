@@ -88,7 +88,7 @@ public class MweNiSensorTest extends MweNiSensor {
 	/**
 	 * Periode der Datensendung.
 	 */
-	static long ZEIT_INTERVALL;
+	static long zeitIntervall;
 
 	/**
 	 * Letzter index der gesendeten und empfangenen Daten
@@ -127,8 +127,8 @@ public class MweNiSensorTest extends MweNiSensor {
 	/**
 	 * Datenbeschreibung der geschickten daten
 	 */
-	protected static DataDescription DD_MESSWERTE, DD_WFDMESSWERTE,
-			DD_MESSWERT_ERSETZUNG;
+	protected static DataDescription ddMessWerte, ddWfdMessWerte,
+			ddMessWertErsetzung;
 	/**
 	 * Datensender
 	 */
@@ -161,14 +161,14 @@ public class MweNiSensorTest extends MweNiSensor {
 				"ufdSensor.testNI.ni.ersatz");
 		wfdSensor = dav.getDataModel().getObject("ufdSensor.testNI.wfd");
 
-		DD_MESSWERTE = new DataDescription(dav.getDataModel()
+		ddMessWerte = new DataDescription(dav.getDataModel()
 				.getAttributeGroup("atg.ufdsNiederschlagsIntensität"), dav
 				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
-		DD_WFDMESSWERTE = new DataDescription(dav.getDataModel()
+		ddWfdMessWerte = new DataDescription(dav.getDataModel()
 				.getAttributeGroup("atg.ufdsWasserFilmDicke"), dav
 				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
 
-		DD_MESSWERT_ERSETZUNG = new DataDescription(dav.getDataModel()
+		ddMessWertErsetzung = new DataDescription(dav.getDataModel()
 				.getAttributeGroup("atg.ufdsMessWertErsetzung"), dav
 				.getDataModel().getAspect("asp.parameterVorgabe"));
 
@@ -178,10 +178,10 @@ public class MweNiSensorTest extends MweNiSensor {
 		list.add(nachSensor);
 		list.add(vorSensor);
 
-		sender.anmeldeQuelle(list, DD_MESSWERTE);
+		sender.anmeldeQuelle(list, ddMessWerte);
 		sender.anmeldeParametrierung(zentralSensor);
 
-		sender.anmeldeQuelle(wfdSensor, DD_WFDMESSWERTE);
+		sender.anmeldeQuelle(wfdSensor, ddWfdMessWerte);
 	}
 
 	/**
@@ -212,19 +212,19 @@ public class MweNiSensorTest extends MweNiSensor {
 		if (indexSend >= ersatzQuerrschnittDaten.length)
 			return false;
 
-		sender.sendeDatenSatz(zentralSensor, DD_MESSWERTE,
+		sender.sendeDatenSatz(zentralSensor, ddMessWerte,
 				"NiederschlagsIntensität", prueflingDaten[indexSend],
 				time[indexSend]);
-		sender.sendeDatenSatz(vorSensor, DD_MESSWERTE,
+		sender.sendeDatenSatz(vorSensor, ddMessWerte,
 				"NiederschlagsIntensität", vorherigeNachbarDaten[indexSend],
 				time[indexSend]);
-		sender.sendeDatenSatz(nachSensor, DD_MESSWERTE,
+		sender.sendeDatenSatz(nachSensor, ddMessWerte,
 				"NiederschlagsIntensität", nachfolgeneNachbarDaten[indexSend],
 				time[indexSend]);
-		sender.sendeDatenSatz(ersatzSensor, DD_MESSWERTE,
+		sender.sendeDatenSatz(ersatzSensor, ddMessWerte,
 				"NiederschlagsIntensität", ersatzQuerrschnittDaten[indexSend],
 				time[indexSend]);
-		sender.sendeDatenSatz(wfdSensor, DD_WFDMESSWERTE, "WasserFilmDicke",
+		sender.sendeDatenSatz(wfdSensor, ddWfdMessWerte, "WasserFilmDicke",
 				wasserFilmDicke[indexSend], time[indexSend]);
 
 		indexSend++;
@@ -238,11 +238,11 @@ public class MweNiSensorTest extends MweNiSensor {
 	 *            Messwertfortsetzungsintervall
 	 * @param tE
 	 *            Messwertersetzungsintervall
-	 * @param T
+	 * @param periode
 	 *            Periode
 	 */
-	static public void generiereTestDatenNachPruefSpezNI_1(final long t1, final long tE,
-			final long T) {
+	static public void generiereTestDatenNachPruefSpezNi1(final long t1, final long tE,
+			final long periode) {
 
 		final double w1 = 2.0;
 		final double w2 = 1.5;
@@ -250,8 +250,8 @@ public class MweNiSensorTest extends MweNiSensor {
 		final double w4 = 0.5;
 		final double wfd = 1.8;
 
-		ZEIT_INTERVALL = T;
-		final int length = (int) (tE / T) + 5;
+		zeitIntervall = periode;
+		final int length = (int) (tE / periode) + 5;
 
 		prueflingDaten = new double[length];
 		vorherigeNachbarDaten = new double[length];
@@ -263,16 +263,16 @@ public class MweNiSensorTest extends MweNiSensor {
 		time = new long[length];
 		// Zeit
 		for (int i = 0; i < length; i++)
-			time[i] = i * T;
+			time[i] = i * periode;
 
 		// Intervalle
 		final long[] t = new long[9];
-		final long t_int = (tE - t1) / 7;
-		t[0] = T;
+		final long tInt = (tE - t1) / 7;
+		t[0] = periode;
 		t[1] = t[0] + t1;
 
 		for (int i = 2; i < 9; i++)
-			t[i] = t[i - 1] + t_int;
+			t[i] = t[i - 1] + tInt;
 
 		// Ersatzquerrschnittdaten
 		for (int i = 0; i < length; i++)

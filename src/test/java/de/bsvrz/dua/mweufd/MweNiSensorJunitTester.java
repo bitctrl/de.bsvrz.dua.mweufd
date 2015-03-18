@@ -54,7 +54,7 @@ public class MweNiSensorJunitTester {
 		final long messwertFortFuehrungMax = 3 * 1000 * 60;
 		final long periode = 30 * 1000;
 
-		MweNiSensorTest.generiereTestDatenNachPruefSpezNI_1(
+		MweNiSensorTest.generiereTestDatenNachPruefSpezNi1(
 				messwertFortFuehrungMax, messwertErsetzungMax, periode);
 		DatenFlussSteuerungVersorgerTest.reset();
 		DUAUmfeldDatenSensorTest.reset();

@@ -54,7 +54,7 @@ public class MweWfdSensorJunitTester {
 		final long messwertFortFuehrungMax = 3 * 1000 * 60;
 		final long periode = 30 * 1000;
 
-		MweWfdSensorTest.generiereTestDatenNachPruefSpezWFD_1(
+		MweWfdSensorTest.generiereTestDatenNachPruefSpezWfd1(
 				messwertFortFuehrungMax, messwertErsetzungMax, periode);
 		DatenFlussSteuerungVersorgerTest.reset();
 		DUAUmfeldDatenSensorTest.reset();

@@ -61,7 +61,7 @@ public class MweSwSensorTest extends MweSwSensor {
 	/**
 	 * Periode der Datensendung
 	 */
-	static long ZEIT_INTERVALL;
+	static long zeitIntervall;
 
 	/**
 	 * Letzter index der gesendeten und empfangenen Daten
@@ -85,7 +85,7 @@ public class MweSwSensorTest extends MweSwSensor {
 	/**
 	 * Datenbeschreibung der geschickten daten
 	 */
-	static protected DataDescription DD_MESSWERTE, DD_MESSWERT_ERSETZUNG;
+	static protected DataDescription ddMessWerte, ddMessWertErsetzung;
 	/**
 	 * Datensender
 	 */
@@ -114,7 +114,7 @@ public class MweSwSensorTest extends MweSwSensor {
 		nachfolgerSensor = dav.getDataModel().getObject(
 				"ufdSensor.testSW.sw.nach");
 
-		DD_MESSWERTE = new DataDescription(dav.getDataModel()
+		ddMessWerte = new DataDescription(dav.getDataModel()
 				.getAttributeGroup("atg.ufdsSichtWeite"), dav.getDataModel()
 				.getAspect("asp.plausibilitätsPrüfungLogisch"));
 
@@ -122,7 +122,7 @@ public class MweSwSensorTest extends MweSwSensor {
 		list.add(zentralSensor);
 		list.add(nachfolgerSensor);
 
-		sender.anmeldeQuelle(list, DD_MESSWERTE);
+		sender.anmeldeQuelle(list, ddMessWerte);
 		sender.anmeldeParametrierung(zentralSensor);
 	}
 
@@ -154,9 +154,9 @@ public class MweSwSensorTest extends MweSwSensor {
 		if (indexSend >= nachfolgerDaten.length)
 			return false;
 
-		sender.sendeDatenSatz(zentralSensor, DD_MESSWERTE, "SichtWeite",
+		sender.sendeDatenSatz(zentralSensor, ddMessWerte, "SichtWeite",
 				prueflingDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(nachfolgerSensor, DD_MESSWERTE, "SichtWeite",
+		sender.sendeDatenSatz(nachfolgerSensor, ddMessWerte, "SichtWeite",
 				nachfolgerDaten[indexSend], time[indexSend]);
 
 		indexSend++;
@@ -170,18 +170,18 @@ public class MweSwSensorTest extends MweSwSensor {
 	 *            Messwertfortsetzungsintervall
 	 * @param tE
 	 *            Messwertersetzungsintervall
-	 * @param T
+	 * @param periode
 	 *            Periode
 	 */
-	static public void generiereTestDatenNachPruefSpezSW_1(final long t1, final long tE,
-			final long T) {
+	static public void generiereTestDatenNachPruefSpezSw1(final long t1, final long tE,
+			final long periode) {
 
 		final long w1 = 40;
 		final long w2 = 60;
 		final long w3 = 80;
 
-		ZEIT_INTERVALL = T;
-		final int length = (int) (tE / T) + 5;
+		zeitIntervall = periode;
+		final int length = (int) (tE / periode) + 5;
 
 		prueflingDaten = new long[length];
 		nachfolgerDaten = new long[length];
@@ -190,17 +190,17 @@ public class MweSwSensorTest extends MweSwSensor {
 		time = new long[length];
 		// Zeit
 		for (int i = 0; i < length; i++)
-			time[i] = i * T;
+			time[i] = i * periode;
 
 		// Intervalle
 		final long[] t = new long[5];
-		final long t_int = (tE - t1) / 3;
+		final long tInt = (tE - t1) / 3;
 
-		t[0] = T;
-		t[1] = t[0] + t_int;
+		t[0] = periode;
+		t[1] = t[0] + tInt;
 		t[2] = t[1] + t1;
-		t[3] = t[2] + t_int;
-		t[4] = t[3] + t_int;
+		t[3] = t[2] + tInt;
+		t[4] = t[3] + tInt;
 
 		// Nachfolgerdaten
 		for (int i = 0; i < length; i++)

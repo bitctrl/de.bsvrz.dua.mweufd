@@ -54,7 +54,7 @@ public class MweSwSensorJunitTester {
 		final long messwertFortFuehrungMax = 15 * 1000 * 60;
 		final long periode = 30 * 1000;
 
-		MweSwSensorTest.generiereTestDatenNachPruefSpezSW_1(
+		MweSwSensorTest.generiereTestDatenNachPruefSpezSw1(
 				messwertFortFuehrungMax, messwertErsetzungMax, periode);
 		DatenFlussSteuerungVersorgerTest.reset();
 		DUAUmfeldDatenSensorTest.reset();

@@ -67,7 +67,7 @@ public class MweWfdSensorTest extends MweWfdSensor {
 	/**
 	 * Periode der Datensendung
 	 */
-	static long ZEIT_INTERVALL;
+	static long zeitIntervall;
 
 	/**
 	 * Letzter index der gesendeten und empfangenen Daten
@@ -107,8 +107,8 @@ public class MweWfdSensorTest extends MweWfdSensor {
 	/**
 	 * Datenbeschreibung der geschickten daten
 	 */
-	static protected DataDescription DD_MESSWERTE, DD_NIMESSWERTE,
-			DD_MESSWERT_ERSETZUNG;
+	static protected DataDescription ddMessWerte, ddNiMessWerte,
+			ddMessWertErsetzung;
 	/**
 	 * Datensender
 	 */
@@ -148,10 +148,10 @@ public class MweWfdSensorTest extends MweWfdSensor {
 		nebenSensor3 = dav.getDataModel().getObject(
 				"ufdSensor.testWFD.wfd.neben3");
 
-		DD_MESSWERTE = new DataDescription(dav.getDataModel()
+		ddMessWerte = new DataDescription(dav.getDataModel()
 				.getAttributeGroup("atg.ufdsWasserFilmDicke"), dav
 				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
-		DD_NIMESSWERTE = new DataDescription(dav.getDataModel()
+		ddNiMessWerte = new DataDescription(dav.getDataModel()
 				.getAttributeGroup("atg.ufdsNiederschlagsIntensität"), dav
 				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
 
@@ -165,10 +165,10 @@ public class MweWfdSensorTest extends MweWfdSensor {
 		list.add(nebenSensor2);
 		list.add(nebenSensor3);
 
-		sender.anmeldeQuelle(list, DD_MESSWERTE);
+		sender.anmeldeQuelle(list, ddMessWerte);
 		sender.anmeldeParametrierung(zentralSensor);
 
-		sender.anmeldeQuelle(niSensor, DD_NIMESSWERTE);
+		sender.anmeldeQuelle(niSensor, ddNiMessWerte);
 
 	}
 
@@ -200,21 +200,21 @@ public class MweWfdSensorTest extends MweWfdSensor {
 		if (indexSend >= ersatzQuerrschnittDaten.length)
 			return false;
 
-		sender.sendeDatenSatz(zentralSensor, DD_MESSWERTE, "WasserFilmDicke",
+		sender.sendeDatenSatz(zentralSensor, ddMessWerte, "WasserFilmDicke",
 				prueflingDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(vorSensor, DD_MESSWERTE, "WasserFilmDicke",
+		sender.sendeDatenSatz(vorSensor, ddMessWerte, "WasserFilmDicke",
 				vorherigeNachbarDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(nachSensor, DD_MESSWERTE, "WasserFilmDicke",
+		sender.sendeDatenSatz(nachSensor, ddMessWerte, "WasserFilmDicke",
 				nachfolgeneNachbarDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(ersatzSensor, DD_MESSWERTE, "WasserFilmDicke",
+		sender.sendeDatenSatz(ersatzSensor, ddMessWerte, "WasserFilmDicke",
 				ersatzQuerrschnittDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(nebenSensor1, DD_MESSWERTE, "WasserFilmDicke",
+		sender.sendeDatenSatz(nebenSensor1, ddMessWerte, "WasserFilmDicke",
 				direkterNachbarDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(nebenSensor2, DD_MESSWERTE, "WasserFilmDicke",
+		sender.sendeDatenSatz(nebenSensor2, ddMessWerte, "WasserFilmDicke",
 				direkterNachbarDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(nebenSensor3, DD_MESSWERTE, "WasserFilmDicke",
+		sender.sendeDatenSatz(nebenSensor3, ddMessWerte, "WasserFilmDicke",
 				direkterNachbarDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(niSensor, DD_NIMESSWERTE,
+		sender.sendeDatenSatz(niSensor, ddNiMessWerte,
 				"NiederschlagsIntensität", niederschlagIntensitaet[indexSend],
 				time[indexSend]);
 
@@ -229,11 +229,11 @@ public class MweWfdSensorTest extends MweWfdSensor {
 	 *            Messwertfortsetzungsintervall
 	 * @param tE
 	 *            Messwertersetzungsintervall
-	 * @param T
+	 * @param periode
 	 *            Periode
 	 */
-	static public void generiereTestDatenNachPruefSpezWFD_1(final long t1, final long tE,
-			final long T) {
+	static public void generiereTestDatenNachPruefSpezWfd1(final long t1, final long tE,
+			final long periode) {
 
 		final double w1 = 1.0;
 		final double w2 = 0.8;
@@ -242,8 +242,8 @@ public class MweWfdSensorTest extends MweWfdSensor {
 		final double wni = 2.8;
 		final double wd = 0.2;
 
-		ZEIT_INTERVALL = T;
-		final int length = (int) (tE / T) + 5;
+		zeitIntervall = periode;
+		final int length = (int) (tE / periode) + 5;
 
 		prueflingDaten = new double[length];
 		direkterNachbarDaten = new double[length];
@@ -257,16 +257,16 @@ public class MweWfdSensorTest extends MweWfdSensor {
 		time = new long[length];
 		// Zeit
 		for (int i = 0; i < length; i++)
-			time[i] = i * T;
+			time[i] = i * periode;
 
 		// Intervalle
 		final long[] t = new long[10];
-		final long t_int = (tE - t1) / 8;
-		t[0] = T;
+		final long tInt = (tE - t1) / 8;
+		t[0] = periode;
 		t[1] = t[0] + t1;
 
 		for (int i = 2; i < 10; i++)
-			t[i] = t[i - 1] + t_int;
+			t[i] = t[i - 1] + tInt;
 
 		// Ersatzquerrschnittdaten
 		for (int i = 0; i < length; i++)
