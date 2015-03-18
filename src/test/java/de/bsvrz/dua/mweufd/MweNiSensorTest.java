@@ -28,7 +28,7 @@ package de.bsvrz.dua.mweufd;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
@@ -266,7 +266,7 @@ public class MweNiSensorTest extends MweNiSensor {
 			time[i] = i * T;
 
 		// Intervalle
-		long t[] = new long[9];
+		long[] t = new long[9];
 		long t_int = (tE - t1) / 7;
 		t[0] = T;
 		t[1] = t[0] + t1;

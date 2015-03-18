@@ -28,7 +28,7 @@ package de.bsvrz.dua.mweufd;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
@@ -193,7 +193,7 @@ public class MweSwSensorTest extends MweSwSensor {
 			time[i] = i * T;
 
 		// Intervalle
-		long t[] = new long[5];
+		long[] t = new long[5];
 		long t_int = (tE - t1) / 3;
 
 		t[0] = T;
