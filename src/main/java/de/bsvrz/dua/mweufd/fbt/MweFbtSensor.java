@@ -94,8 +94,8 @@ public class MweFbtSensor extends AbstraktMweUfdsSensor {
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
 	 */
-	public MweFbtSensor(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweFbtSensor(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 
@@ -114,7 +114,7 @@ public class MweFbtSensor extends AbstraktMweUfdsSensor {
 			this.wfdDatenSensor.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							MweFbtSensor.this.letzterWfdDatensatz = resultat;
 							MweFbtSensor.this.trigger();
 						}
@@ -137,7 +137,7 @@ public class MweFbtSensor extends AbstraktMweUfdsSensor {
 			this.niDatenSensor.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							MweFbtSensor.this.letzterNiDatensatz = resultat;
 							MweFbtSensor.this.trigger();
 						}
@@ -152,7 +152,7 @@ public class MweFbtSensor extends AbstraktMweUfdsSensor {
 	@Override
 	protected synchronized void trigger() {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
-			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
+			final UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
 					this.letztesEmpangenesImplausiblesDatum);
 
 			if (this.letztesEmpangenesPlausiblesDatum == null

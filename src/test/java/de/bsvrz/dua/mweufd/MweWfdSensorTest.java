@@ -122,8 +122,8 @@ public class MweWfdSensorTest extends MweWfdSensor {
 	 * @param sensor
 	 * @throws DUAInitialisierungsException
 	 */
-	public MweWfdSensorTest(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweWfdSensorTest(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 
@@ -155,7 +155,7 @@ public class MweWfdSensorTest extends MweWfdSensor {
 				.getAttributeGroup("atg.ufdsNiederschlagsIntensität"), dav
 				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
 
-		Collection<SystemObject> list = new LinkedList<SystemObject>();
+		final Collection<SystemObject> list = new LinkedList<SystemObject>();
 
 		list.add(zentralSensor);
 		list.add(ersatzSensor);
@@ -183,8 +183,8 @@ public class MweWfdSensorTest extends MweWfdSensor {
 	 *            Elementares Schritt
 	 */
 	public static void parametriereSensor(
-			long messwertFortschreibungsIntervall,
-			long messWertErsetzungIntervall, long periode) {
+			final long messwertFortschreibungsIntervall,
+			final long messWertErsetzungIntervall, final long periode) {
 		sender.parametriereSensor(zentralSensor,
 				messwertFortschreibungsIntervall, messWertErsetzungIntervall,
 				periode);
@@ -232,18 +232,18 @@ public class MweWfdSensorTest extends MweWfdSensor {
 	 * @param T
 	 *            Periode
 	 */
-	static public void generiereTestDatenNachPruefSpezWFD_1(long t1, long tE,
-			long T) {
+	static public void generiereTestDatenNachPruefSpezWFD_1(final long t1, final long tE,
+			final long T) {
 
-		double w1 = 1.0;
-		double w2 = 0.8;
-		double w3 = 2.6;
-		double w4 = 0.3;
-		double wni = 2.8;
-		double wd = 0.2;
+		final double w1 = 1.0;
+		final double w2 = 0.8;
+		final double w3 = 2.6;
+		final double w4 = 0.3;
+		final double wni = 2.8;
+		final double wd = 0.2;
 
 		ZEIT_INTERVALL = T;
-		int length = (int) (tE / T) + 5;
+		final int length = (int) (tE / T) + 5;
 
 		prueflingDaten = new double[length];
 		direkterNachbarDaten = new double[length];
@@ -260,8 +260,8 @@ public class MweWfdSensorTest extends MweWfdSensor {
 			time[i] = i * T;
 
 		// Intervalle
-		long[] t = new long[10];
-		long t_int = (tE - t1) / 8;
+		final long[] t = new long[10];
+		final long t_int = (tE - t1) / 8;
 		t[0] = T;
 		t[1] = t[0] + t1;
 

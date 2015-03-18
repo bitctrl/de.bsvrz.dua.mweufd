@@ -153,7 +153,7 @@ public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 	 * @param w3X
 	 *            W3
 	 */
-	public static void setTestWerte(double w1X, double w2P, double w3X) {
+	public static void setTestWerte(final double w1X, final double w2P, final double w3X) {
 		MweTptLtNsFbzSensorTest.w1 = w1X;
 		MweTptLtNsFbzSensorTest.w2 = w2P;
 		MweTptLtNsFbzSensorTest.w3 = w3X;
@@ -169,8 +169,8 @@ public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 	 * @param attribut1
 	 *            Getesteter Attribut
 	 */
-	public static void setSensorUndAttribut(String zentralSensor1,
-			String ersatzSensor1, String attribut1) {
+	public static void setSensorUndAttribut(final String zentralSensor1,
+			final String ersatzSensor1, final String attribut1) {
 		MweTptLtNsFbzSensorTest.zentralSensorName = zentralSensor1;
 		MweTptLtNsFbzSensorTest.ersatzSensorName = ersatzSensor1;
 		MweTptLtNsFbzSensorTest.attribut = attribut1;
@@ -182,7 +182,7 @@ public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 	 * @param init
 	 *            true, wenn schon initialisiert ist
 	 */
-	public static void setInititalisiert(boolean init) {
+	public static void setInititalisiert(final boolean init) {
 		MweTptLtNsFbzSensorTest.initialisiert = init;
 	}
 
@@ -204,8 +204,8 @@ public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 	 * @param sensor der Sensor
 	 * @throws DUAInitialisierungsException wird weitergereicht
 	 */
-	public MweTptLtNsFbzSensorTest(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweTptLtNsFbzSensorTest(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 
@@ -222,7 +222,7 @@ public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 		zentralSensor = dav.getDataModel().getObject(zentralSensorName);
 		ersatzSensor = dav.getDataModel().getObject(ersatzSensorName);
 
-		Collection<SystemObject> list = new LinkedList<SystemObject>();
+		final Collection<SystemObject> list = new LinkedList<SystemObject>();
 
 		list.add(zentralSensor);
 		list.add(ersatzSensor);
@@ -265,8 +265,8 @@ public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 	 *            Elementares Schritt
 	 */
 	public static void parametriereSensor(
-			long messwertFortschreibungsIntervall,
-			long messWertErsetzungIntervall, long periode) {
+			final long messwertFortschreibungsIntervall,
+			final long messWertErsetzungIntervall, final long periode) {
 		sender.parametriereSensor(zentralSensor,
 				messwertFortschreibungsIntervall, messWertErsetzungIntervall,
 				periode);
@@ -282,10 +282,10 @@ public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 	 * @param tT
 	 *            Periode
 	 */
-	public static void generiereTestDatenNachPruefSpez1(long t1, long tE,
-			long tT) {
+	public static void generiereTestDatenNachPruefSpez1(final long t1, final long tE,
+			final long tT) {
 
-		int length = (int) (tE / tT) + 5;
+		final int length = (int) (tE / tT) + 5;
 
 		prueflingDaten = new double[length];
 		ersatzQuerrschnittDaten = new double[length];
@@ -295,8 +295,8 @@ public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 		time[0] = 0;
 		indexEmpf = indexSend = 0;
 
-		long[] t = new long[5];
-		long tInt = (tE - t1) / 3;
+		final long[] t = new long[5];
+		final long tInt = (tE - t1) / 3;
 		t[0] = tT;
 		t[1] = t[0] + t1;
 		t[2] = t[1] + tInt;
@@ -379,7 +379,7 @@ public class MweTptLtNsFbzSensorTest extends MweTptLtNsFbzSensor {
 				try {
 					sw = nutzDatum.getItem(attribut).getItem("Wert")
 							.asScaledValue().doubleValue();
-				} catch (ArithmeticException e) {
+				} catch (final ArithmeticException e) {
 					//
 				}
 			} else {

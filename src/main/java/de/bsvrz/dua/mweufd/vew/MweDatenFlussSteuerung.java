@@ -120,11 +120,11 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	 * @return das publizierte Datum oder <code>null</code>, wenn kein Datum
 	 *         publiziert werden konnte
 	 */
-	public final synchronized ResultData publiziere(ResultData original,
-			Data nutzDatum) {
+	public final synchronized ResultData publiziere(final ResultData original,
+			final Data nutzDatum) {
 		ResultData letztesPubDatum = null;
 
-		ResultData publikationsDatum = iDfsMod.getPublikationsDatum(original,
+		final ResultData publikationsDatum = iDfsMod.getPublikationsDatum(original,
 				nutzDatum, standardAspekte.getStandardAspekt(original));
 		if (publikationsDatum != null) {
 			this.publikationsAnmeldungen.sende(publikationsDatum);
@@ -149,7 +149,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized void aktualisierePublikation(IDatenFlussSteuerung iDfs) {
+	public synchronized void aktualisierePublikation(final IDatenFlussSteuerung iDfs) {
 		this.iDfsMod = iDfs.getDFSFuerModul(SWETyp.SWE_MESSWERTERSETZUNG_UFD,
 				ModulTyp.MESSWERTERSETZUNG_UFD);
 		this.aktualisiereObjektAnmeldungen();
@@ -162,7 +162,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	private synchronized void aktualisiereObjektAnmeldungen() {
 		Collection<DAVObjektAnmeldung> anmeldungenStd = new ArrayList<DAVObjektAnmeldung>();
 
-		SystemObject[] objekteBisJetzt = this.objekte
+		final SystemObject[] objekteBisJetzt = this.objekte
 				.toArray(new SystemObject[0]);
 
 		if (this.standardAspekte != null) {
@@ -170,7 +170,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 					.getStandardAnmeldungen(objekteBisJetzt);
 		}
 
-		Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod
+		final Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod
 				.getDatenAnmeldungen(objekteBisJetzt, anmeldungenStd);
 
 		this.publikationsAnmeldungen.modifiziereObjektAnmeldung(anmeldungen);

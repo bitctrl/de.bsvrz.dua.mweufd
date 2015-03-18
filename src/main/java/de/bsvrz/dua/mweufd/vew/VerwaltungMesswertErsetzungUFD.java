@@ -94,7 +94,7 @@ public class VerwaltungMesswertErsetzungUFD extends
 		 * die Datenarten, die nicht messwertersetzt werden, aber dennoch
 		 * weitergereicht werden sollen
 		 */
-		Set<UmfeldDatenArt> rest = new HashSet<UmfeldDatenArt>();
+		final Set<UmfeldDatenArt> rest = new HashSet<UmfeldDatenArt>();
 		rest.addAll(UmfeldDatenArt.getInstanzen());
 		rest.remove(UmfeldDatenArt.ni);
 		rest.remove(UmfeldDatenArt.ns);
@@ -107,21 +107,21 @@ public class VerwaltungMesswertErsetzungUFD extends
 		
 		for (DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle
 				.getInstanzen()) {
-			DUAUmfeldDatenSensor hauptSensorNI = messStelle
+			final DUAUmfeldDatenSensor hauptSensorNI = messStelle
 					.getHauptSensor(UmfeldDatenArt.ni);
-			DUAUmfeldDatenSensor hauptSensorNS = messStelle
+			final DUAUmfeldDatenSensor hauptSensorNS = messStelle
 					.getHauptSensor(UmfeldDatenArt.ns);
-			DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
+			final DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
 					.getHauptSensor(UmfeldDatenArt.fbz);
-			DUAUmfeldDatenSensor hauptSensorWFD = messStelle
+			final DUAUmfeldDatenSensor hauptSensorWFD = messStelle
 					.getHauptSensor(UmfeldDatenArt.wfd);
-			DUAUmfeldDatenSensor hauptSensorSW = messStelle
+			final DUAUmfeldDatenSensor hauptSensorSW = messStelle
 					.getHauptSensor(UmfeldDatenArt.sw);
-			DUAUmfeldDatenSensor hauptSensorTPT = messStelle
+			final DUAUmfeldDatenSensor hauptSensorTPT = messStelle
 					.getHauptSensor(UmfeldDatenArt.tpt);
-			DUAUmfeldDatenSensor hauptSensorLT = messStelle
+			final DUAUmfeldDatenSensor hauptSensorLT = messStelle
 					.getHauptSensor(UmfeldDatenArt.lt);
-			DUAUmfeldDatenSensor hauptSensorFBT = messStelle
+			final DUAUmfeldDatenSensor hauptSensorFBT = messStelle
 					.getHauptSensor(UmfeldDatenArt.fbt);
 			
 			if (hauptSensorNI != null) {
@@ -150,13 +150,13 @@ public class VerwaltungMesswertErsetzungUFD extends
 			}
 
 			for (UmfeldDatenArt datenArt : rest) {
-				DUAUmfeldDatenSensor restSensor = messStelle
+				final DUAUmfeldDatenSensor restSensor = messStelle
 						.getHauptSensor(datenArt);
 				if (restSensor != null) {
 					try {
 						RestDatenVersender.getInstanz(this.verbindung).add(
 								restSensor.getObjekt());
-					} catch (OneSubscriptionPerSendData e) {
+					} catch (final OneSubscriptionPerSendData e) {
 						throw new DUAInitialisierungsException(
 								"Daten von Umfelddatensensor "
 										+ restSensor.getObjekt()
@@ -174,7 +174,7 @@ public class VerwaltungMesswertErsetzungUFD extends
 	 * @param argumente
 	 *            Argumente der Kommandozeile
 	 */
-	public static void main(String[] argumente) {
+	public static void main(final String[] argumente) {
 		StandardApplicationRunner.run(new VerwaltungMesswertErsetzungUFD(),
 				argumente);
 	}
@@ -197,7 +197,7 @@ public class VerwaltungMesswertErsetzungUFD extends
 	/**
 	 * {@inheritDoc}
 	 */
-	public void update(ResultData[] resultate) {
+	public void update(final ResultData[] resultate) {
 		// Daten werden von den Untermodulen selbst entgegen genommen
 	}
 

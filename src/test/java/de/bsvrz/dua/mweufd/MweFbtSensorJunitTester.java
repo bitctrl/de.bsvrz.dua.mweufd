@@ -61,7 +61,7 @@ public class MweFbtSensorJunitTester {
 		DUAUmfeldDatenSensorTest.reset();
 		MweUfdSensorTest.reset();
 
-		AbstraktVerwaltungsAdapter verw = new VerwaltungMesswertErsetzungUFDTest();
+		final AbstraktVerwaltungsAdapter verw = new VerwaltungMesswertErsetzungUFDTest();
 		StandardApplicationRunner.run(verw, Verbindung.getConData());
 
 		MweFbtSensorTest.parametriereSensor(messwertFortFuehrungMax,
@@ -70,7 +70,7 @@ public class MweFbtSensorJunitTester {
 		while (MweFbtSensorTest.naechsterCyklus()) {
 			try {
 				Thread.sleep(200);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				//
 			}
 		}
@@ -79,7 +79,7 @@ public class MweFbtSensorJunitTester {
 				while (warten) {
 					verw.wait();
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				//
 			}
 		}
@@ -88,7 +88,7 @@ public class MweFbtSensorJunitTester {
 
 		try {
 			Thread.sleep(500);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			//
 		}
 	}

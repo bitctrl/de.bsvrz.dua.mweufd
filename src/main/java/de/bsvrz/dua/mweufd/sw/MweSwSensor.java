@@ -81,8 +81,8 @@ public class MweSwSensor extends AbstraktMweUfdsSensor {
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
 	 */
-	public MweSwSensor(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweSwSensor(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 
@@ -90,9 +90,9 @@ public class MweSwSensor extends AbstraktMweUfdsSensor {
 			this.nachfolger.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							if (resultat.getData() != null) {
-								UmfeldDatenSensorDatum datum = new UmfeldDatenSensorDatum(
+								final UmfeldDatenSensorDatum datum = new UmfeldDatenSensorDatum(
 										resultat);
 								if (datum
 										.getStatusMessWertErsetzungImplausibel() != DUAKonstanten.JA) {
@@ -115,14 +115,14 @@ public class MweSwSensor extends AbstraktMweUfdsSensor {
 	protected synchronized void trigger() {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
 
-			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
+			final UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
 					this.letztesEmpangenesImplausiblesDatum);
 
 			if (this.nachfolger != null
 					&& this.letzterNachfolgerDatensatz != null
 					&& this.letzterNachfolgerDatensatz.getData() != null) {
 
-				UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(
+				final UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(
 						this.letzterNachfolgerDatensatz);
 				if (datumNach.getT() == datumImpl.getT()) {
 					if (datumNach.getDatenZeit() == datumImpl.getDatenZeit()) {

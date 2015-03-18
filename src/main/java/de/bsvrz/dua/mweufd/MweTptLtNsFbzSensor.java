@@ -70,8 +70,8 @@ public class MweTptLtNsFbzSensor extends AbstraktMweUfdsSensor {
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
 	 */
-	public MweTptLtNsFbzSensor(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweTptLtNsFbzSensor(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 	}
@@ -82,7 +82,7 @@ public class MweTptLtNsFbzSensor extends AbstraktMweUfdsSensor {
 	@Override
 	protected synchronized void trigger() {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
-			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
+			final UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
 					this.letztesEmpangenesImplausiblesDatum);
 
 			if (this.letztesEmpangenesPlausiblesDatum == null
@@ -91,7 +91,7 @@ public class MweTptLtNsFbzSensor extends AbstraktMweUfdsSensor {
 							- this.messWertFortschreibungStart >= this.sensorMitParametern
 							.getMaxZeitMessWertFortschreibung())) {
 
-				MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this
+				final MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this
 						.versucheErsatzWertErsetzung(datumImpl);
 				if (ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA) {
 					this.letztesEmpangenesImplausiblesDatum = null;

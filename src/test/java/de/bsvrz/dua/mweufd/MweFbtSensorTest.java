@@ -135,8 +135,8 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 * @param sensor der Sensor
 	 * @throws DUAInitialisierungsException wird weitergerechts
 	 */
-	public MweFbtSensorTest(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweFbtSensorTest(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 
@@ -169,7 +169,7 @@ public class MweFbtSensorTest extends MweFbtSensor {
 				.getAttributeGroup("atg.ufdsNiederschlagsIntensität"), dav
 				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
 
-		Collection<SystemObject> list = new LinkedList<SystemObject>();
+		final Collection<SystemObject> list = new LinkedList<SystemObject>();
 
 		list.add(zentralSensor);
 		list.add(ersatzSensor);
@@ -193,8 +193,8 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 *            Elementares Schritt
 	 */
 	public static void parametriereSensor(
-			long messwertFortschreibungsIntervall,
-			long messWertErsetzungIntervall, long periode) {
+			final long messwertFortschreibungsIntervall,
+			final long messWertErsetzungIntervall, final long periode) {
 		sender.parametriereSensor(zentralSensor,
 				messwertFortschreibungsIntervall, messWertErsetzungIntervall,
 				periode);
@@ -236,14 +236,14 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 * @param tT
 	 *            Periode
 	 */
-	public static void generiereTestDatenNachPruefSpez1(long t1, long tE,
-			long tT) {
+	public static void generiereTestDatenNachPruefSpez1(final long t1, final long tE,
+			final long tT) {
 
-		double w1 = 4.0;
-		double w2 = 1.2;
-		double w3 = 0.4;
+		final double w1 = 4.0;
+		final double w2 = 1.2;
+		final double w3 = 0.4;
 
-		int length = (int) (tE / tT) + 5;
+		final int length = (int) (tE / tT) + 5;
 
 		prueflingDaten = new double[length];
 		ersatzQuerrschnittDaten = new double[length];
@@ -253,8 +253,8 @@ public class MweFbtSensorTest extends MweFbtSensor {
 		time = new long[length];
 		time[0] = 0;
 
-		long[] t = new long[5];
-		long tInt = (tE - t1) / 3;
+		final long[] t = new long[5];
+		final long tInt = (tE - t1) / 3;
 		t[0] = tT;
 		t[1] = t[0] + t1;
 		t[2] = t[1] + tInt;

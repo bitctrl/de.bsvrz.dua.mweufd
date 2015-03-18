@@ -50,7 +50,7 @@ public class MweUfdStandardAspekteVersorger extends StandardAspekteVersorger {
 	 *            Verbindung zum Verwaltungsmodul
 	 * @throws DUAInitialisierungsException wird weitergereicht
 	 */
-	public MweUfdStandardAspekteVersorger(IVerwaltung verwaltung)
+	public MweUfdStandardAspekteVersorger(final IVerwaltung verwaltung)
 			throws DUAInitialisierungsException {
 		super(verwaltung);
 	}

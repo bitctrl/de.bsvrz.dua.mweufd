@@ -70,7 +70,7 @@ public final class Verbindung {
 	 * @return eine Kopie der Verbindungsdaten
 	 */
 	protected static String[] getConData() {
-		String[] conDataKopie = new String[CON_DATA.length];
+		final String[] conDataKopie = new String[CON_DATA.length];
 
 		for (int i = 0; i < conDataKopie.length; i++) {
 			conDataKopie[i] = CON_DATA[i];

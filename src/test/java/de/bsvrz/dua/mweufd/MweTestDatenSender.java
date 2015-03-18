@@ -66,7 +66,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param dav
 	 *            DAV
 	 */
-	public MweTestDatenSender(ClientDavInterface dav) {
+	public MweTestDatenSender(final ClientDavInterface dav) {
 		this.dav = dav;
 		ddMesswertErsetzung = new DataDescription(dav.getDataModel()
 				.getAttributeGroup("atg.ufdsMessWertErsetzung"), dav
@@ -78,7 +78,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * 
 	 * @param t Erfassungsintervalldauer
 	 */
-	public void setZeitIntervall(long t) {
+	public void setZeitIntervall(final long t) {
 		this.zeitIntervall = t;
 	}
 
@@ -90,10 +90,10 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param dd
 	 *            Datenbeschreibung
 	 */
-	public void anmeldeSender(SystemObject so, DataDescription dd) {
+	public void anmeldeSender(final SystemObject so, final DataDescription dd) {
 		try {
 			dav.subscribeSender(this, so, dd, SenderRole.sender());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.print("Fehler " + e.getMessage());
 		}
 	}
@@ -106,10 +106,10 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param dd
 	 *            Datenbeschreibung
 	 */
-	public void anmeldeSender(Collection<SystemObject> list, DataDescription dd) {
+	public void anmeldeSender(final Collection<SystemObject> list, final DataDescription dd) {
 		try {
 			dav.subscribeSender(this, list, dd, SenderRole.sender());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.print("Fehler " + e.getMessage());
 		}
 	}
@@ -122,10 +122,10 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param dd
 	 *            Datenbeschreibung
 	 */
-	public void anmeldeQuelle(Collection<SystemObject> list, DataDescription dd) {
+	public void anmeldeQuelle(final Collection<SystemObject> list, final DataDescription dd) {
 		try {
 			dav.subscribeSender(this, list, dd, SenderRole.source());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.print("Fehler " + e.getMessage());
 		}
 	}
@@ -138,10 +138,10 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param dd
 	 *            Datenbeschreibung
 	 */
-	public void anmeldeQuelle(SystemObject so, DataDescription dd) {
+	public void anmeldeQuelle(final SystemObject so, final DataDescription dd) {
 		try {
 			dav.subscribeSender(this, so, dd, SenderRole.source());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.print("Fehler " + e.getMessage());
 		}
 	}
@@ -152,11 +152,11 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param so
 	 *            Sensor
 	 */
-	public void anmeldeParametrierung(SystemObject so) {
+	public void anmeldeParametrierung(final SystemObject so) {
 		try {
 			dav.subscribeSender(this, so, ddMesswertErsetzung, SenderRole
 					.sender());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.print("Fehler " + e.getMessage());
 		}
 	}
@@ -173,11 +173,11 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param periode
 	 *            Periode
 	 */
-	public void parametriereSensor(SystemObject sensor,
-			long messwertFortschreibungsIntervall,
-			long messWertErsetzungIntervall, long periode) {
+	public void parametriereSensor(final SystemObject sensor,
+			final long messwertFortschreibungsIntervall,
+			final long messWertErsetzungIntervall, final long periode) {
 		zeitIntervall = periode;
-		Data data = dav.createData(dav.getDataModel().getAttributeGroup(
+		final Data data = dav.createData(dav.getDataModel().getAttributeGroup(
 				"atg.ufdsMessWertErsetzung"));
 		data.getItem("maxZeitMessWertErsetzung").asTimeValue().setMillis(
 				messWertErsetzungIntervall);
@@ -185,11 +185,11 @@ public class MweTestDatenSender implements ClientSenderInterface {
 				messwertFortschreibungsIntervall);
 
 		System.out.println("Sensor " + sensor.getPid() + " parmatetriert. ");
-		ResultData result = new ResultData(sensor, ddMesswertErsetzung,
+		final ResultData result = new ResultData(sensor, ddMesswertErsetzung,
 				System.currentTimeMillis(), data);
 		try {
 			dav.sendData(result);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.print("Fehler " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -209,11 +209,11 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param zeitStempel
 	 *            ZeitStempel
 	 */
-	public void sendeDatenSatz(SystemObject sensor,
-			DataDescription datenBeschreibung, String att, double messwert,
-			long zeitStempel) {
+	public void sendeDatenSatz(final SystemObject sensor,
+			final DataDescription datenBeschreibung, final String att, final double messwert,
+			final long zeitStempel) {
 
-		Data data = dav.createData(dav.getDataModel().getAttributeGroup(
+		final Data data = dav.createData(dav.getDataModel().getAttributeGroup(
 				"atg.ufds" + att));
 
 		data.getTimeValue("T").setMillis(zeitIntervall);
@@ -222,7 +222,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 			try {
 				// bei einigen sensoren ist der Wert skaliert, bei anderen nicht
 				data.getItem(att).getScaledValue("Wert").set(messwert);
-			} catch (IllegalArgumentException e) {
+			} catch (final IllegalArgumentException e) {
 				data.getItem(att).getUnscaledValue("Wert").set(messwert);
 			}
 		} else {
@@ -249,11 +249,11 @@ public class MweTestDatenSender implements ClientSenderInterface {
 		data.getItem(att).getItem("Güte").getUnscaledValue("Index").set(10000);
 		data.getItem(att).getItem("Güte").getUnscaledValue("Verfahren").set(0);
 
-		ResultData result = new ResultData(sensor, datenBeschreibung,
+		final ResultData result = new ResultData(sensor, datenBeschreibung,
 				zeitStempel, data);
 		try {
 			dav.sendData(result);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
@@ -262,8 +262,8 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void dataRequest(SystemObject object,
-			DataDescription dataDescription, byte state) {
+	public void dataRequest(final SystemObject object,
+			final DataDescription dataDescription, final byte state) {
 		// TODO Auto-generated method stub
 
 	}
@@ -271,8 +271,8 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isRequestSupported(SystemObject object,
-			DataDescription dataDescription) {
+	public boolean isRequestSupported(final SystemObject object,
+			final DataDescription dataDescription) {
 		// TODO Auto-generated method stub
 		return false;
 	}

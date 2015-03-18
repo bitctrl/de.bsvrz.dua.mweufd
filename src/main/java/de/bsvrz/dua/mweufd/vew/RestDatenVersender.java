@@ -54,6 +54,8 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public final class RestDatenVersender implements ClientSenderInterface,
 		ClientReceiverInterface {
 
+	private static final Debug LOGGER = Debug.getLogger();
+
 	/**
 	 * statische Instanz dieser Klasse.
 	 */
@@ -70,7 +72,7 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	 * @param dav
 	 *            Verbindung zum Datenverteiler
 	 */
-	private RestDatenVersender(ClientDavInterface dav) {
+	private RestDatenVersender(final ClientDavInterface dav) {
 		this.dav = dav;
 	}
 
@@ -81,7 +83,7 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	 *            Verbindung zum Datenverteiler.
 	 * @return die statische Instanz dieser Klasse
 	 */
-	static RestDatenVersender getInstanz(ClientDavInterface dav1) {
+	static RestDatenVersender getInstanz(final ClientDavInterface dav1) {
 		if (instanz == null) {
 			instanz = new RestDatenVersender(dav1);
 		}
@@ -99,7 +101,7 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	 *             die gleichen Daten von einem anderen Anwendungsobjekt
 	 *             vorliegt
 	 */
-	public void add(SystemObject objekt) throws OneSubscriptionPerSendData {
+	public void add(final SystemObject objekt) throws OneSubscriptionPerSendData {
 		final String atgPid = "atg.ufds"
 				+ UmfeldDatenArt.getUmfeldDatenArtVon(objekt).getName();
 
@@ -118,16 +120,16 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	/**
 	 * {@inheritDoc}
 	 */
-	public void dataRequest(SystemObject object,
-			DataDescription dataDescription, byte state) {
+	public void dataRequest(final SystemObject object,
+			final DataDescription dataDescription, final byte state) {
 		// 
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isRequestSupported(SystemObject object,
-			DataDescription dataDescription) {
+	public boolean isRequestSupported(final SystemObject object,
+			final DataDescription dataDescription) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -135,7 +137,7 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	/**
 	 * {@inheritDoc}
 	 */
-	public void update(ResultData[] results) {
+	public void update(final ResultData[] results) {
 		if (results != null) {
 			for (ResultData logResult : results) {
 				if (logResult != null) {
@@ -143,9 +145,9 @@ public final class RestDatenVersender implements ClientSenderInterface,
 							+ UmfeldDatenArt.getUmfeldDatenArtVon(
 									logResult.getObject()).getName();
 
-					AttributeGroup atg = this.dav.getDataModel()
+					final AttributeGroup atg = this.dav.getDataModel()
 							.getAttributeGroup(atgPid);
-					ResultData mweResult = new ResultData(
+					final ResultData mweResult = new ResultData(
 							logResult.getObject(),
 							new DataDescription(
 									atg,
@@ -157,11 +159,11 @@ public final class RestDatenVersender implements ClientSenderInterface,
 
 					try {
 						this.dav.sendData(mweResult);
-					} catch (DataNotSubscribedException e) {
-						Debug.getLogger().error("", e);
+					} catch (final DataNotSubscribedException e) {
+						LOGGER.error("", e);
 						e.printStackTrace();
-					} catch (SendSubscriptionNotConfirmed e) {
-						Debug.getLogger().error("", e);
+					} catch (final SendSubscriptionNotConfirmed e) {
+						LOGGER.error("", e);
 						e.printStackTrace();
 					}
 				}

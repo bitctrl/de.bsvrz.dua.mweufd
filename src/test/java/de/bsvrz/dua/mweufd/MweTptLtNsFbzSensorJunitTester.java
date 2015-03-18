@@ -62,8 +62,8 @@ public class MweTptLtNsFbzSensorJunitTester {
 	 * @param w3
 	 *            Wert w3
 	 */
-	public void test(String sensorName, String ersatzSensorName,
-			String attributName, double w1, double w2, double w3) {
+	public void test(final String sensorName, final String ersatzSensorName,
+			final String attributName, final double w1, final double w2, final double w3) {
 
 		final long messwertErsetzungMax = 120 * Constants.MILLIS_PER_MINUTE;
 		final long messwertFortFuehrungMax = 3 * Constants.MILLIS_PER_MINUTE;
@@ -79,9 +79,9 @@ public class MweTptLtNsFbzSensorJunitTester {
 		DUAUmfeldDatenSensorTest.reset();
 		MweUfdSensorTest.reset();
 
-		AbstraktVerwaltungsAdapter verw = new VerwaltungMesswertErsetzungUFDTest();
+		final AbstraktVerwaltungsAdapter verw = new VerwaltungMesswertErsetzungUFDTest();
 
-		String[] connData = new String[Verbindung.getConData().length];
+		final String[] connData = new String[Verbindung.getConData().length];
 		for (int i = 0; i < connData.length; i++) {
 			connData[i] = new String(Verbindung.getConData()[i]);
 		}
@@ -95,7 +95,7 @@ public class MweTptLtNsFbzSensorJunitTester {
 		while (MweTptLtNsFbzSensorTest.naechsterZyklus()) {
 			try {
 				Thread.sleep(100);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				//
 			}
 		}
@@ -104,7 +104,7 @@ public class MweTptLtNsFbzSensorJunitTester {
 				while (warten) {
 					verw.wait();
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				//
 			}
 		}
@@ -113,7 +113,7 @@ public class MweTptLtNsFbzSensorJunitTester {
 
 		try {
 			Thread.sleep(500);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			//
 		}
 	}

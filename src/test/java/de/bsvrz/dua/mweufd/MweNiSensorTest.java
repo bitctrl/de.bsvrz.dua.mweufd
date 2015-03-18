@@ -142,8 +142,8 @@ public class MweNiSensorTest extends MweNiSensor {
 	 * @param sensor
 	 * @throws DUAInitialisierungsException
 	 */
-	public MweNiSensorTest(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweNiSensorTest(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 
@@ -172,7 +172,7 @@ public class MweNiSensorTest extends MweNiSensor {
 				.getAttributeGroup("atg.ufdsMessWertErsetzung"), dav
 				.getDataModel().getAspect("asp.parameterVorgabe"));
 
-		Collection<SystemObject> list = new LinkedList<SystemObject>();
+		final Collection<SystemObject> list = new LinkedList<SystemObject>();
 		list.add(zentralSensor);
 		list.add(ersatzSensor);
 		list.add(nachSensor);
@@ -195,8 +195,8 @@ public class MweNiSensorTest extends MweNiSensor {
 	 *            Elementares Schritt
 	 */
 	public static void parametriereSensor(
-			long messwertFortschreibungsIntervall,
-			long messWertErsetzungIntervall, long periode) {
+			final long messwertFortschreibungsIntervall,
+			final long messWertErsetzungIntervall, final long periode) {
 		sender.parametriereSensor(zentralSensor,
 				messwertFortschreibungsIntervall, messWertErsetzungIntervall,
 				periode);
@@ -241,17 +241,17 @@ public class MweNiSensorTest extends MweNiSensor {
 	 * @param T
 	 *            Periode
 	 */
-	static public void generiereTestDatenNachPruefSpezNI_1(long t1, long tE,
-			long T) {
+	static public void generiereTestDatenNachPruefSpezNI_1(final long t1, final long tE,
+			final long T) {
 
-		double w1 = 2.0;
-		double w2 = 1.5;
-		double w3 = 5.5;
-		double w4 = 0.5;
-		double wfd = 1.8;
+		final double w1 = 2.0;
+		final double w2 = 1.5;
+		final double w3 = 5.5;
+		final double w4 = 0.5;
+		final double wfd = 1.8;
 
 		ZEIT_INTERVALL = T;
-		int length = (int) (tE / T) + 5;
+		final int length = (int) (tE / T) + 5;
 
 		prueflingDaten = new double[length];
 		vorherigeNachbarDaten = new double[length];
@@ -266,8 +266,8 @@ public class MweNiSensorTest extends MweNiSensor {
 			time[i] = i * T;
 
 		// Intervalle
-		long[] t = new long[9];
-		long t_int = (tE - t1) / 7;
+		final long[] t = new long[9];
+		final long t_int = (tE - t1) / 7;
 		t[0] = T;
 		t[1] = t[0] + t1;
 

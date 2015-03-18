@@ -99,8 +99,8 @@ public class MweSwSensorTest extends MweSwSensor {
 	 * @param sensor
 	 * @throws DUAInitialisierungsException
 	 */
-	public MweSwSensorTest(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweSwSensorTest(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 		// if(dav != null) return;
@@ -118,7 +118,7 @@ public class MweSwSensorTest extends MweSwSensor {
 				.getAttributeGroup("atg.ufdsSichtWeite"), dav.getDataModel()
 				.getAspect("asp.plausibilitätsPrüfungLogisch"));
 
-		Collection<SystemObject> list = new LinkedList<SystemObject>();
+		final Collection<SystemObject> list = new LinkedList<SystemObject>();
 		list.add(zentralSensor);
 		list.add(nachfolgerSensor);
 
@@ -137,8 +137,8 @@ public class MweSwSensorTest extends MweSwSensor {
 	 *            Elementares Schritt
 	 */
 	public static void parametriereSensor(
-			long messwertFortschreibungsIntervall,
-			long messWertErsetzungIntervall, long periode) {
+			final long messwertFortschreibungsIntervall,
+			final long messWertErsetzungIntervall, final long periode) {
 		sender.parametriereSensor(zentralSensor,
 				messwertFortschreibungsIntervall, messWertErsetzungIntervall,
 				periode);
@@ -173,15 +173,15 @@ public class MweSwSensorTest extends MweSwSensor {
 	 * @param T
 	 *            Periode
 	 */
-	static public void generiereTestDatenNachPruefSpezSW_1(long t1, long tE,
-			long T) {
+	static public void generiereTestDatenNachPruefSpezSW_1(final long t1, final long tE,
+			final long T) {
 
-		long w1 = 40;
-		long w2 = 60;
-		long w3 = 80;
+		final long w1 = 40;
+		final long w2 = 60;
+		final long w3 = 80;
 
 		ZEIT_INTERVALL = T;
-		int length = (int) (tE / T) + 5;
+		final int length = (int) (tE / T) + 5;
 
 		prueflingDaten = new long[length];
 		nachfolgerDaten = new long[length];
@@ -193,8 +193,8 @@ public class MweSwSensorTest extends MweSwSensor {
 			time[i] = i * T;
 
 		// Intervalle
-		long[] t = new long[5];
-		long t_int = (tE - t1) / 3;
+		final long[] t = new long[5];
+		final long t_int = (tE - t1) / 3;
 
 		t[0] = T;
 		t[1] = t[0] + t_int;

@@ -53,21 +53,21 @@ public class VerwaltungMesswertErsetzungUFDTest extends
 
 		for (DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle
 				.getInstanzen()) {
-			DUAUmfeldDatenSensor hauptSensorNI = messStelle
+			final DUAUmfeldDatenSensor hauptSensorNI = messStelle
 					.getHauptSensor(UmfeldDatenArt.ni);
-			DUAUmfeldDatenSensor hauptSensorNS = messStelle
+			final DUAUmfeldDatenSensor hauptSensorNS = messStelle
 					.getHauptSensor(UmfeldDatenArt.ns);
-			DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
+			final DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
 					.getHauptSensor(UmfeldDatenArt.fbz);
-			DUAUmfeldDatenSensor hauptSensorWFD = messStelle
+			final DUAUmfeldDatenSensor hauptSensorWFD = messStelle
 					.getHauptSensor(UmfeldDatenArt.wfd);
-			DUAUmfeldDatenSensor hauptSensorSW = messStelle
+			final DUAUmfeldDatenSensor hauptSensorSW = messStelle
 					.getHauptSensor(UmfeldDatenArt.sw);
-			DUAUmfeldDatenSensor hauptSensorTPT = messStelle
+			final DUAUmfeldDatenSensor hauptSensorTPT = messStelle
 					.getHauptSensor(UmfeldDatenArt.tpt);
-			DUAUmfeldDatenSensor hauptSensorLT = messStelle
+			final DUAUmfeldDatenSensor hauptSensorLT = messStelle
 					.getHauptSensor(UmfeldDatenArt.lt);
-			DUAUmfeldDatenSensor hauptSensorFBT = messStelle
+			final DUAUmfeldDatenSensor hauptSensorFBT = messStelle
 					.getHauptSensor(UmfeldDatenArt.fbt);
 
 			if (hauptSensorNI != null) {

@@ -112,8 +112,8 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
 	 */
-	public MweWfdSensor(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweWfdSensor(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 
@@ -121,7 +121,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 			this.nachfolger.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							MweWfdSensor.this.letzterNachfolgerDatensatz = resultat;
 							MweWfdSensor.this.trigger();
 						}
@@ -133,7 +133,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 			this.vorgaenger.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							MweWfdSensor.this.letzterVorgaengerDatensatz = resultat;
 							MweWfdSensor.this.trigger();
 						}
@@ -156,7 +156,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 			this.niDatenSensor.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							MweWfdSensor.this.letzterNiDatensatz = resultat;
 							MweWfdSensor.this.trigger();
 						}
@@ -174,13 +174,13 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 				continue;
 			}
 
-			MweUfdSensor datenNebenSensor = MweUfdSensor.getInstanz(verwaltung
+			final MweUfdSensor datenNebenSensor = MweUfdSensor.getInstanz(verwaltung
 					.getVerbindung(), nebenSensor.getObjekt());
 
 			datenNebenSensor.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							synchronized (this) {
 								MweWfdSensor.this.nebenSensorenMitDaten.put(
 										resultat.getObject(), resultat);
@@ -199,7 +199,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 	@Override
 	protected synchronized void trigger() {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
-			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
+			final UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
 					this.letztesEmpangenesImplausiblesDatum);
 
 			if (this.messWertFortschreibungStart == -1
@@ -221,7 +221,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 				}
 			}
 
-			MweMethodenErgebnis ergebnisNebenSensorErsetzung = this
+			final MweMethodenErgebnis ergebnisNebenSensorErsetzung = this
 					.versucheErsetzungDurchNebenSensoren(datumImpl);
 			if (ergebnisNebenSensorErsetzung == MweMethodenErgebnis.JA) {
 				this.letztesEmpangenesImplausiblesDatum = null;
@@ -236,9 +236,9 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 					&& this.nachfolger != null
 					&& this.letzterNachfolgerDatensatz != null
 					&& this.letzterNachfolgerDatensatz.getData() != null) {
-				UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(
+				final UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(
 						this.letzterNachfolgerDatensatz);
-				UmfeldDatenSensorDatum datumVor = new UmfeldDatenSensorDatum(
+				final UmfeldDatenSensorDatum datumVor = new UmfeldDatenSensorDatum(
 						this.letzterVorgaengerDatensatz);
 
 				if (datumVor.getT() == datumImpl.getT()
@@ -263,7 +263,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 
 			if (this.niDatenSensor != null && this.letzterNiDatensatz != null
 					&& this.letzterNiDatensatz.getData() != null) {
-				UmfeldDatenSensorDatum datumNi = new UmfeldDatenSensorDatum(
+				final UmfeldDatenSensorDatum datumNi = new UmfeldDatenSensorDatum(
 						this.letzterNiDatensatz);
 				if (datumNi.getT() == datumImpl.getT()) {
 					if (datumNi.getDatenZeit() == datumImpl.getDatenZeit()) {
@@ -281,7 +281,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 				}
 			}
 
-			MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this
+			final MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this
 					.versucheErsatzWertErsetzung(datumImpl);
 			if (ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA) {
 				this.letztesEmpangenesImplausiblesDatum = null;
@@ -318,7 +318,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 	 *         aktuellen Daten vorliegen
 	 */
 	private MweMethodenErgebnis versucheErsetzungDurchNebenSensoren(
-			UmfeldDatenSensorDatum datumImpl) {
+			final UmfeldDatenSensorDatum datumImpl) {
 		MweMethodenErgebnis ergebnis = MweMethodenErgebnis.NEIN;
 
 		/**
@@ -337,7 +337,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 					.values()) {
 				if (nebenSensorResultat != null
 						&& nebenSensorResultat.getData() != null) {
-					UmfeldDatenSensorDatum datumNebenSensor = new UmfeldDatenSensorDatum(
+					final UmfeldDatenSensorDatum datumNebenSensor = new UmfeldDatenSensorDatum(
 							nebenSensorResultat);
 
 					if (datumNebenSensor.getT() == datumImpl.getT()) {

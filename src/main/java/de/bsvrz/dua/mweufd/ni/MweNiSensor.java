@@ -99,8 +99,8 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
 	 */
-	public MweNiSensor(IVerwaltungMitGuete verwaltung,
-			DUAUmfeldDatenMessStelle messStelle, DUAUmfeldDatenSensor sensor)
+	public MweNiSensor(final IVerwaltungMitGuete verwaltung,
+			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
 			throws DUAInitialisierungsException {
 		super(verwaltung, messStelle, sensor);
 
@@ -108,7 +108,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 			this.nachfolger.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							MweNiSensor.this.letzterNachfolgerDatensatz = resultat;
 							MweNiSensor.this.trigger();
 						}
@@ -120,7 +120,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 			this.vorgaenger.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							MweNiSensor.this.letzterVorgaengerDatensatz = resultat;
 							MweNiSensor.this.trigger();
 						}
@@ -143,7 +143,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 			this.wfdDatenSensor.addListener(
 					new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(ResultData resultat) {
+						public void aktualisiereDaten(final ResultData resultat) {
 							MweNiSensor.this.letzterWfdDatensatz = resultat;
 							MweNiSensor.this.trigger();
 						}
@@ -158,7 +158,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 	@Override
 	protected synchronized void trigger() {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
-			UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
+			final UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
 					this.letztesEmpangenesImplausiblesDatum);
 
 			if (this.letztesEmpangenesPlausiblesDatum == null
@@ -180,9 +180,9 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 						&& this.letzterVorgaengerDatensatz.getData() != null
 						&& this.letzterNachfolgerDatensatz.getData() != null) {
 
-					UmfeldDatenSensorDatum datumVor = new UmfeldDatenSensorDatum(
+					final UmfeldDatenSensorDatum datumVor = new UmfeldDatenSensorDatum(
 							this.letzterVorgaengerDatensatz);
-					UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(
+					final UmfeldDatenSensorDatum datumNach = new UmfeldDatenSensorDatum(
 							this.letzterNachfolgerDatensatz);
 
 					if (datumVor.getT() == datumImpl.getT()
@@ -213,7 +213,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 				if (this.wfdDatenSensor != null
 						&& this.letzterWfdDatensatz != null
 						&& this.letzterWfdDatensatz.getData() != null) {
-					UmfeldDatenSensorDatum datumWfd = new UmfeldDatenSensorDatum(
+					final UmfeldDatenSensorDatum datumWfd = new UmfeldDatenSensorDatum(
 							this.letzterWfdDatensatz);
 
 					if (datumWfd.getT() == datumImpl.getT()) {
@@ -238,7 +238,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 				 * naechster Punkt: sonst werden die plausiblen Messwerte des
 				 * Ersatzquerschnittes übernommen
 				 */
-				MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this
+				final MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this
 						.versucheErsatzWertErsetzung(datumImpl);
 				if (ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA) {
 					this.letztesEmpangenesImplausiblesDatum = null;
