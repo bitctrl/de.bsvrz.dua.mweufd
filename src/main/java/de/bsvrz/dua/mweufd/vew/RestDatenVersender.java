@@ -40,6 +40,7 @@ import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorUnbekannteDatenartException;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 import de.bsvrz.sys.funclib.debug.Debug;
 
@@ -59,12 +60,12 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	/**
 	 * statische Instanz dieser Klasse.
 	 */
-	private static RestDatenVersender instanz = null;
+	private static RestDatenVersender instanz;
 
 	/**
 	 * Verbindung zum Datenverteiler.
 	 */
-	private ClientDavInterface dav = null;
+	private ClientDavInterface dav;
 
 	/**
 	 * Standardkonstruktor.
@@ -102,8 +103,14 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	 *             vorliegt
 	 */
 	public void add(final SystemObject objekt) throws OneSubscriptionPerSendData {
-		final String atgPid = "atg.ufds"
-				+ UmfeldDatenArt.getUmfeldDatenArtVon(objekt).getName();
+		String atgPid;
+		try {
+			atgPid = "atg.ufds"
+					+ UmfeldDatenArt.getUmfeldDatenArtVon(objekt).getName();
+		} catch (final UmfeldDatenSensorUnbekannteDatenartException e) {
+			LOGGER.warning(e.getMessage());
+			return;
+		}
 
 		this.dav.subscribeSender(this, objekt, new DataDescription(dav
 				.getDataModel().getAttributeGroup(atgPid), dav.getDataModel()
@@ -120,6 +127,7 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void dataRequest(final SystemObject object,
 			final DataDescription dataDescription, final byte state) {
 		// 
@@ -128,6 +136,7 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean isRequestSupported(final SystemObject object,
 			final DataDescription dataDescription) {
 		// TODO Auto-generated method stub
@@ -137,13 +146,20 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void update(final ResultData[] results) {
 		if (results != null) {
 			for (ResultData logResult : results) {
 				if (logResult != null) {
-					final String atgPid = "atg.ufds"
-							+ UmfeldDatenArt.getUmfeldDatenArtVon(
-									logResult.getObject()).getName();
+					String atgPid;
+					try {
+						atgPid = "atg.ufds"
+								+ UmfeldDatenArt.getUmfeldDatenArtVon(
+										logResult.getObject()).getName();
+					} catch (final UmfeldDatenSensorUnbekannteDatenartException e1) {
+						LOGGER.error("", e1);
+						continue;
+					}
 
 					final AttributeGroup atg = this.dav.getDataModel()
 							.getAttributeGroup(atgPid);

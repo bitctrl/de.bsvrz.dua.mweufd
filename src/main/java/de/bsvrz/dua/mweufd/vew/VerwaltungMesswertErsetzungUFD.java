@@ -43,9 +43,11 @@ import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktVerwaltungsAdapterMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorUnbekannteDatenartException;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Das Modul Verwaltung ist die zentrale Steuereinheit der SWE Messwertersetzung
@@ -66,7 +68,7 @@ public class VerwaltungMesswertErsetzungUFD extends
 	/**
 	 * Datenflusssteuerung.
 	 */
-	public static MweDatenFlussSteuerung dieDfs = null;
+	public static MweDatenFlussSteuerung dieDfs;
 
 	/**
 	 * {@inheritDoc}
@@ -87,9 +89,9 @@ public class VerwaltungMesswertErsetzungUFD extends
 						DUAKonstanten.TYP_UFD_MESSSTELLE), this.verbindung,
 				this.getKonfigurationsBereiche()).toArray(new SystemObject[0]);
 
-		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung, this
-				.getSystemObjekte());
-		
+		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung,
+				this.getSystemObjekte());
+
 		/**
 		 * die Datenarten, die nicht messwertersetzt werden, aber dennoch
 		 * weitergereicht werden sollen
@@ -102,51 +104,56 @@ public class VerwaltungMesswertErsetzungUFD extends
 		rest.remove(UmfeldDatenArt.wfd);
 		rest.remove(UmfeldDatenArt.sw);
 		rest.remove(UmfeldDatenArt.tpt);
-		rest.remove(UmfeldDatenArt.lt);	
+		rest.remove(UmfeldDatenArt.lt);
 		rest.remove(UmfeldDatenArt.fbt);
-		
+
 		for (DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle
 				.getInstanzen()) {
-			final DUAUmfeldDatenSensor hauptSensorNI = messStelle
-					.getHauptSensor(UmfeldDatenArt.ni);
-			final DUAUmfeldDatenSensor hauptSensorNS = messStelle
-					.getHauptSensor(UmfeldDatenArt.ns);
-			final DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
-					.getHauptSensor(UmfeldDatenArt.fbz);
-			final DUAUmfeldDatenSensor hauptSensorWFD = messStelle
-					.getHauptSensor(UmfeldDatenArt.wfd);
-			final DUAUmfeldDatenSensor hauptSensorSW = messStelle
-					.getHauptSensor(UmfeldDatenArt.sw);
-			final DUAUmfeldDatenSensor hauptSensorTPT = messStelle
-					.getHauptSensor(UmfeldDatenArt.tpt);
-			final DUAUmfeldDatenSensor hauptSensorLT = messStelle
-					.getHauptSensor(UmfeldDatenArt.lt);
-			final DUAUmfeldDatenSensor hauptSensorFBT = messStelle
-					.getHauptSensor(UmfeldDatenArt.fbt);
-			
-			if (hauptSensorNI != null) {
-				new MweNiSensor(this, messStelle, hauptSensorNI);
-			}
-			if (hauptSensorNS != null) {
-				new MweTptLtNsFbzSensor(this, messStelle, hauptSensorNS);
-			}
-			if (hauptSensorFBZ != null) {
-				new MweTptLtNsFbzSensor(this, messStelle, hauptSensorFBZ);
-			}
-			if (hauptSensorLT != null) {
-				new MweTptLtNsFbzSensor(this, messStelle, hauptSensorLT);
-			}
-			if (hauptSensorTPT != null) {
-				new MweTptLtNsFbzSensor(this, messStelle, hauptSensorTPT);
-			}
-			if (hauptSensorWFD != null) {
-				new MweWfdSensor(this, messStelle, hauptSensorWFD);
-			}
-			if (hauptSensorSW != null) {
-				new MweSwSensor(this, messStelle, hauptSensorSW);
-			}
-			if (hauptSensorFBT != null) {
-				new MweFbtSensor(this, messStelle, hauptSensorFBT);
+			try {
+				final DUAUmfeldDatenSensor hauptSensorNI = messStelle
+						.getHauptSensor(UmfeldDatenArt.ni);
+				final DUAUmfeldDatenSensor hauptSensorNS = messStelle
+						.getHauptSensor(UmfeldDatenArt.ns);
+				final DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
+						.getHauptSensor(UmfeldDatenArt.fbz);
+				final DUAUmfeldDatenSensor hauptSensorWFD = messStelle
+						.getHauptSensor(UmfeldDatenArt.wfd);
+				final DUAUmfeldDatenSensor hauptSensorSW = messStelle
+						.getHauptSensor(UmfeldDatenArt.sw);
+				final DUAUmfeldDatenSensor hauptSensorTPT = messStelle
+						.getHauptSensor(UmfeldDatenArt.tpt);
+				final DUAUmfeldDatenSensor hauptSensorLT = messStelle
+						.getHauptSensor(UmfeldDatenArt.lt);
+				final DUAUmfeldDatenSensor hauptSensorFBT = messStelle
+						.getHauptSensor(UmfeldDatenArt.fbt);
+
+				if (hauptSensorNI != null) {
+					new MweNiSensor(this, messStelle, hauptSensorNI);
+				}
+				if (hauptSensorNS != null) {
+					new MweTptLtNsFbzSensor(this, messStelle, hauptSensorNS);
+				}
+				if (hauptSensorFBZ != null) {
+					new MweTptLtNsFbzSensor(this, messStelle, hauptSensorFBZ);
+				}
+				if (hauptSensorLT != null) {
+					new MweTptLtNsFbzSensor(this, messStelle, hauptSensorLT);
+				}
+				if (hauptSensorTPT != null) {
+					new MweTptLtNsFbzSensor(this, messStelle, hauptSensorTPT);
+				}
+				if (hauptSensorWFD != null) {
+					new MweWfdSensor(this, messStelle, hauptSensorWFD);
+				}
+				if (hauptSensorSW != null) {
+					new MweSwSensor(this, messStelle, hauptSensorSW);
+				}
+				if (hauptSensorFBT != null) {
+					new MweFbtSensor(this, messStelle, hauptSensorFBT);
+				}
+			} catch (final UmfeldDatenSensorUnbekannteDatenartException e) {
+				Debug.getLogger().warning(e.getMessage());
+				continue;
 			}
 
 			for (UmfeldDatenArt datenArt : rest) {
@@ -190,6 +197,7 @@ public class VerwaltungMesswertErsetzungUFD extends
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public SWETyp getSWETyp() {
 		return SWETyp.SWE_MESSWERTERSETZUNG_UFD;
 	}
@@ -197,6 +205,7 @@ public class VerwaltungMesswertErsetzungUFD extends
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void update(final ResultData[] resultate) {
 		// Daten werden von den Untermodulen selbst entgegen genommen
 	}

@@ -33,6 +33,7 @@ import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorUnbekannteDatenartException;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.AbstraktOnlineUfdSensor;
 
 /**
@@ -57,11 +58,12 @@ public class MweUfdSensor extends AbstraktOnlineUfdSensor<ResultData> {
 	 * @param objekt
 	 *            ein Systemobjekt eines Umfelddatensensors (<code>!= null</code>)
 	 * @return eine statische Instanz dieser Klasse
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
 	 */
 	public static final MweUfdSensor getInstanz(final ClientDavInterface dav,
-			final SystemObject objekt) {
+			final SystemObject objekt) throws UmfeldDatenSensorUnbekannteDatenartException {
 		if (objekt == null) {
-			throw new NullPointerException("Sensos-Objekt ist <<null>>"); //$NON-NLS-1$
+			throw new NullPointerException("Sensor-Objekt ist <<null>>"); //$NON-NLS-1$
 		}
 		MweUfdSensor instanz = INSTANZEN.get(objekt);
 

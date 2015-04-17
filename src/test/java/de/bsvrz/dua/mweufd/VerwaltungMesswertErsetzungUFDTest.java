@@ -27,6 +27,7 @@ package de.bsvrz.dua.mweufd;
 
 import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorUnbekannteDatenartException;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
@@ -53,6 +54,7 @@ public class VerwaltungMesswertErsetzungUFDTest extends
 
 		for (DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle
 				.getInstanzen()) {
+			try {
 			final DUAUmfeldDatenSensor hauptSensorNI = messStelle
 					.getHauptSensor(UmfeldDatenArt.ni);
 			final DUAUmfeldDatenSensor hauptSensorNS = messStelle
@@ -71,7 +73,9 @@ public class VerwaltungMesswertErsetzungUFDTest extends
 					.getHauptSensor(UmfeldDatenArt.fbt);
 
 			if (hauptSensorNI != null) {
-				new MweNiSensorTest(this, messStelle, hauptSensorNI);
+
+					new MweNiSensorTest(this, messStelle, hauptSensorNI);
+
 			}
 			if (hauptSensorNS != null) {
 				new MweTptLtNsFbzSensorTest(this, messStelle,
@@ -97,6 +101,10 @@ public class VerwaltungMesswertErsetzungUFDTest extends
 			}
 			if (hauptSensorFBT != null) {
 				new MweFbtSensorTest(this, messStelle, hauptSensorFBT);
+			}
+			} catch (final UmfeldDatenSensorUnbekannteDatenartException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

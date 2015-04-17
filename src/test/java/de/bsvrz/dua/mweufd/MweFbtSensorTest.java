@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.junit.Assert;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
@@ -38,6 +39,7 @@ import de.bsvrz.dua.mweufd.fbt.MweFbtSensor;
 import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorUnbekannteDatenartException;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 
@@ -134,10 +136,11 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 * @param messStelle die Messstelle 
 	 * @param sensor der Sensor
 	 * @throws DUAInitialisierungsException wird weitergerechts
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
 	 */
 	public MweFbtSensorTest(final IVerwaltungMitGuete verwaltung,
 			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
-			throws DUAInitialisierungsException {
+			throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
 		super(verwaltung, messStelle, sensor);
 
 		if (!sensor.getObjekt().getPid()

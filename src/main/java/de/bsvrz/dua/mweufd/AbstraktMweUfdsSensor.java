@@ -40,6 +40,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorDatum;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorUnbekannteDatenartException;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
@@ -142,10 +143,11 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 	 * @throws DUAInitialisierungsException
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
 	 */
 	public AbstraktMweUfdsSensor(final IVerwaltungMitGuete verwaltung,
 			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
-			throws DUAInitialisierungsException {
+			throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
 		if (messStelle == null || sensor == null) {
 			throw new NullPointerException("Messstelle/Sensor ist <<null>>"); //$NON-NLS-1$
 		}
@@ -334,10 +336,17 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 			final long durchschnitt = Math.round(((double) datumVor.getWert()
 					.getWert() + (double) datumNach.getWert().getWert()) / 2.0);
 
+			UmfeldDatenArt umfeldDatenArt;
+			try {
+				umfeldDatenArt = UmfeldDatenArt.getUmfeldDatenArtVon(this.sensorSelbst.getObjekt());
+			} catch (final UmfeldDatenSensorUnbekannteDatenartException e1) {
+				LOGGER.warning(
+						"Guete kann nicht angepasst werden: " + e1.getMessage());
+				return false;
+			}
+			
 			if (DUAUtensilien.isWertInWerteBereich(datumImpl.getOriginalDatum()
-					.getData().getItem(
-							UmfeldDatenArt.getUmfeldDatenArtVon(
-									this.sensorSelbst.getObjekt()).getName())
+					.getData().getItem(umfeldDatenArt.getName())
 					.getItem("Wert"), durchschnitt)) { //$NON-NLS-1$
 				final GWert gueteWert1 = new GWert(
 						datumVor.getGueteIndex(),

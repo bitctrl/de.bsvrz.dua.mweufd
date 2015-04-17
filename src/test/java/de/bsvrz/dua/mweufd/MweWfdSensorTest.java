@@ -39,6 +39,7 @@ import de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD;
 import de.bsvrz.dua.mweufd.wfd.MweWfdSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
+import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorUnbekannteDatenartException;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 
@@ -121,10 +122,11 @@ public class MweWfdSensorTest extends MweWfdSensor {
 	 * @param messStelle
 	 * @param sensor
 	 * @throws DUAInitialisierungsException
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
 	 */
 	public MweWfdSensorTest(final IVerwaltungMitGuete verwaltung,
 			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
-			throws DUAInitialisierungsException {
+			throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
 		super(verwaltung, messStelle, sensor);
 
 		if (!sensor.getObjekt().getPid()
