@@ -51,7 +51,7 @@ public final class Verbindung {
 	 "-authentifizierung=passwd", //$NON-NLS-1$
 	 "-debugLevelStdErrText=ALL", //$NON-NLS-1$
 	 "-debugLevelFileText=OFF", //$NON-NLS-1$
-	 "-KonfigurationsBereichsPid=kb.mweUfdTestModell" }; //$NON-NLS-1$
+	 "-KonfigurationsBereichsPid=kb.mweUfdTestModell,kb.duaTestObjekteUFDUnbekannteSensoren" }; //$NON-NLS-1$
 
 //	/**
 //	 * Verbindungsdaten.

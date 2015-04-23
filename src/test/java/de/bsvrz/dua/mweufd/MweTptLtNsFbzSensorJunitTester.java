@@ -141,5 +141,5 @@ public class MweTptLtNsFbzSensorJunitTester {
 		test("ufdSensor.testLT.lt.zentral", "ufdSensor.testLT.lt.ersatz",
 				"LuftTemperatur", 0.1, 1.2, 2.4);
 	}
-	
+
 }

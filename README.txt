@@ -17,6 +17,8 @@ Versionsgeschichte
 ==================
 
 1.2.0
+- Behandlung nicht unterstützter Sensorarten über die 'UmfeldDatenSensorUnbekannteDatenartException'
+- benötigt SWE de.bsvrz.sys.funclib.bitctrl_FREI_V1.2.3.zip oder höher 
 - Umstellung auf Maven-Build  
   
 1.1.4
