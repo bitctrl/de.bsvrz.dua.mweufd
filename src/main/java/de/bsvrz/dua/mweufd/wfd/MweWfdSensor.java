@@ -57,7 +57,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  * parametrierbare Zeit (Ersteinstellung = 3 Minuten) der letzte plausible
  * Messwert maßgebend,<br>
  * - sonst, wenn die zugeordneten beiden benachbarten Umfeldmessstellen (vor und
- * nach) eine Wasserfilmdicke > 0 oder beide = 0 plausibel gemessen haben, nehme
+ * nach) eine Wasserfilmdicke &gt; 0 oder beide = 0 plausibel gemessen haben, nehme
  * als Ersatzwert den Mittelwert aus beiden benachbarten
  * Umfeldmessstellen-Werten,<br>
  * - sonst, wenn die Niederschlagsintensität plausibel gemessen wurde, wird kein

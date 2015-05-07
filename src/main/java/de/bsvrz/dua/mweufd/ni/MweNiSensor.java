@@ -50,7 +50,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  *  - für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
  * plausible Messwert maßgebend,<br> - sonst, wenn die zugeordneten beiden
  * benachbarten Umfelddatenmessstellen (vor und nach) eine
- * Niederschlagsintensität > 0 oder beide = 0 plausibel gemessen haben, nehme
+ * Niederschlagsintensität &gt; 0 oder beide = 0 plausibel gemessen haben, nehme
  * als Ersatzwert den Mittelwert aus beiden benachbarten MQ-Werten,<br> -
  * sonst, wenn die Wasserfilmdicke gemessen wurde, wird kein Ersatzwert für die
  * Niederschalgsintensität bestimmt, Der Sensorwert ist als nicht ermittelbar zu
