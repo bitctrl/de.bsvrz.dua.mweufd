@@ -50,13 +50,13 @@ import de.bsvrz.sys.funclib.debug.Debug;
 /**
  * Allgemeiner Rahmen fuer eine Umfelddatenmessstelle, wie sie im Zusammenhang
  * mit der Messwertersetzung benoetigt wird.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
+ *
+ * @version $Id: AbstraktMweUfdsSensor.java 54549 2015-04-17 13:40:51Z gieseler
+ *          $
  */
-public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
-		IOnlineUfdSensorListener<ResultData> {
+public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface, IOnlineUfdSensorListener<ResultData> {
 
 	private static final Debug LOGGER = Debug.getLogger();
 
@@ -130,7 +130,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @param messStelle
@@ -143,54 +143,48 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 	 * @throws DUAInitialisierungsException
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
-	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException
+	 *             die Datenart des übergebenen Sensors wird nicht unterstützt
 	 */
-	public AbstraktMweUfdsSensor(final IVerwaltungMitGuete verwaltung,
-			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
-			throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
-		if (messStelle == null || sensor == null) {
+	public AbstraktMweUfdsSensor(final IVerwaltungMitGuete verwaltung, final DUAUmfeldDatenMessStelle messStelle,
+			final DUAUmfeldDatenSensor sensor)
+					throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
+		if ((messStelle == null) || (sensor == null)) {
 			throw new NullPointerException("Messstelle/Sensor ist <<null>>"); //$NON-NLS-1$
 		}
-		dieVerwaltung = verwaltung;
+		AbstraktMweUfdsSensor.dieVerwaltung = verwaltung;
 		VerwaltungMesswertErsetzungUFD.dieDfs.addObjekt(sensor.getObjekt());
 		this.sensorMitParametern = sensor;
 
 		this.messStelle = messStelle;
-		this.sensorSelbst = MweUfdSensor.getInstanz(verwaltung.getVerbindung(),
-				sensor.getObjekt());
+		this.sensorSelbst = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), sensor.getObjekt());
 		this.sensorSelbst.addListener(this, true);
 
 		if (sensor.getVorgaenger() != null) {
-			final DUAUmfeldDatenMessStelle vorgaengerMSt = DUAUmfeldDatenMessStelle
-					.getInstanz(sensor.getVorgaenger());
+			final DUAUmfeldDatenMessStelle vorgaengerMSt = DUAUmfeldDatenMessStelle.getInstanz(sensor.getVorgaenger());
 			if (vorgaengerMSt != null) {
-				final DUAUmfeldDatenSensor vorgaengerSensor = vorgaengerMSt
-						.getHauptSensor(sensor.getDatenArt());
+				final DUAUmfeldDatenSensor vorgaengerSensor = vorgaengerMSt.getHauptSensor(sensor.getDatenArt());
 				if (vorgaengerSensor != null) {
-					this.vorgaenger = MweUfdSensor.getInstanz(verwaltung
-							.getVerbindung(), vorgaengerSensor.getObjekt());
+					this.vorgaenger = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), vorgaengerSensor.getObjekt());
 				}
 			}
 		}
 
 		if (sensor.getNachfolger() != null) {
-			final DUAUmfeldDatenMessStelle nachfolgerMSt = DUAUmfeldDatenMessStelle
-					.getInstanz(sensor.getNachfolger());
+			final DUAUmfeldDatenMessStelle nachfolgerMSt = DUAUmfeldDatenMessStelle.getInstanz(sensor.getNachfolger());
 			if (nachfolgerMSt != null) {
-				final DUAUmfeldDatenSensor nachfolgerSensor = nachfolgerMSt
-						.getHauptSensor(sensor.getDatenArt());
+				final DUAUmfeldDatenSensor nachfolgerSensor = nachfolgerMSt.getHauptSensor(sensor.getDatenArt());
 				if (nachfolgerSensor != null) {
-					this.nachfolger = MweUfdSensor.getInstanz(verwaltung
-							.getVerbindung(), nachfolgerSensor.getObjekt());
+					this.nachfolger = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), nachfolgerSensor.getObjekt());
 				}
 			}
 		}
 
 		if (sensor.getErsatzSensor() != null) {
-			this.ersatz = MweUfdSensor.getInstanz(verwaltung.getVerbindung(),
-					sensor.getErsatzSensor());
+			this.ersatz = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), sensor.getErsatzSensor());
 			this.ersatz.addListener(new IOnlineUfdSensorListener<ResultData>() {
 
+				@Override
 				public void aktualisiereDaten(final ResultData resultat) {
 					AbstraktMweUfdsSensor.this.letzterErsatzDatensatz = resultat;
 					AbstraktMweUfdsSensor.this.trigger();
@@ -203,28 +197,26 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void aktualisiereDaten(final ResultData resultat) {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
-			LOGGER.error(
-					"Nicht freigegebenes implausibles Datum:\n" + //$NON-NLS-1$
-							this.letztesEmpangenesImplausiblesDatum
-							+ "\nNachfolger:\n" + resultat); //$NON-NLS-1$
+			AbstraktMweUfdsSensor.LOGGER.error("Nicht freigegebenes implausibles Datum:\n" + //$NON-NLS-1$
+					this.letztesEmpangenesImplausiblesDatum + "\nNachfolger:\n" + resultat); //$NON-NLS-1$
 
 			final UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
 					this.letztesEmpangenesImplausiblesDatum);
 			datumImpl.getWert().setNichtErmittelbarAn();
-			this.publiziere(this.letztesEmpangenesImplausiblesDatum, datumImpl
-					.getDatum());
+			this.publiziere(this.letztesEmpangenesImplausiblesDatum, datumImpl.getDatum());
 
 			this.letztesEmpangenesImplausiblesDatum = null;
 
-//			/**
-//			 * TODO: raus
-//			 */
-//			throw new RuntimeException(
-//					"Nicht freigegebenes implausibles Datum:\n" + //$NON-NLS-1$
-//							this.letztesEmpangenesImplausiblesDatum
-//							+ "\nNachfolger:\n" + resultat); //$NON-NLS-1$
+			// /**
+			// * TODO: raus
+			// */
+			// throw new RuntimeException(
+			// "Nicht freigegebenes implausibles Datum:\n" + //$NON-NLS-1$
+			// this.letztesEmpangenesImplausiblesDatum
+			// + "\nNachfolger:\n" + resultat); //$NON-NLS-1$
 		}
 
 		if (resultat.getData() != null) {
@@ -235,7 +227,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 					this.messWertErsetzungStart = resultat.getDataTime();
 				}
 
-				if (resultat.getDataTime() - this.messWertErsetzungStart >= this.sensorMitParametern
+				if ((resultat.getDataTime() - this.messWertErsetzungStart) >= this.sensorMitParametern
 						.getMaxZeitMessWertErsetzung()) {
 					/**
 					 * Für implausible Messwerte wird nur für einen je
@@ -259,8 +251,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 				this.messWertErsetzungStart = -1;
 				this.messWertFortschreibungStart = -1;
 				this.letztesEmpangenesPlausiblesDatum = resultat;
-				this.publiziere(resultat, resultat.getData()
-						.createModifiableCopy());
+				this.publiziere(resultat, resultat.getData().createModifiableCopy());
 			}
 		} else {
 			this.publiziere(resultat, null);
@@ -277,7 +268,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 	 * Publiziert ein Datum nach den Vorgaben der Datenflusssteuerung (Es werden
 	 * hier keine zwei Datensaetze nacheinander mit der Kennzeichnung "keine
 	 * Daten" versendet).
-	 * 
+	 *
 	 * @param original
 	 *            ein Originaldatum, so wie es empfangen wurde
 	 * @param nutzDatum
@@ -291,8 +282,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 			 * "keine Daten" wird nur publiziert, wenn das Objekt vorher nicht
 			 * auch schon auf keine Daten stand
 			 */
-			if (this.letztesPubDatum != null
-					&& this.letztesPubDatum.getData() != null) {
+			if ((this.letztesPubDatum != null) && (this.letztesPubDatum.getData() != null)) {
 				publiziereDatensatz = true;
 			}
 		} else {
@@ -300,12 +290,11 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 		}
 
 		if (publiziereDatensatz) {
-			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.dieDfs
-					.publiziere(original, nutzDatum);
+			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.dieDfs.publiziere(original, nutzDatum);
 			if (this.letztesPubDatum == null) {
-				LOGGER.warning(
-						"Datenflusssteuerung konnte kein Publikationsdatum ermitteln fuer:\n" //$NON-NLS-1$
-								+ original);
+				AbstraktMweUfdsSensor.LOGGER
+						.warning("Datenflusssteuerung konnte kein Publikationsdatum ermitteln fuer:\n" //$NON-NLS-1$
+						+ original);
 			}
 		}
 	}
@@ -313,7 +302,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 	/**
 	 * Errechnet <b>wenn moeglich</b> den Durchschnitt der beiden uebergebenen
 	 * benachbarten Sensorwerte unter Anpassung der Guete und publiziert diesen.
-	 * 
+	 *
 	 * @param datumImpl
 	 *            der implausible Sensorwert des zentralen Sensors
 	 * @param datumVor
@@ -322,64 +311,51 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 	 *            ein Sensorwert des Nachfolgers
 	 * @return ob der Mittelwert publiziert wurde
 	 */
-	protected final boolean isMittelWertErrechenbar(
-			final UmfeldDatenSensorDatum datumImpl, final UmfeldDatenSensorDatum datumVor,
-			final UmfeldDatenSensorDatum datumNach) {
+	protected final boolean isMittelWertErrechenbar(final UmfeldDatenSensorDatum datumImpl,
+			final UmfeldDatenSensorDatum datumVor, final UmfeldDatenSensorDatum datumNach) {
 		boolean erfolg = false;
 
-		if (datumVor.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN
-				&& datumNach.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN
-				&& ((datumVor.getWert().getWert() > 0 && datumNach.getWert()
-						.getWert() > 0) || (datumVor.getWert().getWert() == 0 && datumNach
-						.getWert().getWert() == 0))) {
+		if ((datumVor.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN)
+				&& (datumNach.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN)
+				&& (((datumVor.getWert().getWert() > 0) && (datumNach.getWert().getWert() > 0))
+						|| ((datumVor.getWert().getWert() == 0) && (datumNach.getWert().getWert() == 0)))) {
 
-			final long durchschnitt = Math.round(((double) datumVor.getWert()
-					.getWert() + (double) datumNach.getWert().getWert()) / 2.0);
+			final long durchschnitt = Math
+					.round(((double) datumVor.getWert().getWert() + (double) datumNach.getWert().getWert()) / 2.0);
 
 			UmfeldDatenArt umfeldDatenArt;
 			try {
 				umfeldDatenArt = UmfeldDatenArt.getUmfeldDatenArtVon(this.sensorSelbst.getObjekt());
 			} catch (final UmfeldDatenSensorUnbekannteDatenartException e1) {
-				LOGGER.warning(
-						"Guete kann nicht angepasst werden: " + e1.getMessage());
+				AbstraktMweUfdsSensor.LOGGER.warning("Guete kann nicht angepasst werden: " + e1.getMessage());
 				return false;
 			}
-			
-			if (DUAUtensilien.isWertInWerteBereich(datumImpl.getOriginalDatum()
-					.getData().getItem(umfeldDatenArt.getName())
-					.getItem("Wert"), durchschnitt)) { //$NON-NLS-1$
-				final GWert gueteWert1 = new GWert(
-						datumVor.getGueteIndex(),
-						GueteVerfahren.getZustand(datumVor.getGueteVerfahren()),
-						false);
+
+			if (DUAUtensilien.isWertInWerteBereich(
+					datumImpl.getOriginalDatum().getData().getItem(umfeldDatenArt.getName()).getItem("Wert"), //$NON-NLS-1$
+					durchschnitt)) {
+				final GWert gueteWert1 = new GWert(datumVor.getGueteIndex(),
+						GueteVerfahren.getZustand(datumVor.getGueteVerfahren()), false);
 				final GWert gueteWert2 = new GWert(datumNach.getGueteIndex(),
-						GueteVerfahren
-								.getZustand(datumNach.getGueteVerfahren()),
-						false);
+						GueteVerfahren.getZustand(datumNach.getGueteVerfahren()), false);
 				GWert gueteGesamt = GWert
-						.getNichtErmittelbareGuete(GueteVerfahren
-								.getZustand(datumImpl.getGueteVerfahren()));
+						.getNichtErmittelbareGuete(GueteVerfahren.getZustand(datumImpl.getGueteVerfahren()));
 
 				try {
-					gueteGesamt = GueteVerfahren.gewichte(GueteVerfahren.summe(
-							gueteWert1, gueteWert2), dieVerwaltung
-							.getGueteFaktor());
+					gueteGesamt = GueteVerfahren.gewichte(GueteVerfahren.summe(gueteWert1, gueteWert2),
+							AbstraktMweUfdsSensor.dieVerwaltung.getGueteFaktor());
 				} catch (final GueteException e) {
-					LOGGER.warning(
-							"Guete kann nicht angepasst werden\n" + //$NON-NLS-1$
-									"Wert1: " + datumVor + //$NON-NLS-1$
-									"\nWert2: " + datumNach); //$NON-NLS-1$
+					AbstraktMweUfdsSensor.LOGGER.warning("Guete kann nicht angepasst werden\n" + //$NON-NLS-1$
+							"Wert1: " + datumVor + //$NON-NLS-1$
+							"\nWert2: " + datumNach); //$NON-NLS-1$
 					e.printStackTrace();
 				}
 
-				datumImpl.setGueteIndex(gueteGesamt
-						.getIndexUnskaliertGewichtet());
-				datumImpl
-						.setStatusMessWertErsetzungInterpoliert(DUAKonstanten.JA);
+				datumImpl.setGueteIndex(gueteGesamt.getIndexUnskaliertGewichtet());
+				datumImpl.setStatusMessWertErsetzungInterpoliert(DUAKonstanten.JA);
 				datumImpl.getWert().setWert(durchschnitt);
 
-				this.publiziere(this.letztesEmpangenesImplausiblesDatum,
-						datumImpl.getDatum());
+				this.publiziere(this.letztesEmpangenesImplausiblesDatum, datumImpl.getDatum());
 
 				this.letztesEmpangenesImplausiblesDatum = null;
 				erfolg = true;
@@ -392,7 +368,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 	/**
 	 * Erfragt eine Kopie der Nutzdaten des uebergebenen Result-Datensatzes mit
 	 * angepasster Guete und Flag <code>interpoliert</code>.
-	 * 
+	 *
 	 * @param resultat
 	 *            ein Result-Datensatz mit Nutzdaten, der kopiert werden soll
 	 * @return eine Kopie der Nutzdaten des uebergebenen Result-Datensatzes mit
@@ -403,17 +379,14 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 
 		kopie.setStatusMessWertErsetzungImplausibel(DUAKonstanten.JA);
 		kopie.setStatusMessWertErsetzungInterpoliert(DUAKonstanten.JA);
-		final GWert guete = new GWert(kopie.getGueteIndex(), GueteVerfahren
-				.getZustand(kopie.getGueteVerfahren()), false);
-		GWert neueGuete = GWert.getNichtErmittelbareGuete(GueteVerfahren
-				.getZustand(kopie.getGueteVerfahren()));
+		final GWert guete = new GWert(kopie.getGueteIndex(), GueteVerfahren.getZustand(kopie.getGueteVerfahren()),
+				false);
+		GWert neueGuete = GWert.getNichtErmittelbareGuete(GueteVerfahren.getZustand(kopie.getGueteVerfahren()));
 		try {
-			neueGuete = GueteVerfahren.gewichte(guete, dieVerwaltung
-					.getGueteFaktor());
+			neueGuete = GueteVerfahren.gewichte(guete, AbstraktMweUfdsSensor.dieVerwaltung.getGueteFaktor());
 		} catch (final GueteException e) {
-			LOGGER.warning(
-					"Guete von kopiertem Wert kann nicht angepasst werden: " + //$NON-NLS-1$
-							kopie);
+			AbstraktMweUfdsSensor.LOGGER.warning("Guete von kopiertem Wert kann nicht angepasst werden: " + //$NON-NLS-1$
+					kopie);
 			e.printStackTrace();
 		}
 		kopie.setGueteIndex(neueGuete.getIndexUnskaliertGewichtet());
@@ -423,43 +396,39 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 
 	/**
 	 * Implementiert die Ersetzungsmethode:<br>
-	 * Es werden die plausiblen Messwerte des Ersatzquerschnittes übernommen<br>.
-	 * 
+	 * Es werden die plausiblen Messwerte des Ersatzquerschnittes übernommen<br>
+	 * .
+	 *
 	 * @param datumImpl
 	 *            das implausible Datum, das ersetzt werden soll
-	 * @return das Ergebnis des Ersetzungsversuchs<br> - <code><b>JA</b></code>:
-	 *         Es existiert ein Ersatzquerschnitt mit aktuellen, plausiblen
-	 *         Daten. Der implausible Messwert wurde ersetzt und publiziert<br> -
-	 *         <code><b>NEIN</b></code>: entweder gibt es keinen
+	 * @return das Ergebnis des Ersetzungsversuchs<br>
+	 *         - <code><b>JA</b></code>: Es existiert ein Ersatzquerschnitt mit
+	 *         aktuellen, plausiblen Daten. Der implausible Messwert wurde
+	 *         ersetzt und publiziert<br>
+	 *         - <code><b>NEIN</b></code>: entweder gibt es keinen
 	 *         Ersatzquerschnitt, oder der Ersatzquerschnitt liefert keine
 	 *         Nutzdaten oder im falschen Intervall oder im richtigen Intervall
-	 *         und hat nur implausible aktuelle Nutzdaten<br> -
-	 *         <code><b>WARTE</b></code>: es gibt Ersatzquerschnitt mit
+	 *         und hat nur implausible aktuelle Nutzdaten<br>
+	 *         - <code><b>WARTE</b></code>: es gibt Ersatzquerschnitt mit
 	 *         Nutzdaten, die im richtigen Intervall aber noch nicht aktuell
 	 *         vorliegen
 	 */
-	protected final MweMethodenErgebnis versucheErsatzWertErsetzung(
-			final UmfeldDatenSensorDatum datumImpl) {
+	protected final MweMethodenErgebnis versucheErsatzWertErsetzung(final UmfeldDatenSensorDatum datumImpl) {
 		MweMethodenErgebnis ergebnis = MweMethodenErgebnis.NEIN;
 
-		if (this.ersatz != null && this.letzterErsatzDatensatz != null
-				&& this.letzterErsatzDatensatz.getData() != null) {
-			final UmfeldDatenSensorDatum datumErsatz = new UmfeldDatenSensorDatum(
-					this.letzterErsatzDatensatz);
+		if ((this.ersatz != null) && (this.letzterErsatzDatensatz != null)
+				&& (this.letzterErsatzDatensatz.getData() != null)) {
+			final UmfeldDatenSensorDatum datumErsatz = new UmfeldDatenSensorDatum(this.letzterErsatzDatensatz);
 
 			if (datumErsatz.getT() == datumImpl.getT()) {
 				if (datumErsatz.getDatenZeit() == datumImpl.getDatenZeit()) {
 					if (datumErsatz.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
-						this
-								.publiziere(
-										this.letztesEmpangenesImplausiblesDatum,
-										this
-												.getNutzdatenKopieVon(this.letzterErsatzDatensatz));
+						this.publiziere(this.letztesEmpangenesImplausiblesDatum,
+								this.getNutzdatenKopieVon(this.letzterErsatzDatensatz));
 						this.letztesEmpangenesImplausiblesDatum = null;
 						ergebnis = MweMethodenErgebnis.JA;
 					}
-				} else if (datumErsatz.getDatenZeit() < datumImpl
-						.getDatenZeit()) {
+				} else if (datumErsatz.getDatenZeit() < datumImpl.getDatenZeit()) {
 					/**
 					 * wir koennen noch auf das aktuelle Datum warten
 					 */
@@ -474,16 +443,16 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface,
 	/**
 	 * {@inheritDoc}
 	 */
-	public void dataRequest(final SystemObject object,
-			final DataDescription dataDescription, final byte state) {
+	@Override
+	public void dataRequest(final SystemObject object, final DataDescription dataDescription, final byte state) {
 		// mache nichts
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isRequestSupported(final SystemObject object,
-			final DataDescription dataDescription) {
+	@Override
+	public boolean isRequestSupported(final SystemObject object, final DataDescription dataDescription) {
 		return false;
 	}
 
