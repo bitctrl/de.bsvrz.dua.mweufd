@@ -36,8 +36,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
  * neuinitialisiert werden reset() ermoeglicht die Singleton-Instanz zu loeschen.
  * 
  * @author BitCtrl Systems GmbH, Bachraty
- * 
- * @version $Id$
  */
 public final class DatenFlussSteuerungVersorgerTest extends
 		DatenFlussSteuerungsVersorger {

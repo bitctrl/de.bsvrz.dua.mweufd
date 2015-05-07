@@ -52,8 +52,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
  * Aktuelle Datenflusssteuerung der Messwertersetzung UFD.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 

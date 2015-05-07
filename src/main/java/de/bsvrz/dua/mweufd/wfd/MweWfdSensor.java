@@ -67,8 +67,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  * - sonst Sensorwert als nicht ermittelbar kennzeichnen.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public class MweWfdSensor extends AbstraktMweUfdsSensor {
 

@@ -59,8 +59,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  * kennzeichnen<br>
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public class MweNiSensor extends AbstraktMweUfdsSensor {
 

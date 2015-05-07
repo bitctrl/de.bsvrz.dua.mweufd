@@ -40,8 +40,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.AbstraktOnlineUfdSensor;
  * Allgemeiner Umfelddatensensor fuer die Messwertersetzung mit aktuellen Werten.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public class MweUfdSensor extends AbstraktOnlineUfdSensor<ResultData> {
 

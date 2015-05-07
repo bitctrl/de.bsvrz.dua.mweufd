@@ -40,8 +40,6 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * kann.
  * 
  * @author BitCtrl Systems GmbH, Bachraty
- * 
- * @version $Id$
  */
 public class MweTestDatenSender implements ClientSenderInterface {
 

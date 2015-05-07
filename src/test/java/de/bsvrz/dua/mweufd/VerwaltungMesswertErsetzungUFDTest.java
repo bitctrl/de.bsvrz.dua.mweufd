@@ -37,8 +37,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  * einzelne *Sensor Klassen zu testen.
  * 
  * @author BitCtrl Systems GmbH, Bachraty
- * 
- * @version $Id$
  */
 public class VerwaltungMesswertErsetzungUFDTest extends
 		VerwaltungMesswertErsetzungUFD {

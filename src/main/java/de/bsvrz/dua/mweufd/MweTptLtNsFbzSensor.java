@@ -50,8 +50,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
  * benutzt</b>
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public class MweTptLtNsFbzSensor extends AbstraktMweUfdsSensor {
 

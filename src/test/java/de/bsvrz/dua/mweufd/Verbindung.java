@@ -30,8 +30,6 @@ package de.bsvrz.dua.mweufd;
  * Speichert die Verbindungsdaten.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public final class Verbindung {
 

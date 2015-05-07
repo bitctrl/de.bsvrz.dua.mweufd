@@ -49,8 +49,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * an und versednet diese ungesehen als messwertersetzt.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public final class RestDatenVersender implements ClientSenderInterface,
 		ClientReceiverInterface {

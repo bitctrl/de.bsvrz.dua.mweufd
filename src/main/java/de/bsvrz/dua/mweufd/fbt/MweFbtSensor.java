@@ -54,8 +54,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  * Ersatzquerschnitt<br> - sonst Sensorwert als nicht ermittelbar kennzeichnen.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public class MweFbtSensor extends AbstraktMweUfdsSensor {
 

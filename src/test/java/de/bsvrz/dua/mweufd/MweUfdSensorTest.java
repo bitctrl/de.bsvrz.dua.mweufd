@@ -30,8 +30,6 @@ package de.bsvrz.dua.mweufd;
  * Test.
  * 
  * @author BitCtrl Systems GmbH, Bachraty
- * 
- * @version $Id$
  */
 public class MweUfdSensorTest extends MweUfdSensor {
 	

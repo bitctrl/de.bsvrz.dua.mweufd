@@ -36,8 +36,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
  * werden reset() ermoeglicht die Singleton-Instanzen zu loeschen.
  * 
  * @author BitCtrl Systems GmbH, Bachraty
- * 
- * @version $Id$
  */
 public class DUAUmfeldDatenSensorTest extends DUAUmfeldDatenSensor {
 

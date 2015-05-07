@@ -51,8 +51,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.IOnlineUfdSensorListener;
  * Messwert,<br> - sonst Sensorwert als nicht ermittelbar kennzeichnen.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public class MweSwSensor extends AbstraktMweUfdsSensor {
 

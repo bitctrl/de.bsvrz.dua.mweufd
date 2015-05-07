@@ -31,8 +31,6 @@ package de.bsvrz.dua.mweufd;
  * in Bezug auf eine bestimmte Methode moeglich sind.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public enum MweMethodenErgebnis {
 

@@ -47,8 +47,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
  * Ermoeglicht die Klasse MweFbtSensor zu Testen.
  * 
  * @author BitCtrl Systems GmbH, Bachraty
- * 
- * @version $Id$
  */
 public class MweFbtSensorTest extends MweFbtSensor {
 

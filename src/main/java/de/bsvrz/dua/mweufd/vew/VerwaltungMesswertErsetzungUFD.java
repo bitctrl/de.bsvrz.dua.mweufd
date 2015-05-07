@@ -59,8 +59,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Daten durch den Aktualisierungsmechanismus weitergeleitet werden.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id$
  */
 public class VerwaltungMesswertErsetzungUFD extends
 		AbstraktVerwaltungsAdapterMitGuete {

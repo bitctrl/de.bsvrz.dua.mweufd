@@ -36,8 +36,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktVerwaltungsAdapter;
  * Testet die Mwe_Tpt_Lt_Ns_Fbz_Sensor Klasse.
  * 
  * @author BitCtrl Systems GmbH, Bachraty
- * 
- * @version $Id$
  */
 public class MweTptLtNsFbzSensorJunitTester {
 
