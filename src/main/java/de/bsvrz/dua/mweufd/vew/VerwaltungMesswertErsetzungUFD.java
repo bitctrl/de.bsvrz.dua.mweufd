@@ -57,38 +57,33 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * prüfenden Daten zuständig. Die Verwaltung gibt ein Objekt des Moduls
  * Niederschlagsintensität als Beobachterobjekt an, an das die zu überprüfenden
  * Daten durch den Aktualisierungsmechanismus weitergeleitet werden.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
  */
-public class VerwaltungMesswertErsetzungUFD extends
-		AbstraktVerwaltungsAdapterMitGuete {
+public class VerwaltungMesswertErsetzungUFD extends AbstraktVerwaltungsAdapterMitGuete {
 
 	/**
 	 * Datenflusssteuerung.
 	 */
 	public static MweDatenFlussSteuerung dieDfs;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void initialisiere() throws DUAInitialisierungsException {
 		super.initialisiere();
 
-		dieDfs = new MweDatenFlussSteuerung(this,
+		VerwaltungMesswertErsetzungUFD.dieDfs = new MweDatenFlussSteuerung(this,
 				new MweUfdStandardAspekteVersorger(this).getStandardPubInfos());
 		UmfeldDatenArt.initialisiere(this.verbindung);
 
 		/**
 		 * UFD-Messstellen ermitteln
 		 */
-		this.objekte = DUAUtensilien.getBasisInstanzen(
-				this.verbindung.getDataModel().getType(
-						DUAKonstanten.TYP_UFD_MESSSTELLE), this.verbindung,
-				this.getKonfigurationsBereiche()).toArray(new SystemObject[0]);
+		this.objekte = DUAUtensilien
+				.getBasisInstanzen(this.verbindung.getDataModel().getType(DUAKonstanten.TYP_UFD_MESSSTELLE),
+						this.verbindung, this.getKonfigurationsBereiche())
+				.toArray(new SystemObject[0]);
 
-		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung,
-				this.getSystemObjekte());
+		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung, this.getSystemObjekte());
 
 		/**
 		 * die Datenarten, die nicht messwertersetzt werden, aber dennoch
@@ -105,25 +100,16 @@ public class VerwaltungMesswertErsetzungUFD extends
 		rest.remove(UmfeldDatenArt.lt);
 		rest.remove(UmfeldDatenArt.fbt);
 
-		for (DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle
-				.getInstanzen()) {
+		for (final DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle.getInstanzen()) {
 			try {
-				final DUAUmfeldDatenSensor hauptSensorNI = messStelle
-						.getHauptSensor(UmfeldDatenArt.ni);
-				final DUAUmfeldDatenSensor hauptSensorNS = messStelle
-						.getHauptSensor(UmfeldDatenArt.ns);
-				final DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
-						.getHauptSensor(UmfeldDatenArt.fbz);
-				final DUAUmfeldDatenSensor hauptSensorWFD = messStelle
-						.getHauptSensor(UmfeldDatenArt.wfd);
-				final DUAUmfeldDatenSensor hauptSensorSW = messStelle
-						.getHauptSensor(UmfeldDatenArt.sw);
-				final DUAUmfeldDatenSensor hauptSensorTPT = messStelle
-						.getHauptSensor(UmfeldDatenArt.tpt);
-				final DUAUmfeldDatenSensor hauptSensorLT = messStelle
-						.getHauptSensor(UmfeldDatenArt.lt);
-				final DUAUmfeldDatenSensor hauptSensorFBT = messStelle
-						.getHauptSensor(UmfeldDatenArt.fbt);
+				final DUAUmfeldDatenSensor hauptSensorNI = messStelle.getHauptSensor(UmfeldDatenArt.ni);
+				final DUAUmfeldDatenSensor hauptSensorNS = messStelle.getHauptSensor(UmfeldDatenArt.ns);
+				final DUAUmfeldDatenSensor hauptSensorFBZ = messStelle.getHauptSensor(UmfeldDatenArt.fbz);
+				final DUAUmfeldDatenSensor hauptSensorWFD = messStelle.getHauptSensor(UmfeldDatenArt.wfd);
+				final DUAUmfeldDatenSensor hauptSensorSW = messStelle.getHauptSensor(UmfeldDatenArt.sw);
+				final DUAUmfeldDatenSensor hauptSensorTPT = messStelle.getHauptSensor(UmfeldDatenArt.tpt);
+				final DUAUmfeldDatenSensor hauptSensorLT = messStelle.getHauptSensor(UmfeldDatenArt.lt);
+				final DUAUmfeldDatenSensor hauptSensorFBT = messStelle.getHauptSensor(UmfeldDatenArt.fbt);
 
 				if (hauptSensorNI != null) {
 					new MweNiSensor(this, messStelle, hauptSensorNI);
@@ -154,19 +140,14 @@ public class VerwaltungMesswertErsetzungUFD extends
 				continue;
 			}
 
-			for (UmfeldDatenArt datenArt : rest) {
-				final DUAUmfeldDatenSensor restSensor = messStelle
-						.getHauptSensor(datenArt);
+			for (final UmfeldDatenArt datenArt : rest) {
+				final DUAUmfeldDatenSensor restSensor = messStelle.getHauptSensor(datenArt);
 				if (restSensor != null) {
 					try {
-						RestDatenVersender.getInstanz(this.verbindung).add(
-								restSensor.getObjekt());
+						RestDatenVersender.getInstanz(this.verbindung).add(restSensor.getObjekt());
 					} catch (final OneSubscriptionPerSendData e) {
-						throw new DUAInitialisierungsException(
-								"Daten von Umfelddatensensor "
-										+ restSensor.getObjekt()
-										+ " koennen nicht weitergeleitet werden",
-								e);
+						throw new DUAInitialisierungsException("Daten von Umfelddatensensor " + restSensor.getObjekt()
+								+ " koennen nicht weitergeleitet werden", e);
 					}
 				}
 			}
@@ -175,34 +156,24 @@ public class VerwaltungMesswertErsetzungUFD extends
 
 	/**
 	 * Startet diese Applikation.
-	 * 
+	 *
 	 * @param argumente
 	 *            Argumente der Kommandozeile
 	 */
 	public static void main(final String[] argumente) {
-		StandardApplicationRunner.run(new VerwaltungMesswertErsetzungUFD(),
-				argumente);
+		StandardApplicationRunner.run(new VerwaltungMesswertErsetzungUFD(), argumente);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public double getStandardGueteFaktor() {
 		return 0.9;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public SWETyp getSWETyp() {
 		return SWETyp.SWE_MESSWERTERSETZUNG_UFD;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void update(final ResultData[] resultate) {
 		// Daten werden von den Untermodulen selbst entgegen genommen

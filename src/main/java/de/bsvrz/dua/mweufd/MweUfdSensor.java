@@ -37,8 +37,9 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.UmfeldDatenSensorUnbekannteDatenartE
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.AbstraktOnlineUfdSensor;
 
 /**
- * Allgemeiner Umfelddatensensor fuer die Messwertersetzung mit aktuellen Werten.
- * 
+ * Allgemeiner Umfelddatensensor fuer die Messwertersetzung mit aktuellen
+ * Werten.
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
  */
 public class MweUfdSensor extends AbstraktOnlineUfdSensor<ResultData> {
@@ -50,34 +51,31 @@ public class MweUfdSensor extends AbstraktOnlineUfdSensor<ResultData> {
 
 	/**
 	 * Erfragt eine statische Instanz dieser Klasse.
-	 * 
+	 *
 	 * @param dav
 	 *            Datenverteiler-Verbindung
 	 * @param objekt
-	 *            ein Systemobjekt eines Umfelddatensensors (<code>!= null</code>)
+	 *            ein Systemobjekt eines Umfelddatensensors (
+	 *            <code>!= null</code>)
 	 * @return eine statische Instanz dieser Klasse
-	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException
 	 */
-	public static final MweUfdSensor getInstanz(final ClientDavInterface dav,
-			final SystemObject objekt) throws UmfeldDatenSensorUnbekannteDatenartException {
+	public static final MweUfdSensor getInstanz(final ClientDavInterface dav, final SystemObject objekt)
+			throws UmfeldDatenSensorUnbekannteDatenartException {
 		if (objekt == null) {
 			throw new NullPointerException("Sensor-Objekt ist <<null>>"); //$NON-NLS-1$
 		}
-		MweUfdSensor instanz = INSTANZEN.get(objekt);
+		MweUfdSensor instanz = MweUfdSensor.INSTANZEN.get(objekt);
 
 		if (instanz == null) {
 			instanz = new MweUfdSensor();
-			instanz.initialisiere(dav, objekt, dav.getDataModel().getAspect(
-					DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH));
-			INSTANZEN.put(objekt, instanz);
+			instanz.initialisiere(dav, objekt, dav.getDataModel().getAspect(DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH));
+			MweUfdSensor.INSTANZEN.put(objekt, instanz);
 		}
 
 		return instanz;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void berechneOnlineWert(final ResultData resultat) {
 		this.onlineWert = resultat;

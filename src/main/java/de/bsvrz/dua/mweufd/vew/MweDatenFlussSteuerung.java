@@ -50,7 +50,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
 
 /**
  * Aktuelle Datenflusssteuerung der Messwertersetzung UFD.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
  */
 public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
@@ -78,12 +78,11 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	/**
 	 * Alle Objekte, die aktuell von der Datenflusssteuerung verwaltet werden.
 	 */
-	private Collection<SystemObject> objekte = Collections
-			.synchronizedCollection(new HashSet<SystemObject>());
+	private final Collection<SystemObject> objekte = Collections.synchronizedCollection(new HashSet<SystemObject>());
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @param standardAspekte
@@ -92,25 +91,23 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	 * @throws DUAInitialisierungsException
 	 *             wenn die Initialisierung der Datenflusssteuerung fehlschlaegt
 	 */
-	public MweDatenFlussSteuerung(final IVerwaltung verwaltung,
-			final IStandardAspekte standardAspekte)
-			throws DUAInitialisierungsException {
-		if (dieVerwaltung != null) {
-			throw new RuntimeException(
-					"Datenflusssteuerung darf nur einmal initialisiert werden"); //$NON-NLS-1$
+	public MweDatenFlussSteuerung(final IVerwaltung verwaltung, final IStandardAspekte standardAspekte)
+					throws DUAInitialisierungsException {
+		if (MweDatenFlussSteuerung.dieVerwaltung != null) {
+			throw new RuntimeException("Datenflusssteuerung darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
 
-		dieVerwaltung = verwaltung;
+		MweDatenFlussSteuerung.dieVerwaltung = verwaltung;
 		this.standardAspekte = standardAspekte;
-		this.publikationsAnmeldungen = new DAVSendeAnmeldungsVerwaltung(
-				verwaltung.getVerbindung(), SenderRole.source());
+		this.publikationsAnmeldungen = new DAVSendeAnmeldungsVerwaltung(verwaltung.getVerbindung(),
+				SenderRole.source());
 
 		DatenFlussSteuerungsVersorger.getInstanz(verwaltung).addListener(this);
 	}
 
 	/**
 	 * Publiziert ein Datum nach den Vorgaben der Datenflusssteuerung.
-	 * 
+	 *
 	 * @param original
 	 *            das Originaldatum
 	 * @param nutzDatum
@@ -118,12 +115,11 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	 * @return das publizierte Datum oder <code>null</code>, wenn kein Datum
 	 *         publiziert werden konnte
 	 */
-	public final synchronized ResultData publiziere(final ResultData original,
-			final Data nutzDatum) {
+	public final synchronized ResultData publiziere(final ResultData original, final Data nutzDatum) {
 		ResultData letztesPubDatum = null;
 
-		final ResultData publikationsDatum = iDfsMod.getPublikationsDatum(original,
-				nutzDatum, standardAspekte.getStandardAspekt(original));
+		final ResultData publikationsDatum = iDfsMod.getPublikationsDatum(original, nutzDatum,
+				standardAspekte.getStandardAspekt(original));
 		if (publikationsDatum != null) {
 			this.publikationsAnmeldungen.sende(publikationsDatum);
 			letztesPubDatum = publikationsDatum;
@@ -135,7 +131,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	/**
 	 * Fuegt der Menge der Objekte, die aktuell von der Datenflusssteuerung
 	 * verwaltet werden ein Objekt hinzu.
-	 * 
+	 *
 	 * @param objekt
 	 *            ein neues Objekt
 	 */
@@ -144,12 +140,9 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 		this.aktualisiereObjektAnmeldungen();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized void aktualisierePublikation(final IDatenFlussSteuerung iDfs) {
-		this.iDfsMod = iDfs.getDFSFuerModul(SWETyp.SWE_MESSWERTERSETZUNG_UFD,
-				ModulTyp.MESSWERTERSETZUNG_UFD);
+		this.iDfsMod = iDfs.getDFSFuerModul(SWETyp.SWE_MESSWERTERSETZUNG_UFD, ModulTyp.MESSWERTERSETZUNG_UFD);
 		this.aktualisiereObjektAnmeldungen();
 	}
 
@@ -160,16 +153,14 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	private synchronized void aktualisiereObjektAnmeldungen() {
 		Collection<DAVObjektAnmeldung> anmeldungenStd = new ArrayList<DAVObjektAnmeldung>();
 
-		final SystemObject[] objekteBisJetzt = this.objekte
-				.toArray(new SystemObject[0]);
+		final SystemObject[] objekteBisJetzt = this.objekte.toArray(new SystemObject[0]);
 
 		if (this.standardAspekte != null) {
-			anmeldungenStd = this.standardAspekte
-					.getStandardAnmeldungen(objekteBisJetzt);
+			anmeldungenStd = this.standardAspekte.getStandardAnmeldungen(objekteBisJetzt);
 		}
 
-		final Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod
-				.getDatenAnmeldungen(objekteBisJetzt, anmeldungenStd);
+		final Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod.getDatenAnmeldungen(objekteBisJetzt,
+				anmeldungenStd);
 
 		this.publikationsAnmeldungen.modifiziereObjektAnmeldung(anmeldungen);
 	}

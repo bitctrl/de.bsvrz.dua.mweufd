@@ -42,17 +42,18 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 /**
  * Implementierung der Messwertersetzung nach folgendem Verfahren:<br>
  * <br>
- * 
+ *
  * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist über
  * keines der Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der
  * Sensorwert als nicht ermittelbar zukennzeichnen:<br>
  * <br>
- *  - für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
- * plausible Messwert maßgebend<br> - sonst, wenn die Wasserfilmdicke und/oder
- * die Niederschlagsintensität am betrachteten Querschnitt plausibel ist,
- * übernehme die plausible Fahrbahnoberflächentemperatur vom zugeordneten
- * Ersatzquerschnitt<br> - sonst Sensorwert als nicht ermittelbar kennzeichnen.
- * 
+ * - für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
+ * plausible Messwert maßgebend<br>
+ * - sonst, wenn die Wasserfilmdicke und/oder die Niederschlagsintensität am
+ * betrachteten Querschnitt plausibel ist, übernehme die plausible
+ * Fahrbahnoberflächentemperatur vom zugeordneten Ersatzquerschnitt<br>
+ * - sonst Sensorwert als nicht ermittelbar kennzeichnen.
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
  */
 public class MweFbtSensor extends AbstraktMweUfdsSensor {
@@ -79,7 +80,7 @@ public class MweFbtSensor extends AbstraktMweUfdsSensor {
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @param messStelle
@@ -92,74 +93,64 @@ public class MweFbtSensor extends AbstraktMweUfdsSensor {
 	 * @throws DUAInitialisierungsException
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
-	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException
 	 */
-	public MweFbtSensor(final IVerwaltungMitGuete verwaltung,
-			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
-			throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
+	public MweFbtSensor(final IVerwaltungMitGuete verwaltung, final DUAUmfeldDatenMessStelle messStelle,
+			final DUAUmfeldDatenSensor sensor)
+					throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
 		super(verwaltung, messStelle, sensor);
 
-		DUAUmfeldDatenSensor wfdSensor = messStelle
-				.getHauptSensor(UmfeldDatenArt.wfd);
+		DUAUmfeldDatenSensor wfdSensor = messStelle.getHauptSensor(UmfeldDatenArt.wfd);
 		if (wfdSensor == null) {
 			if (messStelle.getNebenSensoren(UmfeldDatenArt.wfd).size() > 0) {
-				wfdSensor = messStelle.getNebenSensoren(UmfeldDatenArt.wfd)
-						.iterator().next();
+				wfdSensor = messStelle.getNebenSensoren(UmfeldDatenArt.wfd).iterator().next();
 			}
 		}
 
 		if (wfdSensor != null) {
-			this.wfdDatenSensor = MweUfdSensor.getInstanz(verwaltung
-					.getVerbindung(), wfdSensor.getObjekt());
-			this.wfdDatenSensor.addListener(
-					new IOnlineUfdSensorListener<ResultData>() {
+			this.wfdDatenSensor = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), wfdSensor.getObjekt());
+			this.wfdDatenSensor.addListener(new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(final ResultData resultat) {
-							MweFbtSensor.this.letzterWfdDatensatz = resultat;
-							MweFbtSensor.this.trigger();
-						}
+				@Override
+				public void aktualisiereDaten(final ResultData resultat) {
+					MweFbtSensor.this.letzterWfdDatensatz = resultat;
+					MweFbtSensor.this.trigger();
+				}
 
-					}, true);
+			}, true);
 		}
 
-		DUAUmfeldDatenSensor niSensor = messStelle
-				.getHauptSensor(UmfeldDatenArt.ni);
+		DUAUmfeldDatenSensor niSensor = messStelle.getHauptSensor(UmfeldDatenArt.ni);
 		if (niSensor == null) {
 			if (messStelle.getNebenSensoren(UmfeldDatenArt.ni).size() > 0) {
-				niSensor = messStelle.getNebenSensoren(UmfeldDatenArt.ni)
-						.iterator().next();
+				niSensor = messStelle.getNebenSensoren(UmfeldDatenArt.ni).iterator().next();
 			}
 		}
 
 		if (niSensor != null) {
-			this.niDatenSensor = MweUfdSensor.getInstanz(verwaltung
-					.getVerbindung(), niSensor.getObjekt());
-			this.niDatenSensor.addListener(
-					new IOnlineUfdSensorListener<ResultData>() {
+			this.niDatenSensor = MweUfdSensor.getInstanz(verwaltung.getVerbindung(), niSensor.getObjekt());
+			this.niDatenSensor.addListener(new IOnlineUfdSensorListener<ResultData>() {
 
-						public void aktualisiereDaten(final ResultData resultat) {
-							MweFbtSensor.this.letzterNiDatensatz = resultat;
-							MweFbtSensor.this.trigger();
-						}
+				@Override
+				public void aktualisiereDaten(final ResultData resultat) {
+					MweFbtSensor.this.letzterNiDatensatz = resultat;
+					MweFbtSensor.this.trigger();
+				}
 
-					}, true);
+			}, true);
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected synchronized void trigger() {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
 			final UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
 					this.letztesEmpangenesImplausiblesDatum);
 
-			if (this.letztesEmpangenesPlausiblesDatum == null
-					|| (this.messWertFortschreibungStart != -1 && this.letztesEmpangenesImplausiblesDatum
-							.getDataTime()
-							- this.messWertFortschreibungStart >= this.sensorMitParametern
-							.getMaxZeitMessWertFortschreibung())) {
+			if ((this.letztesEmpangenesPlausiblesDatum == null) || ((this.messWertFortschreibungStart != -1)
+					&& ((this.letztesEmpangenesImplausiblesDatum.getDataTime()
+							- this.messWertFortschreibungStart) >= this.sensorMitParametern
+									.getMaxZeitMessWertFortschreibung()))) {
 
 				/**
 				 * naechster Punkt
@@ -168,66 +159,49 @@ public class MweFbtSensor extends AbstraktMweUfdsSensor {
 				UmfeldDatenSensorDatum datumNi = null;
 				UmfeldDatenSensorDatum datumErsatz = null;
 
-				if (this.wfdDatenSensor != null
-						&& this.letzterWfdDatensatz != null
-						&& this.letzterWfdDatensatz.getData() != null) {
-					datumWfd = new UmfeldDatenSensorDatum(
-							this.letzterWfdDatensatz);
+				if ((this.wfdDatenSensor != null) && (this.letzterWfdDatensatz != null)
+						&& (this.letzterWfdDatensatz.getData() != null)) {
+					datumWfd = new UmfeldDatenSensorDatum(this.letzterWfdDatensatz);
 				}
-				if (this.niDatenSensor != null
-						&& this.letzterNiDatensatz != null
-						&& this.letzterNiDatensatz.getData() != null) {
-					datumNi = new UmfeldDatenSensorDatum(
-							this.letzterNiDatensatz);
+				if ((this.niDatenSensor != null) && (this.letzterNiDatensatz != null)
+						&& (this.letzterNiDatensatz.getData() != null)) {
+					datumNi = new UmfeldDatenSensorDatum(this.letzterNiDatensatz);
 				}
-				if (this.ersatz != null && this.letzterErsatzDatensatz != null
-						&& this.letzterErsatzDatensatz.getData() != null) {
-					datumErsatz = new UmfeldDatenSensorDatum(
-							this.letzterErsatzDatensatz);
+				if ((this.ersatz != null) && (this.letzterErsatzDatensatz != null)
+						&& (this.letzterErsatzDatensatz.getData() != null)) {
+					datumErsatz = new UmfeldDatenSensorDatum(this.letzterErsatzDatensatz);
 				}
 
 				boolean ersetze = false;
-				if (datumErsatz != null
-						&& datumErsatz.getT() == datumImpl.getT()) {
+				if ((datumErsatz != null) && (datumErsatz.getT() == datumImpl.getT())) {
 					if (datumErsatz.getDatenZeit() == datumImpl.getDatenZeit()) {
 
 						if (datumErsatz.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
-							if (datumWfd != null
-									&& datumWfd.getT() == datumImpl.getT()
-									&& datumNi != null
-									&& datumNi.getT() == datumImpl.getT()) {
-								if (datumNi.getDatenZeit() == datumImpl
-										.getDatenZeit()
-										&& datumWfd.getDatenZeit() == datumImpl
-												.getDatenZeit()) {
-									if (datumWfd
-											.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN
-											|| datumNi
-													.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
+							if ((datumWfd != null) && (datumWfd.getT() == datumImpl.getT()) && (datumNi != null)
+									&& (datumNi.getT() == datumImpl.getT())) {
+								if ((datumNi.getDatenZeit() == datumImpl.getDatenZeit())
+										&& (datumWfd.getDatenZeit() == datumImpl.getDatenZeit())) {
+									if ((datumWfd.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN)
+											|| (datumNi
+													.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN)) {
 										ersetze = true;
 									}
 								} else {
 									return;
 								}
 							}
-							if (datumWfd != null
-									&& datumWfd.getT() == datumImpl.getT()) {
-								if (datumWfd.getDatenZeit() == datumImpl
-										.getDatenZeit()) {
-									if (datumWfd
-											.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
+							if ((datumWfd != null) && (datumWfd.getT() == datumImpl.getT())) {
+								if (datumWfd.getDatenZeit() == datumImpl.getDatenZeit()) {
+									if (datumWfd.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
 										ersetze = true;
 									}
 								} else {
 									return;
 								}
 							}
-							if (datumNi != null
-									&& datumNi.getT() == datumImpl.getT()) {
-								if (datumNi.getDatenZeit() == datumImpl
-										.getDatenZeit()) {
-									if (datumNi
-											.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
+							if ((datumNi != null) && (datumNi.getT() == datumImpl.getT())) {
+								if (datumNi.getDatenZeit() == datumImpl.getDatenZeit()) {
+									if (datumNi.getStatusMessWertErsetzungImplausibel() == DUAKonstanten.NEIN) {
 										ersetze = true;
 									}
 								} else {
@@ -243,12 +217,10 @@ public class MweFbtSensor extends AbstraktMweUfdsSensor {
 
 				if (ersetze) {
 					this.publiziere(this.letztesEmpangenesImplausiblesDatum,
-							this.getNutzdatenKopieVon(datumErsatz
-									.getOriginalDatum()));
+							this.getNutzdatenKopieVon(datumErsatz.getOriginalDatum()));
 				} else {
 					datumImpl.getWert().setNichtErmittelbarAn();
-					this.publiziere(this.letztesEmpangenesImplausiblesDatum,
-							datumImpl.getDatum());
+					this.publiziere(this.letztesEmpangenesImplausiblesDatum, datumImpl.getDatum());
 				}
 				this.letztesEmpangenesImplausiblesDatum = null;
 			} else {
@@ -257,14 +229,10 @@ public class MweFbtSensor extends AbstraktMweUfdsSensor {
 				 * ist der letzte plausible Messwert massgebend
 				 */
 				if (this.messWertFortschreibungStart == -1) {
-					this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum
-							.getDataTime();
+					this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum.getDataTime();
 				}
-				this
-						.publiziere(
-								this.letztesEmpangenesImplausiblesDatum,
-								this
-										.getNutzdatenKopieVon(this.letztesEmpangenesPlausiblesDatum));
+				this.publiziere(this.letztesEmpangenesImplausiblesDatum,
+						this.getNutzdatenKopieVon(this.letztesEmpangenesPlausiblesDatum));
 				this.letztesEmpangenesImplausiblesDatum = null;
 			}
 		}

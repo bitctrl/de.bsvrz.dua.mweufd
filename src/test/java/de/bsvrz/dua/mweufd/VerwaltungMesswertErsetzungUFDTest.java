@@ -35,71 +35,53 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 /**
  * Ermoeglicht die mit hilfe der Klasse VerwaltungMesswertErsetzungUFD die
  * einzelne *Sensor Klassen zu testen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Bachraty
  */
-public class VerwaltungMesswertErsetzungUFDTest extends
-		VerwaltungMesswertErsetzungUFD {
+public class VerwaltungMesswertErsetzungUFDTest extends VerwaltungMesswertErsetzungUFD {
 
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void initialisiere() throws DUAInitialisierungsException {
 
 		super.initialisiere();
 
-		for (DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle
-				.getInstanzen()) {
+		for (final DUAUmfeldDatenMessStelle messStelle : DUAUmfeldDatenMessStelle.getInstanzen()) {
 			try {
-			final DUAUmfeldDatenSensor hauptSensorNI = messStelle
-					.getHauptSensor(UmfeldDatenArt.ni);
-			final DUAUmfeldDatenSensor hauptSensorNS = messStelle
-					.getHauptSensor(UmfeldDatenArt.ns);
-			final DUAUmfeldDatenSensor hauptSensorFBZ = messStelle
-					.getHauptSensor(UmfeldDatenArt.fbz);
-			final DUAUmfeldDatenSensor hauptSensorWFD = messStelle
-					.getHauptSensor(UmfeldDatenArt.wfd);
-			final DUAUmfeldDatenSensor hauptSensorSW = messStelle
-					.getHauptSensor(UmfeldDatenArt.sw);
-			final DUAUmfeldDatenSensor hauptSensorTPT = messStelle
-					.getHauptSensor(UmfeldDatenArt.tpt);
-			final DUAUmfeldDatenSensor hauptSensorLT = messStelle
-					.getHauptSensor(UmfeldDatenArt.lt);
-			final DUAUmfeldDatenSensor hauptSensorFBT = messStelle
-					.getHauptSensor(UmfeldDatenArt.fbt);
+				final DUAUmfeldDatenSensor hauptSensorNI = messStelle.getHauptSensor(UmfeldDatenArt.ni);
+				final DUAUmfeldDatenSensor hauptSensorNS = messStelle.getHauptSensor(UmfeldDatenArt.ns);
+				final DUAUmfeldDatenSensor hauptSensorFBZ = messStelle.getHauptSensor(UmfeldDatenArt.fbz);
+				final DUAUmfeldDatenSensor hauptSensorWFD = messStelle.getHauptSensor(UmfeldDatenArt.wfd);
+				final DUAUmfeldDatenSensor hauptSensorSW = messStelle.getHauptSensor(UmfeldDatenArt.sw);
+				final DUAUmfeldDatenSensor hauptSensorTPT = messStelle.getHauptSensor(UmfeldDatenArt.tpt);
+				final DUAUmfeldDatenSensor hauptSensorLT = messStelle.getHauptSensor(UmfeldDatenArt.lt);
+				final DUAUmfeldDatenSensor hauptSensorFBT = messStelle.getHauptSensor(UmfeldDatenArt.fbt);
 
-			if (hauptSensorNI != null) {
+				if (hauptSensorNI != null) {
 
 					new MweNiSensorTest(this, messStelle, hauptSensorNI);
 
-			}
-			if (hauptSensorNS != null) {
-				new MweTptLtNsFbzSensorTest(this, messStelle,
-						hauptSensorNS);
-			}
-			if (hauptSensorFBZ != null) {
-				new MweTptLtNsFbzSensorTest(this, messStelle,
-						hauptSensorFBZ);
-			}
-			if (hauptSensorLT != null) {
-				new MweTptLtNsFbzSensorTest(this, messStelle,
-						hauptSensorLT);
-			}
-			if (hauptSensorTPT != null) {
-				new MweTptLtNsFbzSensorTest(this, messStelle,
-						hauptSensorTPT);
-			}
-			if (hauptSensorWFD != null) {
-				new MweWfdSensorTest(this, messStelle, hauptSensorWFD);
-			}
-			if (hauptSensorSW != null) {
-				new MweSwSensorTest(this, messStelle, hauptSensorSW);
-			}
-			if (hauptSensorFBT != null) {
-				new MweFbtSensorTest(this, messStelle, hauptSensorFBT);
-			}
+				}
+				if (hauptSensorNS != null) {
+					new MweTptLtNsFbzSensorTest(this, messStelle, hauptSensorNS);
+				}
+				if (hauptSensorFBZ != null) {
+					new MweTptLtNsFbzSensorTest(this, messStelle, hauptSensorFBZ);
+				}
+				if (hauptSensorLT != null) {
+					new MweTptLtNsFbzSensorTest(this, messStelle, hauptSensorLT);
+				}
+				if (hauptSensorTPT != null) {
+					new MweTptLtNsFbzSensorTest(this, messStelle, hauptSensorTPT);
+				}
+				if (hauptSensorWFD != null) {
+					new MweWfdSensorTest(this, messStelle, hauptSensorWFD);
+				}
+				if (hauptSensorSW != null) {
+					new MweSwSensorTest(this, messStelle, hauptSensorSW);
+				}
+				if (hauptSensorFBT != null) {
+					new MweFbtSensorTest(this, messStelle, hauptSensorFBT);
+				}
 			} catch (final UmfeldDatenSensorUnbekannteDatenartException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -107,7 +89,6 @@ public class VerwaltungMesswertErsetzungUFDTest extends
 		}
 	}
 
-	
 	/**
 	 * Verbindung trennen.
 	 */

@@ -38,7 +38,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 /**
  * Implementierung einer Klasse, die generisch Messwerte fuer Sensoren Absenden
  * kann.
- * 
+ *
  * @author BitCtrl Systems GmbH, Bachraty
  */
 public class MweTestDatenSender implements ClientSenderInterface {
@@ -46,7 +46,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	/**
 	 * Verbindung zum dav.
 	 */
-	private ClientDavInterface dav;
+	private final ClientDavInterface dav;
 
 	/**
 	 * Periote der abgeschickten Daten.
@@ -60,21 +60,21 @@ public class MweTestDatenSender implements ClientSenderInterface {
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param dav
 	 *            DAV
 	 */
 	public MweTestDatenSender(final ClientDavInterface dav) {
 		this.dav = dav;
-		ddMesswertErsetzung = new DataDescription(dav.getDataModel()
-				.getAttributeGroup("atg.ufdsMessWertErsetzung"), dav
-				.getDataModel().getAspect("asp.parameterVorgabe"));
+		ddMesswertErsetzung = new DataDescription(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"),
+				dav.getDataModel().getAspect("asp.parameterVorgabe"));
 	}
 
 	/**
 	 * Setzt den ZeitIntervall der Messwerterzeugung.
-	 * 
-	 * @param t Erfassungsintervalldauer
+	 *
+	 * @param t
+	 *            Erfassungsintervalldauer
 	 */
 	public void setZeitIntervall(final long t) {
 		this.zeitIntervall = t;
@@ -82,7 +82,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 
 	/**
 	 * Meldet sich als Sender An.
-	 * 
+	 *
 	 * @param so
 	 *            System Objekt
 	 * @param dd
@@ -98,7 +98,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 
 	/**
 	 * Meldet sich als Sender An.
-	 * 
+	 *
 	 * @param list
 	 *            System Objekt Liste
 	 * @param dd
@@ -114,7 +114,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 
 	/**
 	 * Meldet sich als Quelle An.
-	 * 
+	 *
 	 * @param list
 	 *            System Objekt Liste
 	 * @param dd
@@ -130,7 +130,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 
 	/**
 	 * Meldet sich als Quelle Ann.
-	 * 
+	 *
 	 * @param so
 	 *            System Objekt
 	 * @param dd
@@ -146,14 +146,13 @@ public class MweTestDatenSender implements ClientSenderInterface {
 
 	/**
 	 * Meldet sich an fuer die Parametrierung des Sensors.
-	 * 
+	 *
 	 * @param so
 	 *            Sensor
 	 */
 	public void anmeldeParametrierung(final SystemObject so) {
 		try {
-			dav.subscribeSender(this, so, ddMesswertErsetzung, SenderRole
-					.sender());
+			dav.subscribeSender(this, so, ddMesswertErsetzung, SenderRole.sender());
 		} catch (final Exception e) {
 			System.out.print("Fehler " + e.getMessage());
 		}
@@ -161,7 +160,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 
 	/**
 	 * Parametriert den Sensor.
-	 * 
+	 *
 	 * @param sensor
 	 *            Sensor
 	 * @param messwertFortschreibungsIntervall
@@ -171,20 +170,15 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param periode
 	 *            Periode
 	 */
-	public void parametriereSensor(final SystemObject sensor,
-			final long messwertFortschreibungsIntervall,
+	public void parametriereSensor(final SystemObject sensor, final long messwertFortschreibungsIntervall,
 			final long messWertErsetzungIntervall, final long periode) {
 		zeitIntervall = periode;
-		final Data data = dav.createData(dav.getDataModel().getAttributeGroup(
-				"atg.ufdsMessWertErsetzung"));
-		data.getItem("maxZeitMessWertErsetzung").asTimeValue().setMillis(
-				messWertErsetzungIntervall);
-		data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(
-				messwertFortschreibungsIntervall);
+		final Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"));
+		data.getItem("maxZeitMessWertErsetzung").asTimeValue().setMillis(messWertErsetzungIntervall);
+		data.getItem("maxZeitMessWertFortschreibung").asTimeValue().setMillis(messwertFortschreibungsIntervall);
 
 		System.out.println("Sensor " + sensor.getPid() + " parmatetriert. ");
-		final ResultData result = new ResultData(sensor, ddMesswertErsetzung,
-				System.currentTimeMillis(), data);
+		final ResultData result = new ResultData(sensor, ddMesswertErsetzung, System.currentTimeMillis(), data);
 		try {
 			dav.sendData(result);
 		} catch (final Exception e) {
@@ -195,7 +189,7 @@ public class MweTestDatenSender implements ClientSenderInterface {
 
 	/**
 	 * Semdet einen Datensatz.
-	 * 
+	 *
 	 * @param sensor
 	 *            Sensor
 	 * @param datenBeschreibung
@@ -207,16 +201,14 @@ public class MweTestDatenSender implements ClientSenderInterface {
 	 * @param zeitStempel
 	 *            ZeitStempel
 	 */
-	public void sendeDatenSatz(final SystemObject sensor,
-			final DataDescription datenBeschreibung, final String att, final double messwert,
-			final long zeitStempel) {
+	public void sendeDatenSatz(final SystemObject sensor, final DataDescription datenBeschreibung, final String att,
+			final double messwert, final long zeitStempel) {
 
-		final Data data = dav.createData(dav.getDataModel().getAttributeGroup(
-				"atg.ufds" + att));
+		final Data data = dav.createData(dav.getDataModel().getAttributeGroup("atg.ufds" + att));
 
 		data.getTimeValue("T").setMillis(zeitIntervall);
 
-		if (messwert >= 0)  {
+		if (messwert >= 0) {
 			try {
 				// bei einigen sensoren ist der Wert skaliert, bei anderen nicht
 				data.getItem(att).getScaledValue("Wert").set(messwert);
@@ -227,28 +219,21 @@ public class MweTestDatenSender implements ClientSenderInterface {
 			data.getItem(att).getUnscaledValue("Wert").set(messwert);
 		}
 
-		data.getItem(att).getItem("Status").getItem("Erfassung")
-				.getUnscaledValue("NichtErfasst").set(0);
-		data.getItem(att).getItem("Status").getItem("PlFormal")
-				.getUnscaledValue("WertMax").set(0);
-		data.getItem(att).getItem("Status").getItem("PlFormal")
-				.getUnscaledValue("WertMin").set(0);
+		data.getItem(att).getItem("Status").getItem("Erfassung").getUnscaledValue("NichtErfasst").set(0);
+		data.getItem(att).getItem("Status").getItem("PlFormal").getUnscaledValue("WertMax").set(0);
+		data.getItem(att).getItem("Status").getItem("PlFormal").getUnscaledValue("WertMin").set(0);
 
 		if (messwert >= 0) {
-			data.getItem(att).getItem("Status").getItem("MessWertErsetzung")
-					.getUnscaledValue("Implausibel").set(0);
+			data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").set(0);
 		} else {
-			data.getItem(att).getItem("Status").getItem("MessWertErsetzung")
-					.getUnscaledValue("Implausibel").set(1);
+			data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").set(1);
 		}
 
-		data.getItem(att).getItem("Status").getItem("MessWertErsetzung")
-				.getUnscaledValue("Interpoliert").set(0);
+		data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").set(0);
 		data.getItem(att).getItem("Güte").getUnscaledValue("Index").set(10000);
 		data.getItem(att).getItem("Güte").getUnscaledValue("Verfahren").set(0);
 
-		final ResultData result = new ResultData(sensor, datenBeschreibung,
-				zeitStempel, data);
+		final ResultData result = new ResultData(sensor, datenBeschreibung, zeitStempel, data);
 		try {
 			dav.sendData(result);
 		} catch (final Exception e) {
@@ -257,20 +242,14 @@ public class MweTestDatenSender implements ClientSenderInterface {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void dataRequest(final SystemObject object,
-			final DataDescription dataDescription, final byte state) {
+	@Override
+	public void dataRequest(final SystemObject object, final DataDescription dataDescription, final byte state) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isRequestSupported(final SystemObject object,
-			final DataDescription dataDescription) {
+	@Override
+	public boolean isRequestSupported(final SystemObject object, final DataDescription dataDescription) {
 		// TODO Auto-generated method stub
 		return false;
 	}

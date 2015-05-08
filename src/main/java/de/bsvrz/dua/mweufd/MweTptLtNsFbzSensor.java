@@ -36,26 +36,27 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 /**
  * Implementierung der Messwertersetzung nach folgendem Verfahren:<br>
  * <br>
- * 
+ *
  * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist ueber
  * keines der Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der
  * Sensorwert als <code>nicht ermittelbar</code> zu kennzeichnen.<br>
  * <br>
- *  - für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
- * plausible Messwert maßgebend,<br> - sonst wird der plausible Wert vom
- * zugeordneten Ersatzquerschnitt übernommen,<br> - sonst Sensorwert als nicht
- * ermittelbar kennzeichnen <br>
+ * - für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
+ * plausible Messwert maßgebend,<br>
+ * - sonst wird der plausible Wert vom zugeordneten Ersatzquerschnitt
+ * übernommen,<br>
+ * - sonst Sensorwert als nicht ermittelbar kennzeichnen <br>
  * <br>
  * <b>Dieses Verfahren wird fuer die Messwertersetzung von TPT, LT, NS und FBZ
  * benutzt</b>
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
  */
 public class MweTptLtNsFbzSensor extends AbstraktMweUfdsSensor {
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @param messStelle
@@ -68,31 +69,26 @@ public class MweTptLtNsFbzSensor extends AbstraktMweUfdsSensor {
 	 * @throws DUAInitialisierungsException
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
-	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException
 	 */
-	public MweTptLtNsFbzSensor(final IVerwaltungMitGuete verwaltung,
-			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
-			throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
+	public MweTptLtNsFbzSensor(final IVerwaltungMitGuete verwaltung, final DUAUmfeldDatenMessStelle messStelle,
+			final DUAUmfeldDatenSensor sensor)
+					throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
 		super(verwaltung, messStelle, sensor);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected synchronized void trigger() {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
 			final UmfeldDatenSensorDatum datumImpl = new UmfeldDatenSensorDatum(
 					this.letztesEmpangenesImplausiblesDatum);
 
-			if (this.letztesEmpangenesPlausiblesDatum == null
-					|| (this.messWertFortschreibungStart != -1 && this.letztesEmpangenesImplausiblesDatum
-							.getDataTime()
-							- this.messWertFortschreibungStart >= this.sensorMitParametern
-							.getMaxZeitMessWertFortschreibung())) {
+			if ((this.letztesEmpangenesPlausiblesDatum == null) || ((this.messWertFortschreibungStart != -1)
+					&& ((this.letztesEmpangenesImplausiblesDatum.getDataTime()
+							- this.messWertFortschreibungStart) >= this.sensorMitParametern
+									.getMaxZeitMessWertFortschreibung()))) {
 
-				final MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this
-						.versucheErsatzWertErsetzung(datumImpl);
+				final MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this.versucheErsatzWertErsetzung(datumImpl);
 				if (ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA) {
 					this.letztesEmpangenesImplausiblesDatum = null;
 					return;
@@ -101,8 +97,7 @@ public class MweTptLtNsFbzSensor extends AbstraktMweUfdsSensor {
 				}
 
 				datumImpl.getWert().setNichtErmittelbarAn();
-				this.publiziere(this.letztesEmpangenesImplausiblesDatum,
-						datumImpl.getDatum());
+				this.publiziere(this.letztesEmpangenesImplausiblesDatum, datumImpl.getDatum());
 				this.letztesEmpangenesImplausiblesDatum = null;
 			} else {
 				/**
@@ -110,14 +105,10 @@ public class MweTptLtNsFbzSensor extends AbstraktMweUfdsSensor {
 				 * ist der letzte plausible Messwert massgebend
 				 */
 				if (this.messWertFortschreibungStart == -1) {
-					this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum
-							.getDataTime();
+					this.messWertFortschreibungStart = this.letztesEmpangenesImplausiblesDatum.getDataTime();
 				}
-				this
-						.publiziere(
-								this.letztesEmpangenesImplausiblesDatum,
-								this
-										.getNutzdatenKopieVon(this.letztesEmpangenesPlausiblesDatum));
+				this.publiziere(this.letztesEmpangenesImplausiblesDatum,
+						this.getNutzdatenKopieVon(this.letztesEmpangenesPlausiblesDatum));
 				this.letztesEmpangenesImplausiblesDatum = null;
 			}
 		}

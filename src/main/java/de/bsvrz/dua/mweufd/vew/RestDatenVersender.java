@@ -45,13 +45,12 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
- * Meldet sich auf alle logischen Daten der uebergebenen Umfelddatensensoren
- * an und versednet diese ungesehen als messwertersetzt.
- * 
+ * Meldet sich auf alle logischen Daten der uebergebenen Umfelddatensensoren an
+ * und versednet diese ungesehen als messwertersetzt.
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
  */
-public final class RestDatenVersender implements ClientSenderInterface,
-		ClientReceiverInterface {
+public final class RestDatenVersender implements ClientSenderInterface, ClientReceiverInterface {
 
 	private static final Debug LOGGER = Debug.getLogger();
 
@@ -63,11 +62,11 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	/**
 	 * Verbindung zum Datenverteiler.
 	 */
-	private ClientDavInterface dav;
+	private final ClientDavInterface dav;
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param dav
 	 *            Verbindung zum Datenverteiler
 	 */
@@ -77,22 +76,21 @@ public final class RestDatenVersender implements ClientSenderInterface,
 
 	/**
 	 * Erfragt die statische Instanz dieser Klasse.
-	 * 
+	 *
 	 * @param dav1
 	 *            Verbindung zum Datenverteiler.
 	 * @return die statische Instanz dieser Klasse
 	 */
 	static RestDatenVersender getInstanz(final ClientDavInterface dav1) {
-		if (instanz == null) {
-			instanz = new RestDatenVersender(dav1);
+		if (RestDatenVersender.instanz == null) {
+			RestDatenVersender.instanz = new RestDatenVersender(dav1);
 		}
-		return instanz;
-	}	
-	
+		return RestDatenVersender.instanz;
+	}
 
 	/**
 	 * Fuegt diesem Objekt einen neuen zu behandelnden Umfelddatensensor hinzu.
-	 * 
+	 *
 	 * @param objekt
 	 *            ein Umfelddatensensor
 	 * @throws OneSubscriptionPerSendData
@@ -103,81 +101,57 @@ public final class RestDatenVersender implements ClientSenderInterface,
 	public void add(final SystemObject objekt) throws OneSubscriptionPerSendData {
 		String atgPid;
 		try {
-			atgPid = "atg.ufds"
-					+ UmfeldDatenArt.getUmfeldDatenArtVon(objekt).getName();
+			atgPid = "atg.ufds" + UmfeldDatenArt.getUmfeldDatenArtVon(objekt).getName();
 		} catch (final UmfeldDatenSensorUnbekannteDatenartException e) {
-			LOGGER.warning(e.getMessage());
+			RestDatenVersender.LOGGER.warning(e.getMessage());
 			return;
 		}
 
-		this.dav.subscribeSender(this, objekt, new DataDescription(dav
-				.getDataModel().getAttributeGroup(atgPid), dav.getDataModel()
-				.getAspect(DUAKonstanten.ASP_MESSWERTERSETZUNG)), SenderRole
-				.source());
+		this.dav.subscribeSender(this, objekt, new DataDescription(dav.getDataModel().getAttributeGroup(atgPid),
+				dav.getDataModel().getAspect(DUAKonstanten.ASP_MESSWERTERSETZUNG)), SenderRole.source());
 
-		this.dav.subscribeReceiver(this, objekt, new DataDescription(dav
-				.getDataModel().getAttributeGroup(atgPid), dav.getDataModel()
-				.getAspect(DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH)),
+		this.dav.subscribeReceiver(this, objekt,
+				new DataDescription(dav.getDataModel().getAttributeGroup(atgPid),
+						dav.getDataModel().getAspect(DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH)),
 				ReceiveOptions.normal(), ReceiverRole.receiver());
 	}
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
-	public void dataRequest(final SystemObject object,
-			final DataDescription dataDescription, final byte state) {
-		// 
+	public void dataRequest(final SystemObject object, final DataDescription dataDescription, final byte state) {
+		//
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public boolean isRequestSupported(final SystemObject object,
-			final DataDescription dataDescription) {
+	public boolean isRequestSupported(final SystemObject object, final DataDescription dataDescription) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void update(final ResultData[] results) {
 		if (results != null) {
-			for (ResultData logResult : results) {
+			for (final ResultData logResult : results) {
 				if (logResult != null) {
 					String atgPid;
 					try {
-						atgPid = "atg.ufds"
-								+ UmfeldDatenArt.getUmfeldDatenArtVon(
-										logResult.getObject()).getName();
+						atgPid = "atg.ufds" + UmfeldDatenArt.getUmfeldDatenArtVon(logResult.getObject()).getName();
 					} catch (final UmfeldDatenSensorUnbekannteDatenartException e1) {
-						LOGGER.error("", e1);
+						RestDatenVersender.LOGGER.error("", e1);
 						continue;
 					}
 
-					final AttributeGroup atg = this.dav.getDataModel()
-							.getAttributeGroup(atgPid);
-					final ResultData mweResult = new ResultData(
-							logResult.getObject(),
-							new DataDescription(
-									atg,
-									dav
-											.getDataModel()
-											.getAspect(
-													DUAKonstanten.ASP_MESSWERTERSETZUNG)),
-							logResult.getDataTime(), logResult.getData());
+					final AttributeGroup atg = this.dav.getDataModel().getAttributeGroup(atgPid);
+					final ResultData mweResult = new ResultData(logResult.getObject(),
+							new DataDescription(atg, dav.getDataModel().getAspect(DUAKonstanten.ASP_MESSWERTERSETZUNG)),
+											logResult.getDataTime(), logResult.getData());
 
 					try {
 						this.dav.sendData(mweResult);
 					} catch (final DataNotSubscribedException e) {
-						LOGGER.error("", e);
+						RestDatenVersender.LOGGER.error("", e);
 						e.printStackTrace();
 					} catch (final SendSubscriptionNotConfirmed e) {
-						LOGGER.error("", e);
+						RestDatenVersender.LOGGER.error("", e);
 						e.printStackTrace();
 					}
 				}

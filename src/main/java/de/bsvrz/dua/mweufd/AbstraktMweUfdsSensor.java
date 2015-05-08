@@ -191,9 +191,6 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface, IO
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void aktualisiereDaten(final ResultData resultat) {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
@@ -437,17 +434,11 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface, IO
 		return ergebnis;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void dataRequest(final SystemObject object, final DataDescription dataDescription, final byte state) {
 		// mache nichts
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isRequestSupported(final SystemObject object, final DataDescription dataDescription) {
 		return false;

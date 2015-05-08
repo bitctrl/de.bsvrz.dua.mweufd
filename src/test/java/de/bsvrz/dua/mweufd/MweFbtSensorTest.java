@@ -45,7 +45,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 
 /**
  * Ermoeglicht die Klasse MweFbtSensor zu Testen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Bachraty
  */
 public class MweFbtSensorTest extends MweFbtSensor {
@@ -54,17 +54,17 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 * Testdaten.
 	 */
 	static double[] prueflingDaten;
-	
+
 	/**
 	 * ersatzQuerrschnittDaten.
 	 */
 	static double[] ersatzQuerrschnittDaten;
-	
+
 	/**
 	 * ersetzteAusgabeDaten.
 	 */
 	static double[] ersetzteAusgabeDaten;
-	
+
 	/**
 	 * time.
 	 */
@@ -79,7 +79,7 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 * Letzter index der gesendeten und empfangenen Daten.
 	 */
 	protected static int indexEmpf = 0;
-	
+
 	/**
 	 * indexSend.
 	 */
@@ -106,7 +106,7 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 * Der Wert der NI und WFD Sensore ist Konstant.
 	 */
 	static double niDaten = 0.0;
-	
+
 	/**
 	 * Der Wert der NI und WFD Sensore ist Konstant.
 	 */
@@ -120,8 +120,7 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	/**
 	 * Datenbeschreibung der geschickten daten.
 	 */
-	protected static DataDescription ddMesswerte, ddWfdMesswerte,
-			ddNiMesswerte, ddMesswertErsetzung;
+	protected static DataDescription ddMesswerte, ddWfdMesswerte, ddNiMesswerte, ddMesswertErsetzung;
 	/**
 	 * Datensender.
 	 */
@@ -129,63 +128,63 @@ public class MweFbtSensorTest extends MweFbtSensor {
 
 	/**
 	 * Standardkonstruktor.
-	 * 
-	 * @param verwaltung Verbindung zum Verwaltungsmodul
-	 * @param messStelle die Messstelle 
-	 * @param sensor der Sensor
-	 * @throws DUAInitialisierungsException wird weitergerechts
-	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
+	 *
+	 * @param verwaltung
+	 *            Verbindung zum Verwaltungsmodul
+	 * @param messStelle
+	 *            die Messstelle
+	 * @param sensor
+	 *            der Sensor
+	 * @throws DUAInitialisierungsException
+	 *             wird weitergerechts
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException
 	 */
-	public MweFbtSensorTest(final IVerwaltungMitGuete verwaltung,
-			final DUAUmfeldDatenMessStelle messStelle, final DUAUmfeldDatenSensor sensor)
-			throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
+	public MweFbtSensorTest(final IVerwaltungMitGuete verwaltung, final DUAUmfeldDatenMessStelle messStelle,
+			final DUAUmfeldDatenSensor sensor)
+					throws DUAInitialisierungsException, UmfeldDatenSensorUnbekannteDatenartException {
 		super(verwaltung, messStelle, sensor);
 
-		if (!sensor.getObjekt().getPid()
-				.equals("ufdSensor.testFBT.fbt.zentral")) {
+		if (!sensor.getObjekt().getPid().equals("ufdSensor.testFBT.fbt.zentral")) {
 			return;
 		}
 		// if(dav != null) return;
-		dav = verwaltung.getVerbindung();
-		sender = new MweTestDatenSender(dav);
+		MweFbtSensorTest.dav = verwaltung.getVerbindung();
+		MweFbtSensorTest.sender = new MweTestDatenSender(MweFbtSensorTest.dav);
 
-		zentralSensor = dav.getDataModel().getObject(
-				"ufdSensor.testFBT.fbt.zentral");
-		ersatzSensor = dav.getDataModel().getObject(
-				"ufdSensor.testFBT.fbt.ersatz");
+		MweFbtSensorTest.zentralSensor = MweFbtSensorTest.dav.getDataModel().getObject("ufdSensor.testFBT.fbt.zentral");
+		MweFbtSensorTest.ersatzSensor = MweFbtSensorTest.dav.getDataModel().getObject("ufdSensor.testFBT.fbt.ersatz");
 
-		niSensor = dav.getDataModel().getObject("ufdSensor.testFBT.ni");
-		wfdSensor = dav.getDataModel().getObject("ufdSensor.testFBT.wfd");
+		MweFbtSensorTest.niSensor = MweFbtSensorTest.dav.getDataModel().getObject("ufdSensor.testFBT.ni");
+		MweFbtSensorTest.wfdSensor = MweFbtSensorTest.dav.getDataModel().getObject("ufdSensor.testFBT.wfd");
 
-		ddMesswerte = new DataDescription(dav.getDataModel()
-				.getAttributeGroup("atg.ufdsFahrBahnOberFlächenTemperatur"),
-				dav.getDataModel()
-						.getAspect("asp.plausibilitätsPrüfungLogisch"));
+		MweFbtSensorTest.ddMesswerte = new DataDescription(
+				MweFbtSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsFahrBahnOberFlächenTemperatur"),
+				MweFbtSensorTest.dav.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
 
-		ddWfdMesswerte = new DataDescription(dav.getDataModel()
-				.getAttributeGroup("atg.ufdsWasserFilmDicke"), dav
-				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
+		MweFbtSensorTest.ddWfdMesswerte = new DataDescription(
+				MweFbtSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsWasserFilmDicke"),
+				MweFbtSensorTest.dav.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
 
-		ddNiMesswerte = new DataDescription(dav.getDataModel()
-				.getAttributeGroup("atg.ufdsNiederschlagsIntensität"), dav
-				.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
+		MweFbtSensorTest.ddNiMesswerte = new DataDescription(
+				MweFbtSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsNiederschlagsIntensität"),
+				MweFbtSensorTest.dav.getDataModel().getAspect("asp.plausibilitätsPrüfungLogisch"));
 
 		final Collection<SystemObject> list = new LinkedList<SystemObject>();
 
-		list.add(zentralSensor);
-		list.add(ersatzSensor);
+		list.add(MweFbtSensorTest.zentralSensor);
+		list.add(MweFbtSensorTest.ersatzSensor);
 
-		sender.anmeldeQuelle(list, ddMesswerte);
-		sender.anmeldeParametrierung(zentralSensor);
+		MweFbtSensorTest.sender.anmeldeQuelle(list, MweFbtSensorTest.ddMesswerte);
+		MweFbtSensorTest.sender.anmeldeParametrierung(MweFbtSensorTest.zentralSensor);
 
-		sender.anmeldeQuelle(niSensor, ddNiMesswerte);
-		sender.anmeldeQuelle(wfdSensor, ddWfdMesswerte);
+		MweFbtSensorTest.sender.anmeldeQuelle(MweFbtSensorTest.niSensor, MweFbtSensorTest.ddNiMesswerte);
+		MweFbtSensorTest.sender.anmeldeQuelle(MweFbtSensorTest.wfdSensor, MweFbtSensorTest.ddWfdMesswerte);
 
 	}
 
 	/**
 	 * Parametreirt den gestesteten Sensor.
-	 * 
+	 *
 	 * @param messwertFortschreibungsIntervall
 	 *            Maximaler MesswertFortschreibungsIntervall
 	 * @param messWertErsetzungIntervall
@@ -193,43 +192,41 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 * @param periode
 	 *            Elementares Schritt
 	 */
-	public static void parametriereSensor(
-			final long messwertFortschreibungsIntervall,
+	public static void parametriereSensor(final long messwertFortschreibungsIntervall,
 			final long messWertErsetzungIntervall, final long periode) {
-		sender.parametriereSensor(zentralSensor,
-				messwertFortschreibungsIntervall, messWertErsetzungIntervall,
-				periode);
+		MweFbtSensorTest.sender.parametriereSensor(MweFbtSensorTest.zentralSensor, messwertFortschreibungsIntervall,
+				messWertErsetzungIntervall, periode);
 	}
 
 	/**
 	 * Sendet die Daten des naechsten Schrittes.
-	 * 
+	 *
 	 * @return <code>true</code> wenn man mit dem Test fortsetzen soll, sonst
 	 *         false
 	 */
 	public static boolean naechsterCyklus() {
-		if (indexSend >= ersetzteAusgabeDaten.length) {
+		if (MweFbtSensorTest.indexSend >= MweFbtSensorTest.ersetzteAusgabeDaten.length) {
 			return false;
 		}
 
-		sender.sendeDatenSatz(zentralSensor, ddMesswerte,
-				"FahrBahnOberFlächenTemperatur", prueflingDaten[indexSend],
-				time[indexSend]);
-		sender.sendeDatenSatz(ersatzSensor, ddMesswerte,
-				"FahrBahnOberFlächenTemperatur",
-				ersatzQuerrschnittDaten[indexSend], time[indexSend]);
-		sender.sendeDatenSatz(niSensor, ddNiMesswerte,
-				"NiederschlagsIntensität", niDaten, time[indexSend]);
-		sender.sendeDatenSatz(wfdSensor, ddWfdMesswerte, "WasserFilmDicke",
-				wfdDaten, time[indexSend]);
+		MweFbtSensorTest.sender.sendeDatenSatz(MweFbtSensorTest.zentralSensor, MweFbtSensorTest.ddMesswerte,
+				"FahrBahnOberFlächenTemperatur", MweFbtSensorTest.prueflingDaten[MweFbtSensorTest.indexSend],
+				MweFbtSensorTest.time[MweFbtSensorTest.indexSend]);
+		MweFbtSensorTest.sender.sendeDatenSatz(MweFbtSensorTest.ersatzSensor, MweFbtSensorTest.ddMesswerte,
+				"FahrBahnOberFlächenTemperatur", MweFbtSensorTest.ersatzQuerrschnittDaten[MweFbtSensorTest.indexSend],
+				MweFbtSensorTest.time[MweFbtSensorTest.indexSend]);
+		MweFbtSensorTest.sender.sendeDatenSatz(MweFbtSensorTest.niSensor, MweFbtSensorTest.ddNiMesswerte,
+				"NiederschlagsIntensität", MweFbtSensorTest.niDaten, MweFbtSensorTest.time[MweFbtSensorTest.indexSend]);
+		MweFbtSensorTest.sender.sendeDatenSatz(MweFbtSensorTest.wfdSensor, MweFbtSensorTest.ddWfdMesswerte,
+				"WasserFilmDicke", MweFbtSensorTest.wfdDaten, MweFbtSensorTest.time[MweFbtSensorTest.indexSend]);
 
-		indexSend++;
+		MweFbtSensorTest.indexSend++;
 		return true;
 	}
 
 	/**
 	 * Generiert die Testdaten nach der Pruefspezifikation.
-	 * 
+	 *
 	 * @param t1
 	 *            Messwertfortsetzungsintervall
 	 * @param tE
@@ -237,8 +234,7 @@ public class MweFbtSensorTest extends MweFbtSensor {
 	 * @param tT
 	 *            Periode
 	 */
-	public static void generiereTestDatenNachPruefSpez1(final long t1, final long tE,
-			final long tT) {
+	public static void generiereTestDatenNachPruefSpez1(final long t1, final long tE, final long tT) {
 
 		final double w1 = 4.0;
 		final double w2 = 1.2;
@@ -246,13 +242,13 @@ public class MweFbtSensorTest extends MweFbtSensor {
 
 		final int length = (int) (tE / tT) + 5;
 
-		prueflingDaten = new double[length];
-		ersatzQuerrschnittDaten = new double[length];
-		ersetzteAusgabeDaten = new double[length];
+		MweFbtSensorTest.prueflingDaten = new double[length];
+		MweFbtSensorTest.ersatzQuerrschnittDaten = new double[length];
+		MweFbtSensorTest.ersetzteAusgabeDaten = new double[length];
 
-		zeitIntervall = tT;
-		time = new long[length];
-		time[0] = 0;
+		MweFbtSensorTest.zeitIntervall = tT;
+		MweFbtSensorTest.time = new long[length];
+		MweFbtSensorTest.time[0] = 0;
 
 		final long[] t = new long[5];
 		final long tInt = (tE - t1) / 3;
@@ -264,60 +260,56 @@ public class MweFbtSensorTest extends MweFbtSensor {
 
 		// Zeit
 		for (int i = 0; i < length; i++) {
-			time[i] = i * tT;
+			MweFbtSensorTest.time[i] = i * tT;
 		}
 
 		// Ersatzquerrschnittdaten
 		for (int i = 0; i < length; i++) {
-			if (time[i] < t[2]) {
-				ersatzQuerrschnittDaten[i] = w2;
-			} else if (time[i] >= t[2] && time[i] < t[3]) {
-				ersatzQuerrschnittDaten[i] = -1;
+			if (MweFbtSensorTest.time[i] < t[2]) {
+				MweFbtSensorTest.ersatzQuerrschnittDaten[i] = w2;
+			} else if ((MweFbtSensorTest.time[i] >= t[2]) && (MweFbtSensorTest.time[i] < t[3])) {
+				MweFbtSensorTest.ersatzQuerrschnittDaten[i] = -1;
 			} else {
-				ersatzQuerrschnittDaten[i] = w3;
+				MweFbtSensorTest.ersatzQuerrschnittDaten[i] = w3;
 			}
 		}
 
 		// Pruefling
 		for (int i = 0; i < length; i++) {
-			if (time[i] < t[0]) {
-				prueflingDaten[i] = w1;
+			if (MweFbtSensorTest.time[i] < t[0]) {
+				MweFbtSensorTest.prueflingDaten[i] = w1;
 			} else {
-				prueflingDaten[i] = -1;
+				MweFbtSensorTest.prueflingDaten[i] = -1;
 			}
 		}
 
 		// Ausgabewerte
 		double letzterWert = w1;
 		for (int i = 0; i < length; i++) {
-			if (time[i] < t[0]) {
-				ersetzteAusgabeDaten[i] = prueflingDaten[i];
-				letzterWert = prueflingDaten[i];
-			} else if (time[i] >= t[0] && time[i] < t[1]) {
-				ersetzteAusgabeDaten[i] = letzterWert;
-			} else if (time[i] >= t[1] && time[i] < t[2]) {
-				ersetzteAusgabeDaten[i] = ersatzQuerrschnittDaten[i];
-			} else if (time[i] >= t[2] && time[i] < t[3]) {
-				ersetzteAusgabeDaten[i] = -1;
-			} else if (time[i] >= t[3] && time[i] < t[4]) {
-				ersetzteAusgabeDaten[i] = ersatzQuerrschnittDaten[i];
+			if (MweFbtSensorTest.time[i] < t[0]) {
+				MweFbtSensorTest.ersetzteAusgabeDaten[i] = MweFbtSensorTest.prueflingDaten[i];
+				letzterWert = MweFbtSensorTest.prueflingDaten[i];
+			} else if ((MweFbtSensorTest.time[i] >= t[0]) && (MweFbtSensorTest.time[i] < t[1])) {
+				MweFbtSensorTest.ersetzteAusgabeDaten[i] = letzterWert;
+			} else if ((MweFbtSensorTest.time[i] >= t[1]) && (MweFbtSensorTest.time[i] < t[2])) {
+				MweFbtSensorTest.ersetzteAusgabeDaten[i] = MweFbtSensorTest.ersatzQuerrschnittDaten[i];
+			} else if ((MweFbtSensorTest.time[i] >= t[2]) && (MweFbtSensorTest.time[i] < t[3])) {
+				MweFbtSensorTest.ersetzteAusgabeDaten[i] = -1;
+			} else if ((MweFbtSensorTest.time[i] >= t[3]) && (MweFbtSensorTest.time[i] < t[4])) {
+				MweFbtSensorTest.ersetzteAusgabeDaten[i] = MweFbtSensorTest.ersatzQuerrschnittDaten[i];
 			} else {
-				ersetzteAusgabeDaten[i] = -1;
+				MweFbtSensorTest.ersetzteAusgabeDaten[i] = -1;
 			}
 		}
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void publiziere(final ResultData original, final Data nutzDatum) {
 		boolean publiziereDatensatz = false;
 
 		if (nutzDatum == null) {
-			if (this.letztesPubDatum != null
-					&& this.letztesPubDatum.getData() != null) {
+			if ((this.letztesPubDatum != null) && (this.letztesPubDatum.getData() != null)) {
 				publiziereDatensatz = true;
 			}
 		} else {
@@ -325,34 +317,31 @@ public class MweFbtSensorTest extends MweFbtSensor {
 		}
 
 		if (publiziereDatensatz) {
-			if (!original.getObject().getPid().equals(zentralSensor.getPid())) {
+			if (!original.getObject().getPid().equals(MweFbtSensorTest.zentralSensor.getPid())) {
 				return;
 			}
 
-			double sw = nutzDatum.getItem("FahrBahnOberFlächenTemperatur")
-					.getItem("Wert").asUnscaledValue().doubleValue();
+			double sw = nutzDatum.getItem("FahrBahnOberFlächenTemperatur").getItem("Wert").asUnscaledValue()
+					.doubleValue();
 			if (sw >= 0) {
-				sw = nutzDatum.getItem("FahrBahnOberFlächenTemperatur")
-						.getItem("Wert").asScaledValue().doubleValue();
+				sw = nutzDatum.getItem("FahrBahnOberFlächenTemperatur").getItem("Wert").asScaledValue().doubleValue();
 			} else {
 				sw = -1;
 			}
-			Assert.assertTrue("Erwartetes datum: "
-					+ ersetzteAusgabeDaten[indexEmpf] + " Berechnetes datum: "
-					+ sw + " index " + (indexEmpf), Math
-					.abs(ersetzteAusgabeDaten[indexEmpf] - sw) < 0.001);
-			System.out.println(String.format(
-					"[ %4d ] Ersatzwert OK: %3f == %3f", indexEmpf,
-					ersetzteAusgabeDaten[indexEmpf], sw));
-			indexEmpf++;
-			synchronized (dieVerwaltung) {
-				if (indexEmpf >= ersetzteAusgabeDaten.length) {
+			Assert.assertTrue(
+					"Erwartetes datum: " + MweFbtSensorTest.ersetzteAusgabeDaten[MweFbtSensorTest.indexEmpf]
+							+ " Berechnetes datum: " + sw + " index " + (MweFbtSensorTest.indexEmpf),
+					Math.abs(MweFbtSensorTest.ersetzteAusgabeDaten[MweFbtSensorTest.indexEmpf] - sw) < 0.001);
+			System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f == %3f", MweFbtSensorTest.indexEmpf,
+					MweFbtSensorTest.ersetzteAusgabeDaten[MweFbtSensorTest.indexEmpf], sw));
+			MweFbtSensorTest.indexEmpf++;
+			synchronized (AbstraktMweUfdsSensor.dieVerwaltung) {
+				if (MweFbtSensorTest.indexEmpf >= MweFbtSensorTest.ersetzteAusgabeDaten.length) {
 					MweFbtSensorJunitTester.warten = false;
 				}
-				dieVerwaltung.notify();
+				AbstraktMweUfdsSensor.dieVerwaltung.notify();
 			}
-			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.dieDfs
-					.publiziere(original, nutzDatum);
+			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.dieDfs.publiziere(original, nutzDatum);
 		}
 	}
 }
