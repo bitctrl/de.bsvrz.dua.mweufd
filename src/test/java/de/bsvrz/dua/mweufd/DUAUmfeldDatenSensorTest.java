@@ -34,19 +34,19 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 /**
  * Wegen Test-zwecken muss die Klasse DUAUmfeldDatenSensor neuinitialisiert
  * werden reset() ermoeglicht die Singleton-Instanzen zu loeschen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Bachraty
  */
 public class DUAUmfeldDatenSensorTest extends DUAUmfeldDatenSensor {
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param dav
 	 *            Datenverteiler-Verbindung
 	 * @param objekt
 	 *            das Systemobjekt des Umfelddatensensors
-	 * @throws UmfeldDatenSensorUnbekannteDatenartException 
+	 * @throws UmfeldDatenSensorUnbekannteDatenartException
 	 */
 	protected DUAUmfeldDatenSensorTest(final ClientDavInterface dav,
 			final SystemObject objekt) throws UmfeldDatenSensorUnbekannteDatenartException {
@@ -57,6 +57,6 @@ public class DUAUmfeldDatenSensorTest extends DUAUmfeldDatenSensor {
 	 * Ermoeglicht dass die Klasse neu initialisiert wird.
 	 */
 	public static void reset() {
-		instanzen.clear();
+		resetCache();
 	}
 }
