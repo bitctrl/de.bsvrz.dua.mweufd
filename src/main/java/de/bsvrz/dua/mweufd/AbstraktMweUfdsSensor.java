@@ -287,7 +287,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface, IO
 			this.letztesPubDatum = VerwaltungMesswertErsetzungUFD.dieDfs.publiziere(original, nutzDatum);
 			if (this.letztesPubDatum == null) {
 				AbstraktMweUfdsSensor.LOGGER
-						.warning("Datenflusssteuerung konnte kein Publikationsdatum ermitteln fuer:\n" //$NON-NLS-1$
+				.warning("Datenflusssteuerung konnte kein Publikationsdatum ermitteln fuer:\n" //$NON-NLS-1$
 						+ original);
 			}
 		}
