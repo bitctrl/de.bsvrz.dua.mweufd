@@ -2,8 +2,7 @@
 *  Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD  *
 *************************************************************************************
 
-Version: 1.2.0
-
+Version: ${version}
 
 Übersicht
 =========
