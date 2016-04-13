@@ -56,7 +56,7 @@ public class MweUfdStandardAspekteVersorger extends StandardAspekteVersorger {
 	@Override
 	protected void init() throws DUAInitialisierungsException {
 
-		this.standardAspekte = new StandardAspekteAdapter(new StandardPublikationsZuordnung[] {
+		setStandardAspekte( new StandardAspekteAdapter(new StandardPublikationsZuordnung[] {
 				new StandardPublikationsZuordnung("typ.ufdsFahrBahnFeuchte", //$NON-NLS-1$
 						"atg.ufdsFahrBahnFeuchte", //$NON-NLS-1$
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
@@ -125,7 +125,7 @@ public class MweUfdStandardAspekteVersorger extends StandardAspekteVersorger {
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
 				new StandardPublikationsZuordnung("typ.ufdsWindGeschwindigkeitSpitzenWert", //$NON-NLS-1$
 						"atg.ufdsWindGeschwindigkeitSpitzenWert", //$NON-NLS-1$
-						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG), });
+						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG), }));
 
 	}
 

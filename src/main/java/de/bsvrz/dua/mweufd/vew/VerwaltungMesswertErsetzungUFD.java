@@ -31,7 +31,6 @@ import java.util.Set;
 
 import de.bsvrz.dav.daf.main.OneSubscriptionPerSendData;
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.MweTptLtNsFbzSensor;
 import de.bsvrz.dua.mweufd.fbt.MweFbtSensor;
 import de.bsvrz.dua.mweufd.ni.MweNiSensor;
@@ -73,17 +72,16 @@ public class VerwaltungMesswertErsetzungUFD extends AbstraktVerwaltungsAdapterMi
 
 		VerwaltungMesswertErsetzungUFD.dieDfs = new MweDatenFlussSteuerung(this,
 				new MweUfdStandardAspekteVersorger(this).getStandardPubInfos());
-		UmfeldDatenArt.initialisiere(this.verbindung);
+		UmfeldDatenArt.initialisiere(getVerbindung());
 
 		/**
 		 * UFD-Messstellen ermitteln
 		 */
-		this.objekte = DUAUtensilien
-				.getBasisInstanzen(this.verbindung.getDataModel().getType(DUAKonstanten.TYP_UFD_MESSSTELLE),
-						this.verbindung, this.getKonfigurationsBereiche())
-				.toArray(new SystemObject[0]);
+		setSystemObjekte(DUAUtensilien
+				.getBasisInstanzen(getVerbindung().getDataModel().getType(DUAKonstanten.TYP_UFD_MESSSTELLE),
+						getVerbindung(), this.getKonfigurationsBereiche()));
 
-		DUAUmfeldDatenMessStelle.initialisiere(this.verbindung, this.getSystemObjekte());
+		DUAUmfeldDatenMessStelle.initialisiere(getVerbindung(), this.getSystemObjekte());
 
 		/**
 		 * die Datenarten, die nicht messwertersetzt werden, aber dennoch
@@ -144,10 +142,10 @@ public class VerwaltungMesswertErsetzungUFD extends AbstraktVerwaltungsAdapterMi
 				final DUAUmfeldDatenSensor restSensor = messStelle.getHauptSensor(datenArt);
 				if (restSensor != null) {
 					try {
-						RestDatenVersender.getInstanz(this.verbindung).add(restSensor.getObjekt());
+						RestDatenVersender.getInstanz(getVerbindung()).add(restSensor.getObjekt());
 					} catch (final OneSubscriptionPerSendData e) {
 						throw new DUAInitialisierungsException("Daten von Umfelddatensensor " + restSensor.getObjekt()
-								+ " koennen nicht weitergeleitet werden", e);
+						+ " koennen nicht weitergeleitet werden", e);
 					}
 				}
 			}

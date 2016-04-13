@@ -78,7 +78,7 @@ public class MweUfdSensor extends AbstraktOnlineUfdSensor<ResultData> {
 
 	@Override
 	protected void berechneOnlineWert(final ResultData resultat) {
-		this.onlineWert = resultat;
+		setOnlineWert(resultat);
 	}
 
 }

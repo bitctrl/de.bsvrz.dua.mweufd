@@ -15,6 +15,9 @@ S. 112f). Danach werden die Daten unter dem Aspekt MessWertErsetzung publiziert.
 Versionsgeschichte
 ==================
 
+1.3.0
+- Umstellung auf Funclib-BitCtrl-Dua
+
 1.2.0
 - Behandlung nicht unterstützter Sensorarten über die 'UmfeldDatenSensorUnbekannteDatenartException'
 - benötigt SWE de.bsvrz.sys.funclib.bitctrl_FREI_V1.2.3.zip oder höher 

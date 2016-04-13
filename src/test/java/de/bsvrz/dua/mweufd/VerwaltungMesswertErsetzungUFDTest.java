@@ -93,6 +93,6 @@ public class VerwaltungMesswertErsetzungUFDTest extends VerwaltungMesswertErsetz
 	 * Verbindung trennen.
 	 */
 	public void disconnect() {
-		this.verbindung.disconnect(false, "");
+		getVerbindung().disconnect(false, "");
 	}
 }

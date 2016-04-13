@@ -92,7 +92,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	 *             wenn die Initialisierung der Datenflusssteuerung fehlschlaegt
 	 */
 	public MweDatenFlussSteuerung(final IVerwaltung verwaltung, final IStandardAspekte standardAspekte)
-					throws DUAInitialisierungsException {
+			throws DUAInitialisierungsException {
 		if (MweDatenFlussSteuerung.dieVerwaltung != null) {
 			throw new RuntimeException("Datenflusssteuerung darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
@@ -153,7 +153,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	private synchronized void aktualisiereObjektAnmeldungen() {
 		Collection<DAVObjektAnmeldung> anmeldungenStd = new ArrayList<DAVObjektAnmeldung>();
 
-		final SystemObject[] objekteBisJetzt = this.objekte.toArray(new SystemObject[0]);
+		final Collection<SystemObject> objekteBisJetzt = new ArrayList<>(this.objekte);
 
 		if (this.standardAspekte != null) {
 			anmeldungenStd = this.standardAspekte.getStandardAnmeldungen(objekteBisJetzt);
