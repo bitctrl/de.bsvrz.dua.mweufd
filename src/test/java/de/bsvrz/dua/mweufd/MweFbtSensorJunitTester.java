@@ -31,18 +31,21 @@ import com.bitctrl.Constants;
 
 import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.dua.adapter.AbstraktVerwaltungsAdapter;
+import de.bsvrz.sys.funclib.bitctrl.dua.dfs.DatenFlussSteuerungsVersorger;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Testet die MweFbtSensor Klasse.
- * 
+ *
  * @author BitCtrl Systems GmbH, Bachraty
  */
 public class MweFbtSensorJunitTester {
 
+	private static final Debug LOGGER = Debug.getLogger();
 	/**
 	 * warten?
 	 */
-	public static boolean warten = true;
+	private static boolean warten = true;
 
 	/**
 	 * Der Test.
@@ -55,7 +58,7 @@ public class MweFbtSensorJunitTester {
 
 		MweFbtSensorTest.generiereTestDatenNachPruefSpez1(
 				messwertFortFuehrungMax, messwertErsetzungMax, periode);
-		DatenFlussSteuerungVersorgerTest.reset();
+		DatenFlussSteuerungsVersorger.reset();
 		DUAUmfeldDatenSensorTest.reset();
 		MweUfdSensorTest.reset();
 
@@ -69,16 +72,16 @@ public class MweFbtSensorJunitTester {
 			try {
 				Thread.sleep(200);
 			} catch (final Exception e) {
-				//
+				MweFbtSensorJunitTester.LOGGER.finest(e.getLocalizedMessage(), e);
 			}
 		}
 		synchronized (verw) {
 			try {
-				while (warten) {
+				while (MweFbtSensorJunitTester.warten) {
 					verw.wait();
 				}
 			} catch (final Exception e) {
-				//
+				MweFbtSensorJunitTester.LOGGER.finest(e.getLocalizedMessage(), e);
 			}
 		}
 		((VerwaltungMesswertErsetzungUFDTest) verw).disconnect();
@@ -87,7 +90,11 @@ public class MweFbtSensorJunitTester {
 		try {
 			Thread.sleep(500);
 		} catch (final Exception e) {
-			//
+			MweFbtSensorJunitTester.LOGGER.finest(e.getLocalizedMessage(), e);
 		}
+	}
+
+	protected static void setWarten(final boolean warten) {
+		MweFbtSensorJunitTester.warten = warten;
 	}
 }

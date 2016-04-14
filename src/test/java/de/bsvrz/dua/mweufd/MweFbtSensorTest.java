@@ -331,13 +331,13 @@ public class MweFbtSensorTest extends MweFbtSensor {
 			Assert.assertTrue(
 					"Erwartetes datum: " + MweFbtSensorTest.ersetzteAusgabeDaten[MweFbtSensorTest.indexEmpf]
 							+ " Berechnetes datum: " + sw + " index " + (MweFbtSensorTest.indexEmpf),
-					Math.abs(MweFbtSensorTest.ersetzteAusgabeDaten[MweFbtSensorTest.indexEmpf] - sw) < 0.001);
+							Math.abs(MweFbtSensorTest.ersetzteAusgabeDaten[MweFbtSensorTest.indexEmpf] - sw) < 0.001);
 			System.out.println(String.format("[ %4d ] Ersatzwert OK: %3f == %3f", MweFbtSensorTest.indexEmpf,
 					MweFbtSensorTest.ersetzteAusgabeDaten[MweFbtSensorTest.indexEmpf], sw));
 			MweFbtSensorTest.indexEmpf++;
 			synchronized (AbstraktMweUfdsSensor.dieVerwaltung) {
 				if (MweFbtSensorTest.indexEmpf >= MweFbtSensorTest.ersetzteAusgabeDaten.length) {
-					MweFbtSensorJunitTester.warten = false;
+					MweFbtSensorJunitTester.setWarten(false);
 				}
 				AbstraktMweUfdsSensor.dieVerwaltung.notify();
 			}
