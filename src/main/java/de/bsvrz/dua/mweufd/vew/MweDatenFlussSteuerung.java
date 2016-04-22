@@ -156,10 +156,10 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 		final Collection<SystemObject> objekteBisJetzt = new ArrayList<>(this.objekte);
 
 		if (this.standardAspekte != null) {
-			anmeldungenStd = this.standardAspekte.getStandardAnmeldungen(objekteBisJetzt);
+			anmeldungenStd = this.standardAspekte.getStandardAnmeldungen(objekteBisJetzt.toArray(new SystemObject[objekteBisJetzt.size()]));
 		}
 
-		final Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod.getDatenAnmeldungen(objekteBisJetzt,
+		final Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod.getDatenAnmeldungen(objekteBisJetzt.toArray(new SystemObject[objekteBisJetzt.size()]),
 				anmeldungenStd);
 
 		this.publikationsAnmeldungen.modifiziereObjektAnmeldung(anmeldungen);

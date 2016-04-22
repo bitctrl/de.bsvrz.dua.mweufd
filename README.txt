@@ -15,6 +15,9 @@ S. 112f). Danach werden die Daten unter dem Aspekt MessWertErsetzung publiziert.
 Versionsgeschichte
 ==================
 
+1.3.1
+- Kompatibilität zu DuA-2.0 hergestellt
+
 1.3.0
 - Umstellung auf Funclib-BitCtrl-Dua
 
