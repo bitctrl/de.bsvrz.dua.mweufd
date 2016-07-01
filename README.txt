@@ -1,10 +1,10 @@
 *************************************************************************************
-*  Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD  *
+*  Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD  *
 *************************************************************************************
 
 Version: ${version}
 
-Übersicht
+Ãœbersicht
 =========
 
 Aufgabe dieser Softwareeinheit ist es, die als implausibel gekennzeichneten logisch
@@ -15,15 +15,19 @@ S. 112f). Danach werden die Daten unter dem Aspekt MessWertErsetzung publiziert.
 Versionsgeschichte
 ==================
 
+1.4.0
+=====
+- Umstellung auf Java 8 und UTF-8
+
 1.3.1
-- Kompatibilität zu DuA-2.0 hergestellt
+- KompatibilitÃ¤t zu DuA-2.0 hergestellt
 
 1.3.0
 - Umstellung auf Funclib-BitCtrl-Dua
 
 1.2.0
-- Behandlung nicht unterstützter Sensorarten über die 'UmfeldDatenSensorUnbekannteDatenartException'
-- benötigt SWE de.bsvrz.sys.funclib.bitctrl_FREI_V1.2.3.zip oder höher 
+- Behandlung nicht unterstÃ¼tzter Sensorarten Ã¼ber die 'UmfeldDatenSensorUnbekannteDatenartException'
+- benÃ¶tigt SWE de.bsvrz.sys.funclib.bitctrl_FREI_V1.2.3.zip oder hÃ¶her 
 - Umstellung auf Maven-Build  
   
 1.1.4
@@ -36,7 +40,7 @@ Versionsgeschichte
 
 1.1.2
 
-  - Überarbeitung
+  - Ãœberarbeitung
   
 1.1.1
   
@@ -53,7 +57,7 @@ Versionsgeschichte
 Bemerkungen
 ===========
 
-Diese SWE ist eine eigenständige Datenverteiler-Applikation, welche über die Klasse
+Diese SWE ist eine eigenstÃ¤ndige Datenverteiler-Applikation, welche Ã¼ber die Klasse
 de.bsvrz.dua.mweufd.vew.VerwaltungMesswertErsetzungUFD mit folgenden Parametern
 gestartet werden kann (zusaetzlich zu den normalen Parametern jeder
 Datenverteiler-Applikation):
@@ -62,15 +66,15 @@ Datenverteiler-Applikation):
 	
 - Tests:
 
-	Für die Tests wird eine Verbindung zum Datenverteiler mit einer Konfiguration mit dem
-	Testkonfigurationsbereich "kb.mweUfdTestModell" benötigt (Diese Konfiguration mit den entsprechenden
+	FÃ¼r die Tests wird eine Verbindung zum Datenverteiler mit einer Konfiguration mit dem
+	Testkonfigurationsbereich "kb.mweUfdTestModell" benÃ¶tigt (Diese Konfiguration mit den entsprechenden
 	Parametern liegt bereits komplett im Archiv testKonfig.zip vor). Die SWE 4.12 muss 
 	nicht explizit gestartet werden.
 	
-	Die Tests selbst sind als JUnit-Tests (alle unterhalb von JUnit) ausführbar. Es sind
-	alle innerhalb der Prüfspezifikation verlangten Tests implementiert und so bereits durchgeführt
+	Die Tests selbst sind als JUnit-Tests (alle unterhalb von JUnit) ausfÃ¼hrbar. Es sind
+	alle innerhalb der PrÃ¼fspezifikation verlangten Tests implementiert und so bereits durchgefÃ¼hrt
 	worden.
-	Bevor die Tests gestartet werden können, muss die Verbindung zum Datenverteiler wird über
+	Bevor die Tests gestartet werden kÃ¶nnen, muss die Verbindung zum Datenverteiler wird Ã¼ber
 	die statische Variable CON_DATA der Klasse de.bsvrz.dua.mweufd.Verbindung hergestellt werden:
 
 	/**
@@ -92,8 +96,8 @@ Datenverteiler-Applikation):
 	- Interne unerwartete Fehler
 	
 	WARNING:
-	- Fehler, die die Funktionalität grundsätzlich nicht
-	  beeinträchtigen, aber zum Datenverlust führen können
+	- Fehler, die die FunktionalitÃ¤t grundsÃ¤tzlich nicht
+	  beeintrÃ¤chtigen, aber zum Datenverlust fÃ¼hren kÃ¶nnen
 	- Nicht identifizierbare Konfigurationsbereiche
 	- Probleme beim Explorieren von Attributpfaden 
 	  (von Plausibilisierungsbeschreibungen)
@@ -101,8 +105,8 @@ Datenverteiler-Applikation):
 	  nur eine Instanz erwartet wird
 	- Wenn Parameter nicht korrekt ausgelesen werden konnten
 	  bzw. nicht interpretierbar sind
-	- Wenn inkompatible Parameter übergeben wurden
-	- Wenn Parameter unvollständig sind
+	- Wenn inkompatible Parameter Ã¼bergeben wurden
+	- Wenn Parameter unvollstÃ¤ndig sind
 	- Wenn ein Wert bzw. Status nicht gesetzt werden konnte
 	
 	INFO:
@@ -112,20 +116,20 @@ Datenverteiler-Applikation):
 	- Allgemeine Ausgaben, welche die Konfiguration betreffen
 	- Benutzte Konfigurationsbereiche der Applikation bzw.
 	  einzelner Funktionen innerhalb der Applikation
-	- Benutzte Objekte für Parametersteuerung von Applikationen
+	- Benutzte Objekte fÃ¼r Parametersteuerung von Applikationen
 	  (z.B. die Instanz der Datenflusssteuerung, die verwendet wird)
 	- An- und Abmeldungen von Daten beim Datenverteiler
 	
 	FINE:
 	- Wenn Daten empfangen wurden, die nicht weiterverarbeitet 
-	  (plausibilisiert) werden können (weil keine Parameter vorliegen)
+	  (plausibilisiert) werden kÃ¶nnen (weil keine Parameter vorliegen)
 	- Informationen, die nur zum Debugging interessant sind 
 	
 
 Disclaimer
 ==========
 
-Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
 Copyright (C) 2007 BitCtrl Systems GmbH 
 
 This program is free software; you can redistribute it and/or modify it under
@@ -147,7 +151,7 @@ Kontakt
 =======
 
 BitCtrl Systems GmbH
-Weißenfelser Straße 67
+WeiÃŸenfelser StraÃŸe 67
 04229 Leipzig
 Phone: +49 341-490670
 mailto: info@bitctrl.de

@@ -1,5 +1,5 @@
 /*
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
+ * WeiÃŸenfelser StraÃŸe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -61,7 +61,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	protected static IVerwaltung dieVerwaltung = null;
 
 	/**
-	 * Schnittstelle zu den Informationen über die Standardpublikationsaspekte.
+	 * Schnittstelle zu den Informationen Ã¼ber die Standardpublikationsaspekte.
 	 */
 	private IStandardAspekte standardAspekte = null;
 
@@ -86,7 +86,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @param standardAspekte
-	 *            Schnittstelle zu den Informationen über die
+	 *            Schnittstelle zu den Informationen Ã¼ber die
 	 *            Standardpublikationsaspekte
 	 * @throws DUAInitialisierungsException
 	 *             wenn die Initialisierung der Datenflusssteuerung fehlschlaegt

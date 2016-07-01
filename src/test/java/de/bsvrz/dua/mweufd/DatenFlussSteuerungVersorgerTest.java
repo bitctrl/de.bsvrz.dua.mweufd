@@ -1,5 +1,5 @@
 /*
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
+ * WeiÃŸenfelser StraÃŸe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -46,12 +46,12 @@ DatenFlussSteuerungsVersorger {
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @param dfsObjekt
-	 *            das des Objektes, das die Datenflusssteuerung für das
-	 *            übergebene Verwaltungsmodul beschreibt
+	 *            das des Objektes, das die Datenflusssteuerung fÃ¼r das
+	 *            Ã¼bergebene Verwaltungsmodul beschreibt
 	 * @throws DUAInitialisierungsException
-	 *             wird geworfen, wenn die übergebene Verbindung fehlerhaft ist
-	 *             (nicht die geforderten Informationen bereit hält), bzw. keine
-	 *             Datenanmeldungen durchgeführt werden konnten
+	 *             wird geworfen, wenn die Ã¼bergebene Verbindung fehlerhaft ist
+	 *             (nicht die geforderten Informationen bereit hÃ¤lt), bzw. keine
+	 *             Datenanmeldungen durchgefÃ¼hrt werden konnten
 	 */
 	private DatenFlussSteuerungVersorgerTest(final IVerwaltung verwaltung,
 			final SystemObject dfsObjekt) throws DUAInitialisierungsException {

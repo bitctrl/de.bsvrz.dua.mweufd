@@ -1,5 +1,5 @@
 /*
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
+ * WeiÃŸenfelser StraÃŸe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -48,22 +48,22 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  * Implementierung der Messwertersetzung nach folgendem Verfahren:<br>
  * <br>
  *
- * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist über
- * keines der Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der
+ * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist Ã¼ber
+ * keines der Ersatzwertverfahren ein gÃ¼ltiger Ersatzwert ermittelbar, ist der
  * Sensorwert als nicht ermittelbar zukennzeichnen:<br>
  * <br>
  * - wenn am gleichen Umfeldmessstellen ein weiterer Bodensensor (Nebensensor)
- * plausible Werte liefert, so sind diese zu übernehmen, - sonst ist für eine
+ * plausible Werte liefert, so sind diese zu Ã¼bernehmen, - sonst ist fÃ¼r eine
  * parametrierbare Zeit (Ersteinstellung = 3 Minuten) der letzte plausible
- * Messwert maßgebend,<br>
+ * Messwert maÃŸgebend,<br>
  * - sonst, wenn die zugeordneten beiden benachbarten Umfeldmessstellen (vor und
  * nach) eine Wasserfilmdicke &gt; 0 oder beide = 0 plausibel gemessen haben,
  * nehme als Ersatzwert den Mittelwert aus beiden benachbarten
  * Umfeldmessstellen-Werten,<br>
- * - sonst, wenn die Niederschlagsintensität plausibel gemessen wurde, wird kein
- * Ersatzwert für die Wasserfilmdicke bestimmt. Der Sensorwert ist als nicht
+ * - sonst, wenn die NiederschlagsintensitÃ¤t plausibel gemessen wurde, wird kein
+ * Ersatzwert fÃ¼r die Wasserfilmdicke bestimmt. Der Sensorwert ist als nicht
  * ermittelbar zu kennzeichnen. - sonst werden die plausiblen Messwerte des
- * Ersatzquerschnittes übernommen,<br>
+ * Ersatzquerschnittes Ã¼bernommen,<br>
  * - sonst Sensorwert als nicht ermittelbar kennzeichnen.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
@@ -273,7 +273,7 @@ public class MweWfdSensor extends AbstraktMweUfdsSensor {
 	 * Implementiert die erste Ersetzungsmethode aus Afo-4.0 (6.6.2.5.5.4,
 	 * S.113):<br>
 	 * Wenn am gleichen Umfeldmessstellen ein weiterer Bodensensor (Nebensensor)
-	 * plausible Werte liefert, so sind diese zu übernehmen.<br>
+	 * plausible Werte liefert, so sind diese zu Ã¼bernehmen.<br>
 	 *
 	 * @param datumImpl
 	 *            das implausible Datum, das ersetzt werden soll

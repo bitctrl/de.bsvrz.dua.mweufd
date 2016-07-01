@@ -1,5 +1,5 @@
 /*
- * Segment 4 Daten¸bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 Daten√ºbernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weiﬂenfelser Straﬂe 67<br>
+ * Wei√üenfelser Stra√üe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -158,16 +158,16 @@ public class MweFbtSensorTest extends MweFbtSensor {
 		MweFbtSensorTest.wfdSensor = MweFbtSensorTest.dav.getDataModel().getObject("ufdSensor.testFBT.wfd");
 
 		MweFbtSensorTest.ddMesswerte = new DataDescription(
-				MweFbtSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsFahrBahnOberFl‰chenTemperatur"),
-				MweFbtSensorTest.dav.getDataModel().getAspect("asp.plausibilit‰tsPr¸fungLogisch"));
+				MweFbtSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsFahrBahnOberFl√§chenTemperatur"),
+				MweFbtSensorTest.dav.getDataModel().getAspect("asp.plausibilit√§tsPr√ºfungLogisch"));
 
 		MweFbtSensorTest.ddWfdMesswerte = new DataDescription(
 				MweFbtSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsWasserFilmDicke"),
-				MweFbtSensorTest.dav.getDataModel().getAspect("asp.plausibilit‰tsPr¸fungLogisch"));
+				MweFbtSensorTest.dav.getDataModel().getAspect("asp.plausibilit√§tsPr√ºfungLogisch"));
 
 		MweFbtSensorTest.ddNiMesswerte = new DataDescription(
-				MweFbtSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsNiederschlagsIntensit‰t"),
-				MweFbtSensorTest.dav.getDataModel().getAspect("asp.plausibilit‰tsPr¸fungLogisch"));
+				MweFbtSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsNiederschlagsIntensit√§t"),
+				MweFbtSensorTest.dav.getDataModel().getAspect("asp.plausibilit√§tsPr√ºfungLogisch"));
 
 		final Collection<SystemObject> list = new LinkedList<SystemObject>();
 
@@ -210,13 +210,13 @@ public class MweFbtSensorTest extends MweFbtSensor {
 		}
 
 		MweFbtSensorTest.sender.sendeDatenSatz(MweFbtSensorTest.zentralSensor, MweFbtSensorTest.ddMesswerte,
-				"FahrBahnOberFl‰chenTemperatur", MweFbtSensorTest.prueflingDaten[MweFbtSensorTest.indexSend],
+				"FahrBahnOberFl√§chenTemperatur", MweFbtSensorTest.prueflingDaten[MweFbtSensorTest.indexSend],
 				MweFbtSensorTest.time[MweFbtSensorTest.indexSend]);
 		MweFbtSensorTest.sender.sendeDatenSatz(MweFbtSensorTest.ersatzSensor, MweFbtSensorTest.ddMesswerte,
-				"FahrBahnOberFl‰chenTemperatur", MweFbtSensorTest.ersatzQuerrschnittDaten[MweFbtSensorTest.indexSend],
+				"FahrBahnOberFl√§chenTemperatur", MweFbtSensorTest.ersatzQuerrschnittDaten[MweFbtSensorTest.indexSend],
 				MweFbtSensorTest.time[MweFbtSensorTest.indexSend]);
 		MweFbtSensorTest.sender.sendeDatenSatz(MweFbtSensorTest.niSensor, MweFbtSensorTest.ddNiMesswerte,
-				"NiederschlagsIntensit‰t", MweFbtSensorTest.niDaten, MweFbtSensorTest.time[MweFbtSensorTest.indexSend]);
+				"NiederschlagsIntensit√§t", MweFbtSensorTest.niDaten, MweFbtSensorTest.time[MweFbtSensorTest.indexSend]);
 		MweFbtSensorTest.sender.sendeDatenSatz(MweFbtSensorTest.wfdSensor, MweFbtSensorTest.ddWfdMesswerte,
 				"WasserFilmDicke", MweFbtSensorTest.wfdDaten, MweFbtSensorTest.time[MweFbtSensorTest.indexSend]);
 
@@ -321,10 +321,10 @@ public class MweFbtSensorTest extends MweFbtSensor {
 				return;
 			}
 
-			double sw = nutzDatum.getItem("FahrBahnOberFl‰chenTemperatur").getItem("Wert").asUnscaledValue()
+			double sw = nutzDatum.getItem("FahrBahnOberFl√§chenTemperatur").getItem("Wert").asUnscaledValue()
 					.doubleValue();
 			if (sw >= 0) {
-				sw = nutzDatum.getItem("FahrBahnOberFl‰chenTemperatur").getItem("Wert").asScaledValue().doubleValue();
+				sw = nutzDatum.getItem("FahrBahnOberFl√§chenTemperatur").getItem("Wert").asScaledValue().doubleValue();
 			} else {
 				sw = -1;
 			}

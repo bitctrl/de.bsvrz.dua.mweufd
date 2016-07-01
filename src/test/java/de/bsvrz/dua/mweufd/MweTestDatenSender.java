@@ -1,5 +1,5 @@
 /*
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
+ * WeiÃŸenfelser StraÃŸe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -230,8 +230,8 @@ public class MweTestDatenSender implements ClientSenderInterface {
 		}
 
 		data.getItem(att).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").set(0);
-		data.getItem(att).getItem("Güte").getUnscaledValue("Index").set(10000);
-		data.getItem(att).getItem("Güte").getUnscaledValue("Verfahren").set(0);
+		data.getItem(att).getItem("GÃ¼te").getUnscaledValue("Index").set(10000);
+		data.getItem(att).getItem("GÃ¼te").getUnscaledValue("Verfahren").set(0);
 
 		final ResultData result = new ResultData(sensor, datenBeschreibung, zeitStempel, data);
 		try {

@@ -1,5 +1,5 @@
 /*
- * Segment 4 Daten¸bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 Daten√ºbernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weiﬂenfelser Straﬂe 67<br>
+ * Wei√üenfelser Stra√üe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -144,10 +144,10 @@ public class MweWfdSensorTest extends MweWfdSensor {
 
 		MweWfdSensorTest.ddMessWerte = new DataDescription(
 				MweWfdSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsWasserFilmDicke"),
-				MweWfdSensorTest.dav.getDataModel().getAspect("asp.plausibilit‰tsPr¸fungLogisch"));
+				MweWfdSensorTest.dav.getDataModel().getAspect("asp.plausibilit√§tsPr√ºfungLogisch"));
 		MweWfdSensorTest.ddNiMessWerte = new DataDescription(
-				MweWfdSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsNiederschlagsIntensit‰t"),
-				MweWfdSensorTest.dav.getDataModel().getAspect("asp.plausibilit‰tsPr¸fungLogisch"));
+				MweWfdSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsNiederschlagsIntensit√§t"),
+				MweWfdSensorTest.dav.getDataModel().getAspect("asp.plausibilit√§tsPr√ºfungLogisch"));
 
 		final Collection<SystemObject> list = new LinkedList<SystemObject>();
 
@@ -215,7 +215,7 @@ public class MweWfdSensorTest extends MweWfdSensor {
 				"WasserFilmDicke", MweWfdSensorTest.direkterNachbarDaten[MweWfdSensorTest.indexSend],
 				MweWfdSensorTest.time[MweWfdSensorTest.indexSend]);
 		MweWfdSensorTest.sender.sendeDatenSatz(MweWfdSensorTest.niSensor, MweWfdSensorTest.ddNiMessWerte,
-				"NiederschlagsIntensit‰t", MweWfdSensorTest.niederschlagIntensitaet[MweWfdSensorTest.indexSend],
+				"NiederschlagsIntensit√§t", MweWfdSensorTest.niederschlagIntensitaet[MweWfdSensorTest.indexSend],
 				MweWfdSensorTest.time[MweWfdSensorTest.indexSend]);
 
 		MweWfdSensorTest.indexSend++;

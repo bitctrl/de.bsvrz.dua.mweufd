@@ -1,5 +1,5 @@
 /*
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
+ * WeiÃŸenfelser StraÃŸe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -38,13 +38,13 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
  * <br>
  *
  * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist ueber
- * keines der Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der
+ * keines der Ersatzwertverfahren ein gÃ¼ltiger Ersatzwert ermittelbar, ist der
  * Sensorwert als <code>nicht ermittelbar</code> zu kennzeichnen.<br>
  * <br>
- * - für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
- * plausible Messwert maßgebend,<br>
+ * - fÃ¼r eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
+ * plausible Messwert maÃŸgebend,<br>
  * - sonst wird der plausible Wert vom zugeordneten Ersatzquerschnitt
- * übernommen,<br>
+ * Ã¼bernommen,<br>
  * - sonst Sensorwert als nicht ermittelbar kennzeichnen <br>
  * <br>
  * <b>Dieses Verfahren wird fuer die Messwertersetzung von TPT, LT, NS und FBZ
@@ -101,7 +101,7 @@ public class MweTptLtNsFbzSensor extends AbstraktMweUfdsSensor {
 				this.letztesEmpangenesImplausiblesDatum = null;
 			} else {
 				/**
-				 * für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten)
+				 * fÃ¼r eine parametrierbare Zeit (Ersteinstellung = 3 Minuten)
 				 * ist der letzte plausible Messwert massgebend
 				 */
 				if (this.messWertFortschreibungStart == -1) {

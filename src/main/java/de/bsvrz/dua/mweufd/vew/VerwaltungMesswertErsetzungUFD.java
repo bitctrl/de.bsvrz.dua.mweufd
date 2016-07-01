@@ -1,5 +1,5 @@
 /*
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
+ * WeiÃŸenfelser StraÃŸe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -52,9 +52,9 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Das Modul Verwaltung ist die zentrale Steuereinheit der SWE Messwertersetzung
  * UFD. Seine Aufgabe besteht in der Auswertung der Aufrufparameter, der
  * Anmeldung beim Datenverteiler und der entsprechenden Initialisierung aller
- * Auswertungsmodule. Weiter ist das Modul Verwaltung für die Anmeldung der zu
- * prüfenden Daten zuständig. Die Verwaltung gibt ein Objekt des Moduls
- * Niederschlagsintensität als Beobachterobjekt an, an das die zu überprüfenden
+ * Auswertungsmodule. Weiter ist das Modul Verwaltung fÃ¼r die Anmeldung der zu
+ * prÃ¼fenden Daten zustÃ¤ndig. Die Verwaltung gibt ein Objekt des Moduls
+ * NiederschlagsintensitÃ¤t als Beobachterobjekt an, an das die zu Ã¼berprÃ¼fenden
  * Daten durch den Aktualisierungsmechanismus weitergeleitet werden.
  *
  * @author BitCtrl Systems GmbH, Thierfelder

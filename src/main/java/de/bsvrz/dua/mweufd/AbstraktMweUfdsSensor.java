@@ -1,5 +1,5 @@
 /*
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
+ * WeiÃŸenfelser StraÃŸe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -106,7 +106,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface, IO
 	protected ResultData letztesEmpangenesPlausiblesDatum = null;
 
 	/**
-	 * letztes fuer diesen Umfelddatensensor veröffentlichtes Datum.
+	 * letztes fuer diesen Umfelddatensensor verÃ¶ffentlichtes Datum.
 	 */
 	protected ResultData letztesPubDatum = null;
 
@@ -141,7 +141,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface, IO
 	 *             wenn die Initialisierung des Bearbeitungsknotens
 	 *             fehlgeschlagen ist
 	 * @throws UmfeldDatenSensorUnbekannteDatenartException
-	 *             die Datenart des übergebenen Sensors wird nicht unterstützt
+	 *             die Datenart des Ã¼bergebenen Sensors wird nicht unterstÃ¼tzt
 	 */
 	public AbstraktMweUfdsSensor(final IVerwaltungMitGuete verwaltung, final DUAUmfeldDatenMessStelle messStelle,
 			final DUAUmfeldDatenSensor sensor)
@@ -224,7 +224,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface, IO
 				if ((resultat.getDataTime() - this.messWertErsetzungStart) >= this.sensorMitParametern
 						.getMaxZeitMessWertErsetzung()) {
 					/**
-					 * Für implausible Messwerte wird nur für einen je
+					 * FÃ¼r implausible Messwerte wird nur fÃ¼r einen je
 					 * Umfeldmessstelle und Sensortyp parametrierbaren
 					 * Zeitbereich ein Ersatzwert berechnet. Nach Ablauf dieses
 					 * Zeitbereichs ist eine Berechnung nicht mehr sinnvoll, der
@@ -390,7 +390,7 @@ public abstract class AbstraktMweUfdsSensor implements ClientSenderInterface, IO
 
 	/**
 	 * Implementiert die Ersetzungsmethode:<br>
-	 * Es werden die plausiblen Messwerte des Ersatzquerschnittes übernommen<br>
+	 * Es werden die plausiblen Messwerte des Ersatzquerschnittes Ã¼bernommen<br>
 	 * .
 	 *
 	 * @param datumImpl

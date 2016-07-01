@@ -1,5 +1,5 @@
 /*
- * Segment 4 Daten¸bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 Daten√ºbernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weiﬂenfelser Straﬂe 67<br>
+ * Wei√üenfelser Stra√üe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -160,11 +160,11 @@ public class MweNiSensorTest extends MweNiSensor {
 		MweNiSensorTest.wfdSensor = MweNiSensorTest.dav.getDataModel().getObject("ufdSensor.testNI.wfd");
 
 		MweNiSensorTest.ddMessWerte = new DataDescription(
-				MweNiSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsNiederschlagsIntensit‰t"),
-				MweNiSensorTest.dav.getDataModel().getAspect("asp.plausibilit‰tsPr¸fungLogisch"));
+				MweNiSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsNiederschlagsIntensit√§t"),
+				MweNiSensorTest.dav.getDataModel().getAspect("asp.plausibilit√§tsPr√ºfungLogisch"));
 		MweNiSensorTest.ddWfdMessWerte = new DataDescription(
 				MweNiSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsWasserFilmDicke"),
-				MweNiSensorTest.dav.getDataModel().getAspect("asp.plausibilit‰tsPr¸fungLogisch"));
+				MweNiSensorTest.dav.getDataModel().getAspect("asp.plausibilit√§tsPr√ºfungLogisch"));
 
 		MweNiSensorTest.ddMessWertErsetzung = new DataDescription(
 				MweNiSensorTest.dav.getDataModel().getAttributeGroup("atg.ufdsMessWertErsetzung"),
@@ -210,16 +210,16 @@ public class MweNiSensorTest extends MweNiSensor {
 		}
 
 		MweNiSensorTest.sender.sendeDatenSatz(MweNiSensorTest.zentralSensor, MweNiSensorTest.ddMessWerte,
-				"NiederschlagsIntensit‰t", MweNiSensorTest.prueflingDaten[MweNiSensorTest.indexSend],
+				"NiederschlagsIntensit√§t", MweNiSensorTest.prueflingDaten[MweNiSensorTest.indexSend],
 				MweNiSensorTest.time[MweNiSensorTest.indexSend]);
 		MweNiSensorTest.sender.sendeDatenSatz(MweNiSensorTest.vorSensor, MweNiSensorTest.ddMessWerte,
-				"NiederschlagsIntensit‰t", MweNiSensorTest.vorherigeNachbarDaten[MweNiSensorTest.indexSend],
+				"NiederschlagsIntensit√§t", MweNiSensorTest.vorherigeNachbarDaten[MweNiSensorTest.indexSend],
 				MweNiSensorTest.time[MweNiSensorTest.indexSend]);
 		MweNiSensorTest.sender.sendeDatenSatz(MweNiSensorTest.nachSensor, MweNiSensorTest.ddMessWerte,
-				"NiederschlagsIntensit‰t", MweNiSensorTest.nachfolgeneNachbarDaten[MweNiSensorTest.indexSend],
+				"NiederschlagsIntensit√§t", MweNiSensorTest.nachfolgeneNachbarDaten[MweNiSensorTest.indexSend],
 				MweNiSensorTest.time[MweNiSensorTest.indexSend]);
 		MweNiSensorTest.sender.sendeDatenSatz(MweNiSensorTest.ersatzSensor, MweNiSensorTest.ddMessWerte,
-				"NiederschlagsIntensit‰t", MweNiSensorTest.ersatzQuerrschnittDaten[MweNiSensorTest.indexSend],
+				"NiederschlagsIntensit√§t", MweNiSensorTest.ersatzQuerrschnittDaten[MweNiSensorTest.indexSend],
 				MweNiSensorTest.time[MweNiSensorTest.indexSend]);
 		MweNiSensorTest.sender.sendeDatenSatz(MweNiSensorTest.wfdSensor, MweNiSensorTest.ddWfdMessWerte,
 				"WasserFilmDicke", MweNiSensorTest.wasserFilmDicke[MweNiSensorTest.indexSend],
@@ -372,9 +372,9 @@ public class MweNiSensorTest extends MweNiSensor {
 			if (!original.getObject().getPid().equals(MweNiSensorTest.zentralSensor.getPid())) {
 				return;
 			}
-			double ni = nutzDatum.getItem("NiederschlagsIntensit‰t").getItem("Wert").asUnscaledValue().doubleValue();
+			double ni = nutzDatum.getItem("NiederschlagsIntensit√§t").getItem("Wert").asUnscaledValue().doubleValue();
 			if (ni >= 0) {
-				ni = nutzDatum.getItem("NiederschlagsIntensit‰t").getItem("Wert").asScaledValue().doubleValue();
+				ni = nutzDatum.getItem("NiederschlagsIntensit√§t").getItem("Wert").asScaledValue().doubleValue();
 			} else {
 				ni = -1.0;
 			}

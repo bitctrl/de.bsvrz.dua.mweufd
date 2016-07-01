@@ -1,5 +1,5 @@
 /*
- * Segment 4 Daten¸bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 Daten√ºbernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weiﬂenfelser Straﬂe 67<br>
+ * Wei√üenfelser Stra√üe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -32,7 +32,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.StandardAspekteVersorger;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
 
 /**
- * Diese Klasse repr‰sentiert die Versorgung des Moduls Messwertersetzung UFD
+ * Diese Klasse repr√§sentiert die Versorgung des Moduls Messwertersetzung UFD
  * (innerhalb der SWE Messwertersetzung UFD) mit
  * Standard-Publikationsinformationen (Zuordnung von
  * Objekt-Datenbeschreibung-Kombination zu Standard- Publikationsaspekt).
@@ -60,14 +60,14 @@ public class MweUfdStandardAspekteVersorger extends StandardAspekteVersorger {
 				new StandardPublikationsZuordnung("typ.ufdsFahrBahnFeuchte", //$NON-NLS-1$
 						"atg.ufdsFahrBahnFeuchte", //$NON-NLS-1$
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
-				new StandardPublikationsZuordnung("typ.ufdsFahrBahnGl‰tte", //$NON-NLS-1$
-						"atg.ufdsFahrBahnGl‰tte", //$NON-NLS-1$
+				new StandardPublikationsZuordnung("typ.ufdsFahrBahnGl√§tte", //$NON-NLS-1$
+						"atg.ufdsFahrBahnGl√§tte", //$NON-NLS-1$
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
-				new StandardPublikationsZuordnung("typ.ufdsFahrBahnOberFl‰chenTemperatur", //$NON-NLS-1$
-						"atg.ufdsFahrBahnOberFl‰chenTemperatur", //$NON-NLS-1$
+				new StandardPublikationsZuordnung("typ.ufdsFahrBahnOberFl√§chenTemperatur", //$NON-NLS-1$
+						"atg.ufdsFahrBahnOberFl√§chenTemperatur", //$NON-NLS-1$
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
-				new StandardPublikationsZuordnung("typ.ufdsFahrBahnOberFl‰chenZustand", //$NON-NLS-1$
-						"atg.ufdsFahrBahnOberFl‰chenZustand", //$NON-NLS-1$
+				new StandardPublikationsZuordnung("typ.ufdsFahrBahnOberFl√§chenZustand", //$NON-NLS-1$
+						"atg.ufdsFahrBahnOberFl√§chenZustand", //$NON-NLS-1$
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
 				new StandardPublikationsZuordnung("typ.ufdsGefrierTemperatur", //$NON-NLS-1$
 						"atg.ufdsGefrierTemperatur", //$NON-NLS-1$
@@ -84,8 +84,8 @@ public class MweUfdStandardAspekteVersorger extends StandardAspekteVersorger {
 				new StandardPublikationsZuordnung("typ.ufdsNiederschlagsArt", //$NON-NLS-1$
 						"atg.ufdsNiederschlagsArt", //$NON-NLS-1$
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
-				new StandardPublikationsZuordnung("typ.ufdsNiederschlagsIntensit‰t", //$NON-NLS-1$
-						"atg.ufdsNiederschlagsIntensit‰t", //$NON-NLS-1$
+				new StandardPublikationsZuordnung("typ.ufdsNiederschlagsIntensit√§t", //$NON-NLS-1$
+						"atg.ufdsNiederschlagsIntensit√§t", //$NON-NLS-1$
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
 				new StandardPublikationsZuordnung("typ.ufdsNiederschlagsMenge", //$NON-NLS-1$
 						"atg.ufdsNiederschlagsMenge", //$NON-NLS-1$
@@ -96,8 +96,8 @@ public class MweUfdStandardAspekteVersorger extends StandardAspekteVersorger {
 				new StandardPublikationsZuordnung("typ.ufdsRestSalz", //$NON-NLS-1$
 						"atg.ufdsRestSalz", //$NON-NLS-1$
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
-				new StandardPublikationsZuordnung("typ.ufdsSchneeHˆhe", //$NON-NLS-1$
-						"atg.ufdsSchneeHˆhe", //$NON-NLS-1$
+				new StandardPublikationsZuordnung("typ.ufdsSchneeH√∂he", //$NON-NLS-1$
+						"atg.ufdsSchneeH√∂he", //$NON-NLS-1$
 						DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH, DUAKonstanten.ASP_MESSWERTERSETZUNG),
 				new StandardPublikationsZuordnung("typ.ufdsSichtWeite", //$NON-NLS-1$
 						"atg.ufdsSichtWeite", //$NON-NLS-1$

@@ -1,5 +1,5 @@
 /*
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment 4 DatenÃ¼bernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,7 +18,7 @@
  *
  * Contact Information:<br>
  * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
+ * WeiÃŸenfelser StraÃŸe 67<br>
  * 04229 Leipzig<br>
  * Phone: +49 341-490670<br>
  * mailto: info@bitctrl.de
@@ -43,20 +43,20 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  * Implementierung der Messwertersetzung nach folgendem Verfahren:<br>
  * <br>
  *
- * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist über
- * keines der Ersatzwertverfahren ein gültiger Ersatzwert ermittelbar, ist der
+ * Ersatzwerte sind in der Reihenfolge der Beschreibung zu bestimmen. Ist Ã¼ber
+ * keines der Ersatzwertverfahren ein gÃ¼ltiger Ersatzwert ermittelbar, ist der
  * Sensorwert als nicht ermittelbar zukennzeichnen:<br>
  * <br>
- * - für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
- * plausible Messwert maßgebend,<br>
+ * - fÃ¼r eine parametrierbare Zeit (Ersteinstellung = 3 Minuten) ist der letzte
+ * plausible Messwert maÃŸgebend,<br>
  * - sonst, wenn die zugeordneten beiden benachbarten Umfelddatenmessstellen
- * (vor und nach) eine Niederschlagsintensität &gt; 0 oder beide = 0 plausibel
+ * (vor und nach) eine NiederschlagsintensitÃ¤t &gt; 0 oder beide = 0 plausibel
  * gemessen haben, nehme als Ersatzwert den Mittelwert aus beiden benachbarten
  * MQ-Werten,<br>
- * - sonst, wenn die Wasserfilmdicke gemessen wurde, wird kein Ersatzwert für
- * die Niederschalgsintensität bestimmt, Der Sensorwert ist als nicht
+ * - sonst, wenn die Wasserfilmdicke gemessen wurde, wird kein Ersatzwert fÃ¼r
+ * die NiederschalgsintensitÃ¤t bestimmt, Der Sensorwert ist als nicht
  * ermittelbar zu kennzeichnen<br>
- * - sonst werden die plausiblen Messwerte des Ersatzquerschnittes übernommen,
+ * - sonst werden die plausiblen Messwerte des Ersatzquerschnittes Ã¼bernommen,
  * <br>
  * - sonst Sensorwert als nicht ermittelbar kennzeichnen<br>
  *
@@ -165,7 +165,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 				/**
 				 * naechster Punkt: wenn die zugeordneten beiden benachbarten
 				 * Umfelddatenmessstellen (vor und nach) eine
-				 * Niederschlagsintensität > 0 oder beide = 0 plausibel gemessen
+				 * NiederschlagsintensitÃ¤t > 0 oder beide = 0 plausibel gemessen
 				 * haben, nehme als Ersatzwert den Mittelwert aus beiden
 				 * benachbarten MQ-Werten
 				 */
@@ -194,7 +194,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 
 				/**
 				 * naechster Punkt: wenn die Wasserfilmdicke gemessen wurde,
-				 * wird kein Ersatzwert für die Niederschalgsintensität
+				 * wird kein Ersatzwert fÃ¼r die NiederschalgsintensitÃ¤t
 				 * bestimmt, Der Sensorwert ist als nicht ermittelbar zu
 				 * kennzeichnen
 				 */
@@ -219,7 +219,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 
 				/**
 				 * naechster Punkt: sonst werden die plausiblen Messwerte des
-				 * Ersatzquerschnittes übernommen
+				 * Ersatzquerschnittes Ã¼bernommen
 				 */
 				final MweMethodenErgebnis ergebnisErsatzSensorErsetzung = this.versucheErsatzWertErsetzung(datumImpl);
 				if (ergebnisErsatzSensorErsetzung == MweMethodenErgebnis.JA) {
@@ -234,7 +234,7 @@ public class MweNiSensor extends AbstraktMweUfdsSensor {
 				this.letztesEmpangenesImplausiblesDatum = null;
 			} else {
 				/**
-				 * für eine parametrierbare Zeit (Ersteinstellung = 3 Minuten)
+				 * fÃ¼r eine parametrierbare Zeit (Ersteinstellung = 3 Minuten)
 				 * ist der letzte plausible Messwert massgebend
 				 */
 				if (this.messWertFortschreibungStart == -1) {
