@@ -1,35 +1,32 @@
 /*
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
+ * Segment Datenübernahme und Aufbereitung (DUA), SWE Messwertersetzung UFD
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
- *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
- * mailto: info@bitctrl.de
+ * Copyright 2016 by Kappich Systemberatung Aachen
+ * 
+ * This file is part of de.bsvrz.dua.mweufd.
+ * 
+ * de.bsvrz.dua.mweufd is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * de.bsvrz.dua.mweufd is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with de.bsvrz.dua.mweufd.  If not, see <http://www.gnu.org/licenses/>.
+
+ * Contact Information:
+ * Kappich Systemberatung
+ * Martin-Luther-Straße 14
+ * 52062 Aachen, Germany
+ * phone: +49 241 4090 436 
+ * mail: <info@kappich.de>
  */
 
 package de.bsvrz.dua.mweufd.vew;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
@@ -48,17 +45,24 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IStandardAspekte;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+
 /**
  * Aktuelle Datenflusssteuerung der Messwertersetzung UFD.
- *
+ * 
  * @author BitCtrl Systems GmbH, Thierfelder
+ * 
+ * @version $Id$
  */
 public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 
 	/**
 	 * Verbindung zum Verwaltungsmodul.
 	 */
-	protected static IVerwaltung dieVerwaltung = null;
+	protected IVerwaltung dieVerwaltung = null;
 
 	/**
 	 * Schnittstelle zu den Informationen über die Standardpublikationsaspekte.
@@ -78,11 +82,12 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	/**
 	 * Alle Objekte, die aktuell von der Datenflusssteuerung verwaltet werden.
 	 */
-	private final Collection<SystemObject> objekte = Collections.synchronizedCollection(new HashSet<SystemObject>());
+	private Collection<SystemObject> objekte = Collections
+			.synchronizedCollection(new HashSet<SystemObject>());
 
 	/**
 	 * Standardkonstruktor.
-	 *
+	 * 
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @param standardAspekte
@@ -91,23 +96,20 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	 * @throws DUAInitialisierungsException
 	 *             wenn die Initialisierung der Datenflusssteuerung fehlschlaegt
 	 */
-	public MweDatenFlussSteuerung(final IVerwaltung verwaltung, final IStandardAspekte standardAspekte)
+	public MweDatenFlussSteuerung(final IVerwaltung verwaltung,
+			final IStandardAspekte standardAspekte)
 			throws DUAInitialisierungsException {
-		if (MweDatenFlussSteuerung.dieVerwaltung != null) {
-			throw new RuntimeException("Datenflusssteuerung darf nur einmal initialisiert werden"); //$NON-NLS-1$
-		}
-
-		MweDatenFlussSteuerung.dieVerwaltung = verwaltung;
+		dieVerwaltung = verwaltung;
 		this.standardAspekte = standardAspekte;
-		this.publikationsAnmeldungen = new DAVSendeAnmeldungsVerwaltung(verwaltung.getVerbindung(),
-				SenderRole.source());
+		this.publikationsAnmeldungen = new DAVSendeAnmeldungsVerwaltung(
+				verwaltung.getVerbindung(), SenderRole.source());
 
 		DatenFlussSteuerungsVersorger.getInstanz(verwaltung).addListener(this);
 	}
 
 	/**
 	 * Publiziert ein Datum nach den Vorgaben der Datenflusssteuerung.
-	 *
+	 * 
 	 * @param original
 	 *            das Originaldatum
 	 * @param nutzDatum
@@ -115,11 +117,12 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	 * @return das publizierte Datum oder <code>null</code>, wenn kein Datum
 	 *         publiziert werden konnte
 	 */
-	public final synchronized ResultData publiziere(final ResultData original, final Data nutzDatum) {
+	public final synchronized ResultData publiziere(final ResultData original,
+			final Data nutzDatum) {
 		ResultData letztesPubDatum = null;
 
-		final ResultData publikationsDatum = iDfsMod.getPublikationsDatum(original, nutzDatum,
-				standardAspekte.getStandardAspekt(original));
+		final ResultData publikationsDatum = iDfsMod.getPublikationsDatum(original,
+				nutzDatum, standardAspekte.getStandardAspekt(original));
 		if (publikationsDatum != null) {
 			this.publikationsAnmeldungen.sende(publikationsDatum);
 			letztesPubDatum = publikationsDatum;
@@ -131,7 +134,7 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	/**
 	 * Fuegt der Menge der Objekte, die aktuell von der Datenflusssteuerung
 	 * verwaltet werden ein Objekt hinzu.
-	 *
+	 * 
 	 * @param objekt
 	 *            ein neues Objekt
 	 */
@@ -140,9 +143,12 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 		this.aktualisiereObjektAnmeldungen();
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized void aktualisierePublikation(final IDatenFlussSteuerung iDfs) {
-		this.iDfsMod = iDfs.getDFSFuerModul(SWETyp.SWE_MESSWERTERSETZUNG_UFD, ModulTyp.MESSWERTERSETZUNG_UFD);
+		this.iDfsMod = iDfs.getDFSFuerModul(SWETyp.SWE_MESSWERTERSETZUNG_UFD,
+				ModulTyp.MESSWERTERSETZUNG_UFD);
 		this.aktualisiereObjektAnmeldungen();
 	}
 
@@ -153,14 +159,16 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 	private synchronized void aktualisiereObjektAnmeldungen() {
 		Collection<DAVObjektAnmeldung> anmeldungenStd = new ArrayList<DAVObjektAnmeldung>();
 
-		final Collection<SystemObject> objekteBisJetzt = new ArrayList<>(this.objekte);
+		final SystemObject[] objekteBisJetzt = this.objekte
+				.toArray(new SystemObject[0]);
 
 		if (this.standardAspekte != null) {
-			anmeldungenStd = this.standardAspekte.getStandardAnmeldungen(objekteBisJetzt.toArray(new SystemObject[objekteBisJetzt.size()]));
+			anmeldungenStd = this.standardAspekte
+					.getStandardAnmeldungen(objekteBisJetzt);
 		}
 
-		final Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod.getDatenAnmeldungen(objekteBisJetzt.toArray(new SystemObject[objekteBisJetzt.size()]),
-				anmeldungenStd);
+		final Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod
+				.getDatenAnmeldungen(objekteBisJetzt, anmeldungenStd);
 
 		this.publikationsAnmeldungen.modifiziereObjektAnmeldung(anmeldungen);
 	}
