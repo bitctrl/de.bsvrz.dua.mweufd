@@ -1,0 +1,34 @@
+,"DUA-69, -70 Niederschlagsintensität NI",,,,,,,,,,,
+,Vorgänger,,,nicht konfiguriert,,,,,,,,
+,Nachfolger,,,nicht konfiguriert,,,,,,,,
+,Ersatzsensor,,,nicht konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,9,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,3,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,mm/h,Impl.,Interp.,,,,,mm/h,Impl.,Interp.,
+139,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+140,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+141,60,-3,Nein,Nein,100 %,,Keine MWE,,-3,Nein,Nein,100 %
+142,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+143,60,-1,Nein,Nein,100 %,,Keine MWE,,-1,Nein,Nein,100 %
+144,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+145,60,-2,Ja,Nein,100 %,,Nur FS,,0,Nein,Ja,95 %
+146,60,-2,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+147,60,-2,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+148,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+149,60,-2,Ja,Nein,100 %,,Erst FS,,0,Nein,Ja,95 %
+150,60,-2,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+151,60,-2,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+152,60,-2,Ja,Nein,100 %,,Keine MWE,,-2,Ja,Nein,100 %
+153,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+154,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+155,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+156,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+157,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+158,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+159,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+160,60,"0,2",Nein,Nein,100 %,,,,"0,2",Nein,Nein,100 %
+161,60,"0,4",Nein,Nein,100 %,,,,"0,4",Nein,Nein,100 %

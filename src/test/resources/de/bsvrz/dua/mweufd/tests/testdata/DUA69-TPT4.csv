@@ -1,0 +1,59 @@
+,"DUA-69, -74 Taupunkttemperatur TPT",,,,,,,,,,,
+,Vorgänger,,,nicht konfiguriert,,,,,,,,
+,Nachfolger,,,nicht konfiguriert,,,,,,,,
+,Ersatzsensor,,,konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,10,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,0,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,° C,Impl.,Interp.,,,,,° C,Impl.,Interp.,
+95,60,6,Nein,Nein,100 %,,,,6,Nein,Nein,100 %
+,60,6,Nein,Nein,100 %,,,,,,,
+96,60,"6,2",Nein,Nein,100 %,,,,"6,2",Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+97,60,-1003,Nein,Nein,100 %,,Keine MWE,,-1003,Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+98,60,"6,2",Nein,Nein,100 %,,,,"6,2",Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+99,60,-1001,Nein,Nein,100 %,,Keine MWE,,-1001,Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+100,60,"6,2",Nein,Nein,100 %,,,,"6,2",Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+101,60,-1002,Ja,Nein,100 %,,MWE 2,,"6,1",Nein,Ja,90 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+102,60,-1002,Ja,Nein,100 %,,,,"6,2",Nein,Ja,90 %
+,60,"6,2",Nein,Nein,100 %,,,,,,,
+103,60,-1002,Ja,Nein,100 %,,,,"6,3",Nein,Ja,90 %
+,60,"6,3",Nein,Nein,100 %,,,,,,,
+104,60,-1002,Ja,Nein,100 %,,,,"6,1",Nein,Ja,90 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+105,60,"6,2",Nein,Nein,100 %,,,,"6,2",Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+106,60,-1002,Ja,Nein,100 %,,MWE 2,,"6,4",Nein,Ja,90 %
+,60,"6,4",Nein,Nein,100 %,,,,,,,
+107,60,-1002,Ja,Nein,100 %,,,,"6,1",Nein,Ja,90 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+108,60,-1002,Ja,Nein,100 %,,,,"6,2",Nein,Ja,90 %
+,60,"6,2",Nein,Nein,100 %,,,,,,,
+109,60,-1002,Ja,Nein,100 %,,,,"6,3",Nein,Ja,90 %
+,60,"6,3",Nein,Nein,100 %,,,,,,,
+110,60,-1002,Ja,Nein,100 %,,,,"6,4",Nein,Ja,90 %
+,60,"6,4",Nein,Nein,100 %,,,,,,,
+111,60,-1002,Ja,Nein,100 %,,,,"6,3",Nein,Ja,90 %
+,60,"6,3",Nein,Nein,100 %,,,,,,,
+112,60,-1002,Ja,Nein,100 %,,,,"6,1",Nein,Ja,90 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+113,60,-1002,Ja,Nein,100 %,,,,"6,1",Nein,Ja,90 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+114,60,-1002,Ja,Nein,100 %,,,,"6,2",Nein,Ja,90 %
+,60,"6,2",Nein,Nein,100 %,,,,,,,
+115,60,-1002,Ja,Nein,100 %,,,,"6,2",Nein,Ja,90 %
+,60,"6,2",Nein,Nein,100 %,,,,,,,
+116,60,-1002,Ja,Nein,100 %,,Keine MWE,,-1002,Ja,Nein,100 %
+,60,"6,4",Nein,Nein,100 %,,,,,,,
+117,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+118,60,"6,3",Nein,Nein,100 %,,,,"6,3",Nein,Nein,100 %
+,60,"6,6",Nein,Nein,100 %,,,,,,,

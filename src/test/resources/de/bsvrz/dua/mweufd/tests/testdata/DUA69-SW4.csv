@@ -1,0 +1,59 @@
+,"DUA-69, -73 Sichtweite SW",,,,,,,,,,,
+,Vorgänger,,,nicht konfiguriert,,,,,,,,
+,Nachfolger,,,nicht konfiguriert,,,,,,,,
+,Ersatzsensor,,,konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,10,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,0,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,m,Impl.,Interp.,,,,,m,Impl.,Interp.,
+95,60,659,Nein,Nein,100 %,,,,659,Nein,Nein,100 %
+,60,649,Nein,Nein,100 %,,,,,,,
+96,60,662,Nein,Nein,100 %,,,,662,Nein,Nein,100 %
+,60,655,Nein,Nein,100 %,,,,,,,
+97,60,-3,Nein,Nein,100 %,,Keine MWE,,-3,Nein,Nein,100 %
+,60,662,Nein,Nein,100 %,,,,,,,
+98,60,658,Nein,Nein,100 %,,,,658,Nein,Nein,100 %
+,60,660,Nein,Nein,100 %,,,,,,,
+99,60,-1,Nein,Nein,100 %,,Keine MWE,,-1,Nein,Nein,100 %
+,60,659,Nein,Nein,100 %,,,,,,,
+100,60,660,Nein,Nein,100 %,,,,660,Nein,Nein,100 %
+,60,654,Nein,Nein,100 %,,,,,,,
+101,60,-2,Ja,Nein,100 %,,MWE 2,,656,Nein,Ja,90 %
+,60,656,Nein,Nein,100 %,,,,,,,
+102,60,-2,Ja,Nein,100 %,,,,656,Nein,Ja,90 %
+,60,656,Nein,Nein,100 %,,,,,,,
+103,60,-2,Ja,Nein,100 %,,,,651,Nein,Ja,90 %
+,60,651,Nein,Nein,100 %,,,,,,,
+104,60,-2,Ja,Nein,100 %,,,,656,Nein,Ja,90 %
+,60,656,Nein,Nein,100 %,,,,,,,
+105,60,663,Nein,Nein,100 %,,,,663,Nein,Nein,100 %
+,60,661,Nein,Nein,100 %,,,,,,,
+106,60,-2,Ja,Nein,100 %,,MWE 2,,668,Nein,Ja,90 %
+,60,668,Nein,Nein,100 %,,,,,,,
+107,60,-2,Ja,Nein,100 %,,,,672,Nein,Ja,90 %
+,60,672,Nein,Nein,100 %,,,,,,,
+108,60,-2,Ja,Nein,100 %,,,,675,Nein,Ja,90 %
+,60,675,Nein,Nein,100 %,,,,,,,
+109,60,-2,Ja,Nein,100 %,,,,680,Nein,Ja,90 %
+,60,680,Nein,Nein,100 %,,,,,,,
+110,60,-2,Ja,Nein,100 %,,,,682,Nein,Ja,90 %
+,60,682,Nein,Nein,100 %,,,,,,,
+111,60,-2,Ja,Nein,100 %,,,,685,Nein,Ja,90 %
+,60,685,Nein,Nein,100 %,,,,,,,
+112,60,-2,Ja,Nein,100 %,,,,681,Nein,Ja,90 %
+,60,681,Nein,Nein,100 %,,,,,,,
+113,60,-2,Ja,Nein,100 %,,,,688,Nein,Ja,90 %
+,60,688,Nein,Nein,100 %,,,,,,,
+114,60,-2,Ja,Nein,100 %,,,,692,Nein,Ja,90 %
+,60,692,Nein,Nein,100 %,,,,,,,
+115,60,-2,Ja,Nein,100 %,,,,705,Nein,Ja,90 %
+,60,705,Nein,Nein,100 %,,,,,,,
+116,60,-2,Ja,Nein,100 %,,Keine MWE,,-2,Ja,Nein,100 %
+,60,699,Nein,Nein,100 %,,,,,,,
+117,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,712,Nein,Nein,100 %,,,,,,,
+118,60,702,Nein,Nein,100 %,,,,702,Nein,Nein,100 %
+,60,719,Nein,Nein,100 %,,,,,,,

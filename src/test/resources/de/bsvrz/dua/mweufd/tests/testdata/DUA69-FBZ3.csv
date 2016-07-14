@@ -1,0 +1,49 @@
+,"DUA-69, -80 Fahrbahnzustand FBZ",,,,,,,,,,,
+,Vorgänger,,,nicht konfiguriert,,,,,,,,
+,Nachfolger,,,nicht konfiguriert,,,,,,,,
+,Ersatzsensor,,,konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,0,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,4,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,-,Impl.,Interp.,,,,,-,Impl.,Interp.,
+76,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+77,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+78,60,-3,Nein,Nein,100 %,,Keine MWE,,-3,Nein,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+79,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+80,60,-1,Nein,Nein,100 %,,Keine MWE,,-1,Nein,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+81,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+82,60,-2,Ja,Nein,100 %,,Keine MWE,,-2,Ja,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+83,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+84,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,1,Nein,Nein,100 %,,,,,,,
+85,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+86,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+87,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,1,Nein,Nein,100 %,,,,,,,
+88,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,1,Nein,Nein,100 %,,,,,,,
+89,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+90,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+91,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+92,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+93,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,
+94,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+,60,0,Nein,Nein,100 %,,,,,,,

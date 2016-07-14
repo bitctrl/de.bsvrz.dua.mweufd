@@ -1,0 +1,34 @@
+,"DUA-69, -72 Wasserfilmdicke WFD",,,,,,,,,,,
+,Vorgänger,,,nicht konfiguriert,,,,,,,,
+,Nachfolger,,,nicht konfiguriert,,,,,,,,
+,Ersatzsensor,,,nicht konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,9,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,0,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,mm/h,Impl.,Interp.,,,,,mm/h,Impl.,Interp.,
+231,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+232,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+233,60,-3,Nein,Nein,100 %,,Keine MWE,,-3,Nein,Nein,100 %
+234,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+235,60,-1,Nein,Nein,100 %,,Keine MWE,,-1,Nein,Nein,100 %
+236,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+237,60,-2,Ja,Nein,100 %,,Keine MWE,,-2,Ja,Nein,100 %
+238,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+239,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+240,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+241,60,-2,Ja,Nein,100 %,,Keine MWE,,-2,Ja,Nein,100 %
+242,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+243,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+244,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+245,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+246,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+247,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+248,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+249,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+250,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+251,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+252,60,"0,2",Nein,Nein,100 %,,,,"0,2",Nein,Nein,100 %
+253,60,"0,4",Nein,Nein,100 %,,,,"0,4",Nein,Nein,100 %

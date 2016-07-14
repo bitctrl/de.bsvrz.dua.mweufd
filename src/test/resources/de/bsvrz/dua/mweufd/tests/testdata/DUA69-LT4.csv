@@ -1,0 +1,36 @@
+,"DUA-69, -75 Lufttemperatur LT",,,,,,,,,,,
+,Vorgänger,,,nicht konfiguriert,,,,,,,,
+,Nachfolger,,,nicht konfiguriert,,,,,,,,
+,Ersatzsensor,,,nicht konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,9,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,4,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,° C,Impl.,Interp.,,,,,° C,Impl.,Interp.,
+144,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+145,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+146,60,-1003,Nein,Nein,100 %,,Keine MWE,,-1003,Nein,Nein,100 %
+147,60,"-0,1",Nein,Nein,100 %,,,,"-0,1",Nein,Nein,100 %
+148,60,-1001,Nein,Nein,100 %,,Keine MWE,,-1001,Nein,Nein,100 %
+149,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+150,60,-1002,Ja,Nein,100 %,,Nur FS,,0,Nein,Ja,95 %
+151,60,-1002,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+152,60,-1002,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+153,60,-1002,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+154,60,0,Nein,Nein,100 %,,,,0,Nein,Nein,100 %
+155,60,-1002,Ja,Nein,100 %,,Erst FS,,0,Nein,Ja,95 %
+156,60,-1002,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+157,60,-1002,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+158,60,-1002,Ja,Nein,100 %,,,,0,Nein,Ja,95 %
+159,60,-1002,Ja,Nein,100 %,,Keine MWE,,-1002,Ja,Nein,100 %
+160,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+161,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+162,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+163,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+164,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+165,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+166,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+167,60,"0,2",Nein,Nein,100 %,,,,"0,2",Nein,Nein,100 %
+168,60,"0,4",Nein,Nein,100 %,,,,"0,4",Nein,Nein,100 %

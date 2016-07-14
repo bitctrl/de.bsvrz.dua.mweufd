@@ -1,0 +1,36 @@
+,"DUA-69, -73 Sichtweite SW",,,,,,,,,,,
+,Vorgänger,,,nicht konfiguriert,,,,,,,,
+,Nachfolger,,,nicht konfiguriert,,,,,,,,
+,Ersatzsensor,,,nicht konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,10,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,4,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,m,Impl.,Interp.,,,,,m,Impl.,Interp.,
+51,60,421,Nein,Nein,100 %,,,,421,Nein,Nein,100 %
+52,60,406,Nein,Nein,100 %,,,,406,Nein,Nein,100 %
+53,60,-3,Nein,Nein,100 %,,Keine MWE,,-3,Nein,Nein,100 %
+54,60,393,Nein,Nein,100 %,,,,393,Nein,Nein,100 %
+55,60,-1,Nein,Nein,100 %,,Keine MWE,,-1,Nein,Nein,100 %
+56,60,399,Nein,Nein,100 %,,,,399,Nein,Nein,100 %
+57,60,-2,Ja,Nein,100 %,,Nur FS,,399,Nein,Ja,95 %
+58,60,-2,Ja,Nein,100 %,,,,399,Nein,Ja,95 %
+59,60,-2,Ja,Nein,100 %,,,,399,Nein,Ja,95 %
+60,60,-2,Ja,Nein,100 %,,,,399,Nein,Ja,95 %
+61,60,412,Nein,Nein,100 %,,,,412,Nein,Nein,100 %
+62,60,-2,Ja,Nein,100 %,,Nur FS,,412,Nein,Ja,95 %
+63,60,-2,Ja,Nein,100 %,,,,412,Nein,Ja,95 %
+64,60,-2,Ja,Nein,100 %,,,,412,Nein,Ja,95 %
+65,60,-2,Ja,Nein,100 %,,,,412,Nein,Ja,95 %
+66,60,-2,Ja,Nein,100 %,,Keine MWE,,-2,Ja,Nein,100 %
+67,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+68,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+69,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+70,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+71,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+72,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+73,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+74,60,425,Nein,Nein,100 %,,,,425,Nein,Nein,100 %
+75,60,438,Nein,Nein,100 %,,,,438,Nein,Nein,100 %

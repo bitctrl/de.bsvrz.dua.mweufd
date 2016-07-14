@@ -1,0 +1,36 @@
+,"DUA-69, -76 Fahrbahnoberflächentemperatur FBT",,,,,,,,,,,
+,Vorgänger,,,nicht konfiguriert,,,,,,,,
+,Nachfolger,,,nicht konfiguriert,,,,,,,,
+,Ersatzsensor,,,nicht konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,10,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,4,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,° C,Impl.,Interp.,,,,,° C,Impl.,Interp.,
+51,60,"10,8",Nein,Nein,100 %,,,,"10,8",Nein,Nein,100 %
+52,60,"11,2",Nein,Nein,100 %,,,,"11,2",Nein,Nein,100 %
+53,60,-1003,Nein,Nein,100 %,,Keine MWE,,-1003,Nein,Nein,100 %
+54,60,"11,1",Nein,Nein,100 %,,,,"11,1",Nein,Nein,100 %
+55,60,-1001,Nein,Nein,100 %,,Keine MWE,,-1001,Nein,Nein,100 %
+56,60,"11,2",Nein,Nein,100 %,,,,"11,2",Nein,Nein,100 %
+57,60,-1002,Ja,Nein,100 %,,Nur FS,,"11,2,",Nein,Ja,95 %
+58,60,-1002,Ja,Nein,100 %,,,,"11,2,",Nein,Ja,95 %
+59,60,-1002,Ja,Nein,100 %,,,,"11,2,",Nein,Ja,95 %
+60,60,-1002,Ja,Nein,100 %,,,,"11,2,",Nein,Ja,95 %
+61,60,"11,3",Nein,Nein,100 %,,,,"11,3",Nein,Nein,100 %
+62,60,-1002,Ja,Nein,100 %,,Nur FS,,"11,3",Nein,Ja,95 %
+63,60,-1002,Ja,Nein,100 %,,,,"11,3",Nein,Ja,95 %
+64,60,-1002,Ja,Nein,100 %,,,,"11,3",Nein,Ja,95 %
+65,60,-1002,Ja,Nein,100 %,,,,"11,3",Nein,Ja,95 %
+66,60,-1002,Ja,Nein,100 %,,Keine MWE,,-1002,Ja,Nein,100 %
+67,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+68,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+69,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+70,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+71,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+72,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+73,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+74,60,"11,1",Nein,Nein,100 %,,,,"11,1",Nein,Nein,100 %
+75,60,11,Nein,Nein,100 %,,,,11,Nein,Nein,100 %

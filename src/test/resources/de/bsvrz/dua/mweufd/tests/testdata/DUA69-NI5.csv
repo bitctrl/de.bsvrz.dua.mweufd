@@ -1,0 +1,103 @@
+,"DUA-69, -70 Niederschlagsintensität NI",,,,,,,,,,,
+,Vorgänger,,,konfiguriert,,,,,,,,
+,Nachfolger,,,konfiguriert,,,,,,,,
+,Ersatzsensor,,,konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,0,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,3,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,mm/h,Impl.,Interp.,,,,,mm/h,Impl.,Interp.,
+162,60,"2,5",Nein,Nein,100 %,,,,"2,5",Nein,Nein,100 %
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+,60,"2,5",Nein,Nein,100 %,,,,,,,
+,60,"2,5",Nein,Nein,100 %,,,,,,,
+163,60,"2,4",Nein,Nein,100 %,,,,"2,4",Nein,Nein,100 %
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+,60,"2,6",Nein,Nein,100 %,,,,,,,
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+164,60,-3,Nein,Nein,100 %,,Keine MWE,,-3,Nein,Nein,100 %
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+,60,"2,5",Nein,Nein,100 %,,,,,,,
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+165,60,"2,4",Nein,Nein,100 %,,,,"2,4",Nein,Nein,100 %
+,60,"2,4",Nein,Nein,100 %,,,,,,,
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+,60,"2,1",Nein,Nein,100 %,,,,,,,
+166,60,-1,Nein,Nein,100 %,,Keine MWE,,-1,Nein,Nein,100 %
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+,60,2,Nein,Nein,100 %,,,,,,,
+167,60,"1,8",Nein,Nein,100 %,,,,"1,8",Nein,Nein,100 %
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+,60,"1,6",Nein,Nein,100 %,,,,,,,
+168,60,-2,Ja,Nein,100 %,,Keine MWE,,-2,Ja,Nein,100 %
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+,60,"2,1",Nein,Nein,100 %,,,,,,,
+,60,"1,8",Nein,Nein,100 %,,,,,,,
+169,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"1,8",Nein,Nein,100 %,,,,,,,
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+170,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+,60,"2,1",Nein,Nein,100 %,,,,,,,
+,60,2,Nein,Nein,100 %,,,,,,,
+171,60,"1,9",Nein,Nein,100 %,,,,"1,9",Nein,Nein,100 %
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+172,60,-2,Ja,Nein,100 %,,Keine MWE,,-2,Ja,Nein,100 %
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+,60,"2,1",Nein,Nein,100 %,,,,,,,
+,60,"1,8",Nein,Nein,100 %,,,,,,,
+173,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"1,8",Nein,Nein,100 %,,,,,,,
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+174,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+,60,"2,1",Nein,Nein,100 %,,,,,,,
+,60,2,Nein,Nein,100 %,,,,,,,
+175,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"1,8",Nein,Nein,100 %,,,,,,,
+,60,"2,1",Nein,Nein,100 %,,,,,,,
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+176,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"1,7",Nein,Nein,100 %,,,,,,,
+,60,-3,Nein,Nein,100 %,,,,,,,
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+177,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"1,6",Nein,Nein,100 %,,,,,,,
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+,60,"2,4",Nein,Nein,100 %,,,,,,,
+178,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,-2,Ja,Nein,100 %,,,,,,,
+,60,"2,4",Nein,Nein,100 %,,,,,,,
+,60,"2,1",Nein,Nein,100 %,,,,,,,
+179,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+,60,"2,5",Nein,Nein,100 %,,,,,,,
+180,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"2,1",Nein,Nein,100 %,,,,,,,
+,60,"2,4",Nein,Nein,100 %,,,,,,,
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+181,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+,60,"2,4",Nein,Nein,100 %,,,,,,,
+,60,"2,4",Nein,Nein,100 %,,,,,,,
+182,60,-2,Ja,Nein,100 %,,,,-2,Ja,Nein,100 %
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+,60,"2,5",Nein,Nein,100 %,,,,,,,
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+183,60,"1,8",Nein,Nein,100 %,,,,"1,8",Nein,Nein,100 %
+,60,"1,9",Nein,Nein,100 %,,,,,,,
+,60,"2,2",Nein,Nein,100 %,,,,,,,
+,60,"1,6",Nein,Nein,100 %,,,,,,,
+184,60,"1,7",Nein,Nein,100 %,,,,"1,7",Nein,Nein,100 %
+,60,"1,8",Nein,Nein,100 %,,,,,,,
+,60,"2,3",Nein,Nein,100 %,,,,,,,
+,60,"1,9",Nein,Nein,100 %,,,,,,,

@@ -1,0 +1,49 @@
+,"DUA-69, -74 Taupunkttemperatur TPT",,,,,,,,,,,
+,Vorgänger,,,nicht konfiguriert,,,,,,,,
+,Nachfolger,,,nicht konfiguriert,,,,,,,,
+,Ersatzsensor,,,konfiguriert,,,,,,,,
+,Parameter,,,,,,,,,,,
+,maxZeitMessWertErsetzung,,,,,0,min,,,,,
+,maxZeitMessWertFortschreibung,,,,,4,min,,,,,
+,,,,,,,,,,,,
+Zeile,Eingangsdaten,,,,,,,,Soll,,,
+,T,Wert,Status,,Güte,,Bemerkung,,Wert,Status,,Güte
+,Sek.,° C,Impl.,Interp.,,,,,° C,Impl.,Interp.,
+76,60,6,Nein,Nein,100 %,,,,6,Nein,Nein,100 %
+,60,6,Nein,Nein,100 %,,,,,,,
+77,60,"6,2",Nein,Nein,100 %,,,,"6,2",Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+78,60,-1003,Nein,Nein,100 %,,Keine MWE,,-1003,Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+79,60,"6,2",Nein,Nein,100 %,,,,"6,2",Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+80,60,-1001,Nein,Nein,100 %,,Keine MWE,,-1001,Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+81,60,"6,2",Nein,Nein,100 %,,,,"6,2",Nein,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+82,60,-1002,Ja,Nein,100 %,,Keine MWE,,-1002,Ja,Nein,100 %
+,60,"6,4",Nein,Nein,100 %,,,,,,,
+83,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+84,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,3",Nein,Nein,100 %,,,,,,,
+85,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,3",Nein,Nein,100 %,,,,,,,
+86,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,3",Nein,Nein,100 %,,,,,,,
+87,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,3",Nein,Nein,100 %,,,,,,,
+88,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+89,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+90,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,2",Nein,Nein,100 %,,,,,,,
+91,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,2",Nein,Nein,100 %,,,,,,,
+92,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,4",Nein,Nein,100 %,,,,,,,
+93,60,-1002,Ja,Nein,100 %,,,,-1002,Ja,Nein,100 %
+,60,"6,1",Nein,Nein,100 %,,,,,,,
+94,60,"6,3",Nein,Nein,100 %,,,,"6,3",Nein,Nein,100 %
+,60,6,Nein,Nein,100 %,,,,,,,
