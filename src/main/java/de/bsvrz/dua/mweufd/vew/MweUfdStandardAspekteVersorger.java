@@ -41,7 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
- * @version $Id$
+ * @version $Id: MweUfdStandardAspekteVersorger.java 53837 2015-03-18 11:45:45Z peuker $
  */
 public class MweUfdStandardAspekteVersorger extends StandardAspekteVersorger {
 
