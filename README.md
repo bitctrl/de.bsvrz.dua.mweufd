@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/bitctrl/de.bsvrz.dua.mweufd.svg?branch=develop)](https://travis-ci.org/bitctrl/de.bsvrz.dua.mweufd)
+[![Build Status](https://travis-ci.org/bitctrl/de.bsvrz.dua.mweufd.svg?branch=master)](https://travis-ci.org/bitctrl/de.bsvrz.dua.mweufd)
 [![Build Status](https://api.bintray.com/packages/bitctrl/maven/de.bsvrz.dua.mweufd/images/download.svg)](https://bintray.com/bitctrl/maven/de.bsvrz.dua.mweufd)
 
 # Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.12 Messwertersetzung UFD
