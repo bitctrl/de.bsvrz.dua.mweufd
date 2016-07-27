@@ -34,7 +34,7 @@ package de.bsvrz.dua.mweufd;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
- * @version $Id$
+ * @version $Id: MweMethodenErgebnis.java 53825 2015-03-18 09:36:42Z peuker $
  */
 public enum MweMethodenErgebnis {
 
