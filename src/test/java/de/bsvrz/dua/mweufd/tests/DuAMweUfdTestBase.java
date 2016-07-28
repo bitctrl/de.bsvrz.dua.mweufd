@@ -42,7 +42,7 @@ import java.lang.reflect.Method;
  * @author Kappich Systemberatung
  */
 public class DuAMweUfdTestBase extends DuATestBase {
-	protected static VerwaltungMesswertErsetzungUFD _messwertErsetzungUFD;
+	protected VerwaltungMesswertErsetzungUFD _messwertErsetzungUFD;
 
 	protected static String[] getUfdArgs() {
 		return new String[]{"-KonfigurationsBereichsPid=kb.duaTestUfd"};

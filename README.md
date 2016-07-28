@@ -14,11 +14,24 @@ S. 112f). Danach werden die Daten unter dem Aspekt MessWertErsetzung publiziert.
 
 ## Versionsgeschichte
 
+### 2.0.2
+
+Release-Datum: 28.07.2016
+
+de.bsvrz.dua.mweufd.tests.DuAMweUfdTestBase
+- der Member "_messwertErsetzungUFD" sollte nicht statisch sein, der er bei jedem Test neu initialisiert wird
+
+de.bsvrz.dua.mweufd.tests.TestDuAMweUfd.DuaUfdLayout.setValues(SystemObject, Data, List<String>, int, String, boolean)
+- Exception beim Auswerten der Daten wird ignoriert und nicht für den Test berücksichtigt?
+
+- Obsolete SVN-Tags aus Kommentaren entfernt
+- Obsolete inheritDoc-Kommentare entfernt
+
 ### 2.0.1
 
 Release-Datum: 22.07.2016
 
-- Umpacketierung gem‰ﬂ NERZ-Konvention
+- Umpacketierung gemäß NERZ-Konvention
 
 ### 2.0.0
 
