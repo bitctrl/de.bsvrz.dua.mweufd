@@ -54,8 +54,6 @@ import java.util.HashSet;
  * Aktuelle Datenflusssteuerung der Messwertersetzung UFD.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: MweDatenFlussSteuerung.java 53837 2015-03-18 11:45:45Z peuker $
  */
 public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 
@@ -143,9 +141,6 @@ public class MweDatenFlussSteuerung implements IDatenFlussSteuerungsListener {
 		this.aktualisiereObjektAnmeldungen();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public synchronized void aktualisierePublikation(final IDatenFlussSteuerung iDfs) {
 		this.iDfsMod = iDfs.getDFSFuerModul(SWETyp.SWE_MESSWERTERSETZUNG_UFD,
 				ModulTyp.MESSWERTERSETZUNG_UFD);
