@@ -472,7 +472,8 @@ public class TestDuAMweUfd extends DuAMweUfdTestBase implements ClientSenderInte
 			try {
 				item.getTextValue("Wert").setText(row.get(realCol));
 			}
-			catch(Exception e){}
+			catch(Exception e){
+			}
 			if(!item.isDefined()) {
 				item.getUnscaledValue("Wert").set(Integer.parseInt(row.get(realCol)));
 			}
