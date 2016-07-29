@@ -469,10 +469,11 @@ public class TestDuAMweUfd extends DuAMweUfdTestBase implements ClientSenderInte
 
 		@Override
 		public void setValues(final SystemObject testObject, final Data item, final List<String> row, final int realCol, final String type, final boolean in) {
-//			try {
+			try {
 				item.getTextValue("Wert").setText(row.get(realCol));
-//			}
-//			catch(Exception e){}
+			}
+			catch(Exception e){
+			}
 			if(!item.isDefined()) {
 				item.getUnscaledValue("Wert").set(Integer.parseInt(row.get(realCol)));
 			}
