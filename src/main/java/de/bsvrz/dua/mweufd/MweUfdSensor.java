@@ -45,8 +45,6 @@ import java.util.Objects;
  * Allgemeiner Umfelddatensensor fuer die Messwertersetzung mit aktuellen Werten.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: MweUfdSensor.java 54549 2015-04-17 13:40:51Z gieseler $
  */
 public class MweUfdSensor extends AbstraktOnlineUfdSensor<ResultData> {
 
@@ -77,9 +75,6 @@ public class MweUfdSensor extends AbstraktOnlineUfdSensor<ResultData> {
 		return instance;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void berechneOnlineWert(final ResultData resultat) {
 		this.onlineWert = resultat;

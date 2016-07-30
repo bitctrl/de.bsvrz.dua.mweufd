@@ -56,8 +56,6 @@ import java.util.Set;
  * prüfenden Daten zuständig.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: VerwaltungMesswertErsetzungUFD.java 54549 2015-04-17 13:40:51Z gieseler $
  */
 public class VerwaltungMesswertErsetzungUFD extends
 		AbstraktVerwaltungsAdapter {
@@ -67,9 +65,6 @@ public class VerwaltungMesswertErsetzungUFD extends
 	 */
 	public MweDatenFlussSteuerung dieDfs;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void initialisiere() throws DUAInitialisierungsException {
 		dieDfs = new MweDatenFlussSteuerung(this,
@@ -189,17 +184,11 @@ public class VerwaltungMesswertErsetzungUFD extends
 				argumente);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public SWETyp getSWETyp() {
 		return SWETyp.SWE_MESSWERTERSETZUNG_UFD;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void update(final ResultData[] resultate) {
 		// Daten werden von den Untermodulen selbst entgegen genommen

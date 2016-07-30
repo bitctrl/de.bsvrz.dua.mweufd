@@ -388,9 +388,6 @@ public abstract class AbstractMweSensor implements ClientSenderInterface, IOnlin
 		return NEIN;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void aktualisiereDaten(final ResultData resultat) {
 		if (this.letztesEmpangenesImplausiblesDatum != null) {
 			LOGGER.error(
@@ -553,17 +550,11 @@ public abstract class AbstractMweSensor implements ClientSenderInterface, IOnlin
 		return erfolg;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void dataRequest(final SystemObject object,
 			final DataDescription dataDescription, final byte state) {
 		// mache nichts
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public boolean isRequestSupported(final SystemObject object,
 			final DataDescription dataDescription) {
 		return false;
