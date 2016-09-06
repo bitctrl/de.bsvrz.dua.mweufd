@@ -14,7 +14,12 @@ S. 112f). Danach werden die Daten unter dem Aspekt MessWertErsetzung publiziert.
 
 ## Versionsgeschichte
 
-### 2.0.2
+### Version 2.0.3
+
+- Applikationsname für MessageSender entsprechend NERZ-Vorgabe gesetzt
+
+
+### Version 2.0.2
 
 Release-Datum: 28.07.2016
 
@@ -27,13 +32,13 @@ de.bsvrz.dua.mweufd.tests.TestDuAMweUfd.DuaUfdLayout.setValues(SystemObject, Dat
 - Obsolete SVN-Tags aus Kommentaren entfernt
 - Obsolete inheritDoc-Kommentare entfernt
 
-### 2.0.1
+### Version 2.0.1
 
 Release-Datum: 22.07.2016
 
 - Umpacketierung gemäß NERZ-Konvention
 
-### 2.0.0
+### Version 2.0.0
 
 Release-Datum: 31.05.2016
 
@@ -89,45 +94,45 @@ Folgende Fehler gegenüber vorhergehenden Versionen wurden korrigiert:
 - Beim Vergleich der ErfassungsIntervallDauer T wird jetzt nur noch mit Werten
   verglichen, die denselben Zeitstempel haben, wie der (implausible) Hauptsensorwert.
 
-### 1.4.0
+### Version 1.4.0
 
 - Umstellung auf Java 8 und UTF-8
 
-### 1.3.1
+### Version 1.3.1
 
 - Kompatibilität zu DuA-2.0 hergestellt
 
-### 1.3.0
+### Version 1.3.0
 
 - Umstellung auf Funclib-BitCtrl-Dua
 
-### 1.2.0
+### Version 1.2.0
 
 - Behandlung nicht unterstützter Sensorarten über die 'UmfeldDatenSensorUnbekannteDatenartException'
 - benötigt SWE de.bsvrz.sys.funclib.bitctrl_FREI_V1.2.3.zip oder höher 
 - Umstellung auf Maven-Build  
   
-### 1.1.4
+### Version 1.1.4
 
 - Bug 1441 behoben.
   
-### 1.1.3
+### Version 1.1.3
 
 - RuntimeException bei nicht freigegebenes implausibles Daten entfernt
 
-### 1.1.2
+### Version 1.1.2
 
 - Überarbeitung
   
-### 1.1.1
+### Version 1.1.1
   
 - Bash-Startskript hinzu
 
-### 1.1.0
+### Version 1.1.0
 
 - Aenderungen an der Teststruktur
 
-### 1.0.0
+### Version 1.0.0
 
 - Erste Auslieferung
 

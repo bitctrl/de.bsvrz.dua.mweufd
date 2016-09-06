@@ -28,6 +28,7 @@
 
 package de.bsvrz.dua.mweufd.vew;
 
+import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dua.mweufd.UnknownUfdSensor;
@@ -43,6 +44,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell.DUAUmfeldDatenSensor;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 import de.bsvrz.sys.funclib.debug.Debug;
+import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -65,6 +67,12 @@ public class VerwaltungMesswertErsetzungUFD extends
 	 */
 	public MweDatenFlussSteuerung dieDfs;
 
+	@Override
+	public void initialize(ClientDavInterface dieVerbindung) throws Exception {
+		MessageSender.getInstance().setApplicationLabel("Messwertersetzung UFD");
+		super.initialize(dieVerbindung);
+	}
+	
 	@Override
 	protected void initialisiere() throws DUAInitialisierungsException {
 		dieDfs = new MweDatenFlussSteuerung(this,
